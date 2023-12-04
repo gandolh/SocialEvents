@@ -1,6 +1,7 @@
 'use client'
 import React from 'react';
 import TOPOLOGY from 'vanta/dist/vanta.topology.min.js';
+import p5 from 'p5';
 type AuthBackgroundProps = {
     children?: React.ReactNode,
     className?: string,
@@ -24,7 +25,7 @@ const AuthBackground = ({ children, className } : AuthBackgroundProps) => {
                     minWidth: 200.00,
                     scale: 1.00,
                     scaleMobile: 1.00,
-                    // p5: p5
+                    p5: p5
                 }));
         }
         return () => {

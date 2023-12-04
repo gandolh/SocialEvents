@@ -58,14 +58,14 @@ const LoginForm = () => {
                     <Button type="submit" className="mt-6" color="indigo" fullWidth onClick={handleChange} disabled={isSubmitting}>
                         {tradText('Log In')}
                     </Button>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-2 gap-2">
                         <Button
-                            className="my-2 mx-1 flex items-center"
+                            className="my-2 mx-1 flex items-center gap-2"
                             onClick={() => signIn("google", { callbackUrl: `${window.location.origin}/calendar/all` })}>
                             <FaGoogle color="white" size="25px"></FaGoogle>{tradText('Log In Google')}</Button>
                         <Button
                             color="blue-gray"
-                            className="my-2 mx-1 flex items-center"
+                            className="my-2 mx-1 flex items-center gap-2"
                             onClick={() => signIn("github", { callbackUrl: `${window.location.origin}/calendar/all` })}>
                             <FaGithub size="25px">
                             </FaGithub>{tradText('Log In Github')}</Button>

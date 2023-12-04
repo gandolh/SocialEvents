@@ -10,7 +10,7 @@ export default function Component() {
       <AuthBackground >
         <div className="grid w-full h-screen bg-no-repeat bg-cover" style={{ gridTemplateColumns: '4fr 1fr 1fr' }}>
           <div></div>
-          <Card className="justify-center bg-white px-8 rounded-none" color="transparent" shadow={false}>
+          <Card className="justify-center bg-white px-8 rounded-none bg-card-white-transparent"  color="transparent" shadow={false}>
             <LoginHeader />
             <LoginForm />
           </Card>
