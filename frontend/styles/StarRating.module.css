@@ -1,0 +1,53 @@
+
+  .star__wrapper {
+    /* direction: rtl; */
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .star__wrapper .star {
+    font-size: 1em;
+    color: #b4b2b2;
+    text-decoration: none;
+    transition: all 0.5s;
+    margin: 4px 2px;
+  }
+
+  .star__wrapper .XMark{
+    font-size: 1em;
+    color: #b4b2b2;
+    text-decoration: none;
+    transition: all 0.5s;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  .star__wrapper .XMark:hover {
+    color: rgb(220 38 38);
+  }
+
+  .star__wrapper .star:hover {
+    color: gold;
+    transform: scale(1.3);
+  }
+  .s1:hover ~ .star {
+    color: gold;
+  }
+  .s2:hover ~ .star {
+    color: gold;
+  }
+  .s3:hover ~ .star {
+    color: gold;
+  }
+  .s4:hover ~ .star{
+    color: gold;
+  }
+  .s5:hover ~ .star {
+    color: gold;
+  }
+
+  .star.selected{
+    color: gold;
+  }
+
+  .star__count{
+    margin-left: 0.5rem;
+  }

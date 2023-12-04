@@ -1,0 +1,262 @@
+[data-theme='light'], [data-theme='dark'] {
+    .button {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    border-radius: 0.5rem; 
+    width: 100%; 
+    font-weight: 700; 
+    }
+/* BUTTON FILLED */
+.button__filled__white{
+    @apply bg-white text-blue-gray-900 shadow-md shadow-blue-gray-500/10 hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__blue-gray{
+    @apply bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__gray{
+    @apply bg-gray-500 text-white shadow-md shadow-gray-500/20 hover:shadow-lg hover:shadow-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__brown{
+    @apply bg-brown-500 text-white shadow-md shadow-brown-500/20 hover:shadow-lg hover:shadow-brown-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__deep-orange{
+    @apply bg-deep-orange-500 text-white shadow-md shadow-deep-orange-500/20 hover:shadow-lg hover:shadow-deep-orange-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__orange{
+    @apply bg-orange-500 text-white shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__amber{
+    @apply bg-amber-500 text-black shadow-md shadow-amber-500/20 hover:shadow-lg hover:shadow-amber-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__yellow{
+    @apply bg-yellow-500 text-black shadow-md shadow-yellow-500/20 hover:shadow-lg hover:shadow-yellow-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__lime{
+    @apply bg-lime-500 text-black shadow-md shadow-lime-500/20 hover:shadow-lg hover:shadow-lime-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__light-green{
+    @apply bg-light-green-500 text-white shadow-md shadow-light-green-500/20 hover:shadow-lg hover:shadow-light-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__green{
+    @apply bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__teal{
+    @apply bg-teal-500 text-white shadow-md shadow-teal-500/20 hover:shadow-lg hover:shadow-teal-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__cyan{
+    @apply bg-cyan-500 text-white shadow-md shadow-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__light-blue{
+    @apply bg-light-blue-500 text-white shadow-md shadow-light-blue-500/20 hover:shadow-lg hover:shadow-light-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__blue{
+    @apply bg-blue-500 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__indigo{
+    @apply bg-indigo-500 text-white shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__deep-purple{
+    @apply bg-deep-purple-500 text-white shadow-md shadow-deep-purple-500/20 hover:shadow-lg hover:shadow-deep-purple-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__purple{
+    @apply bg-purple-500 text-white shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__pink{
+    @apply bg-pink-500 text-white shadow-md shadow-pink-500/20 hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__filled__red{
+    @apply bg-red-500 text-white shadow-md shadow-red-500/20 hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    
+    /* BUTTON FILLED */
+    /* BUTTON OUTLINED */
+    .button__outlined__white{
+    @apply border border-white text-white hover:opacity-75 focus:ring focus:ring-white/50 active:opacity-[0.85]
+    }
+    .button__outlined__blue-gray{
+    @apply border border-blue-gray-500 text-blue-gray-500 hover:opacity-75 focus:ring focus:ring-blue-gray-200 active:opacity-[0.85]
+    }
+    .button__outlined__gray{
+    @apply border border-gray-500 text-gray-500 hover:opacity-75 focus:ring focus:ring-gray-200 active:opacity-[0.85]
+    }
+    .button__outlined__brown{
+    @apply border border-brown-500 text-brown-500 hover:opacity-75 focus:ring focus:ring-brown-200 active:opacity-[0.85]
+    }
+    .button__outlined__deep-orange{
+    @apply border border-deep-orange-500 text-deep-orange-500 hover:opacity-75 focus:ring focus:ring-deep-orange-200 active:opacity-[0.85]
+    }
+    .button__outlined__orange{
+    @apply border border-orange-500 text-orange-500 hover:opacity-75 focus:ring focus:ring-orange-200 active:opacity-[0.85]
+    }
+    .button__outlined__amber{
+    @apply border border-amber-500 text-amber-500 hover:opacity-75 focus:ring focus:ring-amber-200 active:opacity-[0.85]
+    }
+    .button__outlined__yellow{
+    @apply border border-yellow-500 text-yellow-500 hover:opacity-75 focus:ring focus:ring-yellow-200 active:opacity-[0.85]
+    }
+    .button__outlined__lime{
+    @apply border border-lime-500 text-lime-500 hover:opacity-75 focus:ring focus:ring-lime-200 active:opacity-[0.85]
+    }
+    .button__outlined__light-green{
+    @apply border border-light-green-500 text-light-green-500 hover:opacity-75 focus:ring focus:ring-light-green-200 active:opacity-[0.85]
+    }
+    .button__outlined__green{
+    @apply border border-green-500 text-green-500 hover:opacity-75 focus:ring focus:ring-green-200 active:opacity-[0.85]
+    }
+    .button__outlined__teal{
+    @apply border border-teal-500 text-teal-500 hover:opacity-75 focus:ring focus:ring-teal-200 active:opacity-[0.85]
+    }
+    .button__outlined__cyan{
+    @apply border border-cyan-500 text-cyan-500 hover:opacity-75 focus:ring focus:ring-cyan-200 active:opacity-[0.85]
+    }
+    .button__outlined__light-blue{
+    @apply border border-light-blue-500 text-light-blue-500 hover:opacity-75 focus:ring focus:ring-light-blue-200 active:opacity-[0.85]
+    }
+    .button__outlined__blue{
+    @apply border border-blue-500 text-blue-500 hover:opacity-75 focus:ring focus:ring-blue-200 active:opacity-[0.85]
+    }
+    .button__outlined__indigo{
+    @apply border border-indigo-500 text-indigo-500 hover:opacity-75 focus:ring focus:ring-indigo-200 active:opacity-[0.85]
+    }
+    .button__outlined__deep-purple{
+    @apply border border-deep-purple-500 text-deep-purple-500 hover:opacity-75 focus:ring focus:ring-deep-purple-200 active:opacity-[0.85]
+    }
+    .button__outlined__purple{
+    @apply border border-purple-500 text-purple-500 hover:opacity-75 focus:ring focus:ring-purple-200 active:opacity-[0.85]
+    }
+    .button__outlined__pink{
+    @apply border border-pink-500 text-pink-500 hover:opacity-75 focus:ring focus:ring-pink-200 active:opacity-[0.85]
+    }
+    .button__outlined__red{
+    @apply border border-red-500 text-red-500 hover:opacity-75 focus:ring focus:ring-red-200 active:opacity-[0.85]
+    }
+    /* BUTTON OUTLINED */
+    /* BUTTON TEXT */
+    .button__text__white{
+    @apply text-white hover:bg-white/10 active:bg-white/30
+    }
+    .button__text__blue-gray{
+    @apply text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30
+    }
+    .button__text__gray{
+    @apply text-gray-500 hover:bg-gray-500/10 active:bg-gray-500/30
+    }
+    .button__text__brown{
+    @apply text-brown-500 hover:bg-brown-500/10 active:bg-brown-500/30
+    }
+    .button__text__deep-orange{
+    @apply text-deep-orange-500 hover:bg-deep-orange-500/10 active:bg-deep-orange-500/30
+    }
+    .button__text__orange{
+    @apply text-orange-500 hover:bg-orange-500/10 active:bg-orange-500/30
+    }
+    .button__text__amber{
+    @apply text-amber-500 hover:bg-amber-500/10 active:bg-amber-500/30
+    }
+    .button__text__yellow{
+    @apply text-yellow-500 hover:bg-yellow-500/10 active:bg-yellow-500/30
+    }
+    .button__text__lime{
+    @apply text-lime-500 hover:bg-lime-500/10 active:bg-lime-500/30
+    }
+    .button__text__light-green{
+    @apply text-light-green-500 hover:bg-light-green-500/10 active:bg-light-green-500/30
+    }
+    .button__text__green{
+    @apply text-green-500 hover:bg-green-500/10 active:bg-green-500/30
+    }
+    .button__text__teal{
+    @apply text-teal-500 hover:bg-teal-500/10 active:bg-teal-500/30
+    }
+    .button__text__cyan{
+    @apply text-cyan-500 hover:bg-cyan-500/10 active:bg-cyan-500/30
+    }
+    .button__text__light-blue{
+    @apply text-light-blue-500 hover:bg-light-blue-500/10 active:bg-light-blue-500/30
+    }
+    .button__text__blue{
+    @apply text-blue-500 hover:bg-blue-500/10 active:bg-blue-500/30
+    }
+    .button__text__indigo{
+    @apply text-indigo-500 hover:bg-indigo-500/10 active:bg-indigo-500/30
+    }
+    .button__text__deep-purple{
+    @apply text-deep-purple-500 hover:bg-deep-purple-500/10 active:bg-deep-purple-500/30
+    }
+    .button__text__purple{
+    @apply text-purple-500 hover:bg-purple-500/10 active:bg-purple-500/30
+    }
+    .button__text__pink{
+    @apply text-pink-500 hover:bg-pink-500/10 active:bg-pink-500/30
+    }
+    .button__text__red{
+    @apply text-red-500 hover:bg-red-500/10 active:bg-red-500/30
+    }
+    /* BUTTON TEXT */
+/* BUTTON GRADIENT */
+.button__gradient__white{
+        @apply bg-white text-blue-gray-900 shadow-md shadow-blue-gray-500/10 hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none
+    }
+    .button__gradient__blue-gray{
+        @apply bg-gradient-to-tr from-blue-gray-600 to-blue-gray-400 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__gray{
+        @apply bg-gradient-to-tr from-gray-600 to-gray-400 text-white shadow-md shadow-gray-500/20 hover:shadow-lg hover:shadow-gray-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__brown{
+        @apply bg-gradient-to-tr from-brown-600 to-brown-400 text-white shadow-md shadow-brown-500/20 hover:shadow-lg hover:shadow-brown-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__deep-orange{
+        @apply bg-gradient-to-tr from-deep-orange-600 to-deep-orange-400 text-white shadow-md shadow-deep-orange-500/20 hover:shadow-lg hover:shadow-deep-orange-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__orange{
+        @apply bg-gradient-to-tr from-orange-600 to-orange-400 text-white shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__amber{
+        @apply bg-gradient-to-tr from-amber-600 to-amber-400 text-black shadow-md shadow-amber-500/20 hover:shadow-lg hover:shadow-amber-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__yellow{
+        @apply bg-gradient-to-tr from-yellow-600 to-yellow-400 text-black shadow-md shadow-yellow-500/20 hover:shadow-lg hover:shadow-yellow-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__lime{
+        @apply bg-gradient-to-tr from-lime-600 to-lime-400 text-black shadow-md shadow-lime-500/20 hover:shadow-lg hover:shadow-lime-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__light-green{
+        @apply bg-gradient-to-tr from-light-green-600 to-light-green-400 text-white shadow-md shadow-light-green-500/20 hover:shadow-lg hover:shadow-light-green-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__green{
+        @apply bg-gradient-to-tr from-green-600 to-green-400 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__teal{
+        @apply bg-gradient-to-tr from-teal-600 to-teal-400 text-white shadow-md shadow-teal-500/20 hover:shadow-lg hover:shadow-teal-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__cyan{
+        @apply bg-gradient-to-tr from-cyan-600 to-cyan-400 text-white shadow-md shadow-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__light-blue{
+        @apply bg-gradient-to-tr from-light-blue-600 to-light-blue-400 text-white shadow-md shadow-light-blue-500/20 hover:shadow-lg hover:shadow-light-blue-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__blue{
+        @apply bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__indigo{
+        @apply bg-gradient-to-tr from-indigo-600 to-indigo-400 text-white shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__deep-purple{
+        @apply bg-gradient-to-tr from-deep-purple-600 to-deep-purple-400 text-white shadow-md shadow-deep-purple-500/20 hover:shadow-lg hover:shadow-deep-purple-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__purple{
+        @apply bg-gradient-to-tr from-purple-600 to-purple-400 text-white shadow-md shadow-purple-500/20 hover:shadow-lg hover:shadow-purple-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__pink{
+        @apply bg-gradient-to-tr from-pink-600 to-pink-400 text-white shadow-md shadow-pink-500/20 hover:shadow-lg hover:shadow-pink-500/40 active:opacity-[0.85]
+    }
+    .button__gradient__red{
+        @apply bg-gradient-to-tr from-red-600 to-red-400 text-white shadow-md shadow-red-500/20 hover:shadow-lg hover:shadow-red-500/40 active:opacity-[0.85]
+    }
+    
+    /* BUTTON GRADIENT */
+
+
+}
