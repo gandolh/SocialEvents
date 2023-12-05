@@ -1,5 +1,8 @@
 import { ApiPaths } from './ApiPaths';
 import axios from 'axios';
+import { SocialEventsUser } from '@/types/SocialEventsUser';
+import { Event } from '@/types/Event';
+import { Notification } from '@/types/Notification';
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -70,3 +73,112 @@ const getNotifications = async (email : string) => {
     const notifs = data.user.notifications as Notification[];
     return { notifications : notifs};
 }
+
+const getRating = async (ratingID : string) => {
+    try {
+       const data =  (await axios.post(ApiPaths.rating.getOnePath, { id: ratingID })).data;
+        return { rating: data.rating }
+    } catch (err) {
+        return { error: (err) }
+    }
+};
+
+
+// ratingID - Id-ul userului sau event-ului
+// ratingDict - dictionar de forma {Email1: nota1, Email2: nota2, ...}
+const addRating = async (ratingID: string, ratingDict) => {
+    try {
+        await axios.post(ApiPaths.rating.addRatingPath, { id: ratingID, ratingDict: ratingDict })
+        return { error: null }
+    } catch (err) {
+        return { error: (err) }
+    }
+}
+
+
+// ratingID - Id-ul userului sau event-ului
+// ratingDict - dictionar de forma {Email1: nota1, Email2: nota2, ...}
+const updateRating = async (ratingID, ratingDict) => {
+    try {
+        await axios.put(ApiPaths.rating.updateRatingPath, { id: ratingID, ratingDict: ratingDict })
+        return { error: null }
+    } catch (err) {
+        return { error: (err) }
+    }
+}
+
+// ratingID - Id-ul userului sau event-ului
+const removeRating = async (ratingID) => {
+    try {
+        await axios.delete(ApiPaths.rating.deleteRatingPath, { data: { id: ratingID  } })
+        return { error: null }
+    } catch (err) {
+        return { error: (err) }
+    }
+}
+
+
+const updateDepartment = async (email, department) => {
+    console.log(email, department)
+    try{
+        await axios.put(ApiPaths.user.updateDept, { email, department })
+        return { error: null}
+    }
+    catch(err){
+        return { error: err}
+    }
+};
+
+
+const getUsersInDepartment = async (department) => {
+    try{
+        const res = await axios.post(ApiPaths.user.getUserDept, { department}) as any
+        return { error: null , users: res.data.user}
+    }
+    catch(err){
+        return { error: err}
+    }
+}
+
+const getAllUsers = async () => {
+    try{
+        let res =  await axios.get(ApiPaths.user.getAll)
+        return {users: res.data.users}
+    }catch(err){
+        return {error: (err)}
+    }
+}
+
+
+const getOneUser = async (email) => {
+    if( email == "") return {err: "email not found"};
+    try{
+        let res =  await axios.post(ApiPaths.user.getOne, {email})
+        return {user: res.data.user}
+    }catch(err){
+        return {error: (err)}
+    }
+}
+
+const HandleChangePassword = async ( email, oldPassword, newPassword) => {
+    try {
+        await axios.put(ApiPaths.user.updateUser, { email, oldPassword, newPassword })
+        return { error: null}
+    }
+    catch(err){
+        return { error: err}
+    }
+};
+
+
+
+const UpdateUsername = async ( name, email) => {
+    try{
+        await axios.put(ApiPaths.user.updateName, { name, email })
+        return { error: null}
+    }
+    catch(err){
+        return { error: err}
+    }
+};
+
