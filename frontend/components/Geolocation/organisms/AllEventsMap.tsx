@@ -1,7 +1,7 @@
 'use client';
 import MyGoogleMap from "@/components/Geolocation/organisms/MyGoogleMap";
 import { Coordinate } from "@/types/Coordinate";
-import { useEvents } from "@/components/utils/ApiCallers/ServerApiCallers";
+import { useEvents } from "@/components/utils/ApiCallers/SwrApiCallers";
 type AllEventsMapProps = {
     width? : string,
     height? : string

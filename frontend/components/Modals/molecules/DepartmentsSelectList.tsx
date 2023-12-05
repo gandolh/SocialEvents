@@ -1,4 +1,4 @@
-import { UseDepartments } from "@/components/utils/ApiCallers/ServerApiCallers";
+import { UseDepartments } from "@/components/utils/ApiCallers/SwrApiCallers";
 import DepartmentCardSelectable from "./DepartmentCardSelectable";
 import React from "react";
 const DepartmentsSelectList = ({allUsers, addUsers, removeUsers}) => {

@@ -86,7 +86,7 @@ const Register = () => {
                                         signIn("credentials", {
                                             email: values.email,
                                             password: values.password,
-                                            callbackUrl: `${window.location.origin}/calendar/all`
+                                            callbackUrl: `${window.location.origin}/calendar/year`
                                         })
                                 } catch (error) {
                                     if(error.response.status == 409){
@@ -162,8 +162,8 @@ const Register = () => {
                                     {tradText('Register')}
                                 </Button>
                                 <div className="grid grid-cols-2 gap-2">
-                                    <Button className="my-2 mx-1 flex items-center gap-2" onClick={() => signIn("google",{ callbackUrl: `${window.location.origin}/calendar/all`})}><FaGoogle color="white" size="25px"></FaGoogle>{tradText('Register Google')}</Button>
-                                    <Button color="gray" className="my-2 mx-1 flex items-center gap-2" onClick={() => signIn("github",{ callbackUrl: `${window.location.origin}/calendar/all`})}><FaGithub size="25px"></FaGithub>{tradText('Register Github')}</Button>
+                                    <Button className="my-2 mx-1 flex items-center gap-2" onClick={() => signIn("google",{ callbackUrl: `${window.location.origin}/calendar/year`})}><FaGoogle color="white" size="25px"></FaGoogle>{tradText('Register Google')}</Button>
+                                    <Button color="gray" className="my-2 mx-1 flex items-center gap-2" onClick={() => signIn("github",{ callbackUrl: `${window.location.origin}/calendar/year`})}><FaGithub size="25px"></FaGithub>{tradText('Register Github')}</Button>
                                 </div>
                                 <Typography color="blue-gray" className="mt-4 text-center font-normal">
                                     {tradText('Already account')}{" "}

@@ -29,7 +29,7 @@ const LoginForm = () => {
                     await signIn('credentials', {
                         email: values.email,
                         password: values.password,
-                        callbackUrl: `${window.location.origin}/calendar/all`,
+                        callbackUrl: `${window.location.origin}/calendar/year`,
                     });
                     setSubmitting(false);
                 }, 400);
@@ -61,12 +61,12 @@ const LoginForm = () => {
                     <div className="grid grid-cols-2 gap-2">
                         <Button
                             className="my-2 mx-1 flex items-center gap-2"
-                            onClick={() => signIn("google", { callbackUrl: `${window.location.origin}/calendar/all` })}>
+                            onClick={() => signIn("google", { callbackUrl: `${window.location.origin}/calendar/year` })}>
                             <FaGoogle color="white" size="25px"></FaGoogle>{tradText('Log In Google')}</Button>
                         <Button
                             color="blue-gray"
                             className="my-2 mx-1 flex items-center gap-2"
-                            onClick={() => signIn("github", { callbackUrl: `${window.location.origin}/calendar/all` })}>
+                            onClick={() => signIn("github", { callbackUrl: `${window.location.origin}/calendar/year` })}>
                             <FaGithub size="25px">
                             </FaGithub>{tradText('Log In Github')}</Button>
                     </div>
