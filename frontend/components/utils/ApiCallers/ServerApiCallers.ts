@@ -70,48 +70,6 @@ const getNotifications = async (email: string) => {
     return { notifications: notifs };
 }
 
-const getRating = async (ratingID: string) => {
-    try {
-        const data = (await axios.post(ApiPaths.rating.getOnePath, { id: ratingID })).data;
-        return { rating: data.rating }
-    } catch (err) {
-        return { error: (err) }
-    }
-};
-
-// ratingID - Id-ul userului sau event-ului
-// ratingDict - dictionar de forma {Email1: nota1, Email2: nota2, ...}
-const addRating = async (ratingID: string, ratingDict) => {
-    try {
-        await axios.post(ApiPaths.rating.addRatingPath, { id: ratingID, ratingDict: ratingDict })
-        return { error: null }
-    } catch (err) {
-        return { error: (err) }
-    }
-}
-
-// ratingID - Id-ul userului sau event-ului
-// ratingDict - dictionar de forma {Email1: nota1, Email2: nota2, ...}
-const updateRating = async (ratingID, ratingDict) => {
-    try {
-        await axios.put(ApiPaths.rating.updateRatingPath, { id: ratingID, ratingDict: ratingDict })
-        return { error: null }
-    } catch (err) {
-        return { error: (err) }
-    }
-}
-
-// ratingID - Id-ul userului sau event-ului
-const removeRating = async (ratingID) => {
-    try {
-        await axios.delete(ApiPaths.rating.deleteRatingPath, { data: { id: ratingID } })
-        return { error: null }
-    } catch (err) {
-        return { error: (err) }
-    }
-}
-
-
 const updateDepartment = async (email, department) => {
     console.log(email, department)
     try {
@@ -179,10 +137,6 @@ export {
     createEvent,
     addNotifications,
     getNotifications,
-    getRating,
-    addRating,
-    updateRating,
-    removeRating,
     updateDepartment,
     getUsersInDepartment,
     getAllUsers,

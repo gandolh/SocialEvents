@@ -11,12 +11,6 @@ const ApiPaths = {
     'notification': {
         'addNotification': "/User/update/notifications/",
     },
-    'rating': {
-        'getOnePath': "/Rating",
-        'addRatingPath': "Rating/create/",
-        'updateRatingPath': "Rating/update/",
-        'deleteRatingPath': "Rating/delete/"
-    },
     'user': {
         'updateUser': "/User/update/",
         'updateName': "/User/update/name/",

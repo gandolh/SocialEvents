@@ -3,10 +3,11 @@ import CheckboxList from "@/components/Shared/molecules/CheckboxList";
 import AvatarMenu from "@/components/Shared/molecules/AvatarMenu";
 import MiniCalendar from "@/components/Calendar/molecules/MiniCalendar";
 import styles from '@/styles/Sidebar.module.css';
-import React from 'react';
+import React, { useContext } from 'react';
+import { DisplayedDateContext } from "@/components/Providers";
 
 const Sidebar = () => {
-    const displayedDate = new Date();
+    const { displayedDate, _ } = useContext(DisplayedDateContext) as any;;
     return (
         <div className={ styles.sidebar + " "}>
             <AvatarMenu />

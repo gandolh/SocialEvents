@@ -5,13 +5,14 @@ import Button from '@/components/Shared/atoms/Button';
 import { getFormattedDate } from "../../utils/DateFormat";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { CalendarShowTypes } from '@/types/constants';
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from '@/styles/Calendar.module.css';
 import { useRouter } from 'next/navigation';
 // import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
 import Notifications from '@/components/Shared/molecules/Notifications';
+import { DisplayedDateContext, DisplayedDateContextType } from '@/components/Providers';
 
 const DynamicModalCreateEvent = dynamic(() => import('../../Modals/organisms/ModalCreateEvent'), {
     loading: () => <React.Fragment></React.Fragment>,
@@ -24,13 +25,14 @@ const CalendarNavBar = () => {
     const tradText = (a: any) => a;
     const tradMonthsText = (a: any) => a;
     const [open, setOpen] = React.useState(false);
+    const { displayedDate, setDisplayedDate } : any = useContext(DisplayedDateContext);
     const router = useRouter();
     const {data : session } = useSession();
     const handleOpen = () => setOpen(!open);
-    const displayedDate = new Date();
+
 
     const handleClickToday = () => {
-        // setDisplayedDate(new Date())
+        setDisplayedDate(new Date())
     }
 
     const handleChangeShowType = (href: string) => {
@@ -43,14 +45,13 @@ const CalendarNavBar = () => {
         let step = -1;
         if (dir === 'forward')
             step = 1;
-
-        // switch (showType) {
-        //     case "year":
-        //         setDisplayedDate(new Date(displayedDate.getFullYear() + step, displayedDate.getMonth(), displayedDate.getDate()))
-        //         break;
-        //     default:
-        //         break;
-        // }
+        switch (showType) {
+            case "year":
+                setDisplayedDate(new Date(displayedDate.getFullYear() + step, displayedDate.getMonth(), displayedDate.getDate()))
+                break;
+            default:
+                break;
+        }
     }
    
     return (<div className={styles.Calendar__Nav__Bar}>

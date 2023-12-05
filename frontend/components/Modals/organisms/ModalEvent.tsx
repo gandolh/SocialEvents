@@ -11,7 +11,6 @@ import { getFullDateTimeString } from "../../utils/DateFormat";
 import React from "react";
 import ModalMap from "./ModalMap";
 import Chip from "@/components/Shared/atoms/Chip";
-import StarRating from "../atoms/StarRating";
 
 
 type ModalEventProps = {
@@ -35,7 +34,6 @@ const ModalEvent = ({ open, handleOpen, event }: ModalEventProps) => {
             <DialogHeader>
                 <div className="flex justify-between w-full">
                     {event?.name}
-                    <StarRating ratingId={event?._id}/>
                 </div>
             </DialogHeader>
             <DialogBody divider className="overflow-auto max-h-[65vh]">
@@ -45,7 +43,6 @@ const ModalEvent = ({ open, handleOpen, event }: ModalEventProps) => {
                     <div>host:</div>
                     <div className="flex w-full gap-2">
                         {event?.host}
-                        <StarRating ratingId={event?.host}/>
                     </div>
                     <div>description</div>
                     <div>{event?.description}</div>

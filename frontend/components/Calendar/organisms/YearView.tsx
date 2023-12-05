@@ -3,8 +3,10 @@ import { FULL_MONTH_NAMES } from "@/types/constants"
 import { getDate } from "@/components/utils/DateOperations";
 import Minicalendar from "@/components/Calendar/molecules/MiniCalendar";
 import styles from "@/styles/Calendar.module.css";
+import { DisplayedDateContext } from "@/components/Providers";
+import React from "react";
 const YearView = ({setPopupModal}) => {
-    const displayedDate = new Date();
+    const {displayedDate, _} = React.useContext(DisplayedDateContext) as any;
     return (
     <div className={styles.year__view__container}>
         {

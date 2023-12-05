@@ -3,6 +3,7 @@ import type { Department } from '@/types/Department';
 import axios from 'axios';
 import useSWR from 'swr'
 import { SocialEventsUser } from '@/types/SocialEventsUser';
+import { Event } from '@/types/Event';
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const fetcher = url => axios.get(url).then(res => res.data)

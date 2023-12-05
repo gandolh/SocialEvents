@@ -3,6 +3,7 @@ import { PopupModal } from "@/types/PopupModal";
 import React from "react";
 import { getTimeString } from "../../utils/DateFormat";
 import ModalEvent from "./ModalEvent";
+import { EventContext } from "@/components/Providers";
 
 type PopupViewEventsProps = {
     popupModal: PopupModal,
@@ -12,28 +13,7 @@ const PopupViewEvents = ({ popupModal }: PopupViewEventsProps) => {
     const [selectedEvent, setSelectedEvent] = React.useState<Event | null>(null);
     const [open, setOpen] = React.useState<boolean>(false);
     const [filteredEvents, setFilteredEvents] = React.useState<Event[]>([]);
-    const events : Event[]= [
-        {
-            _id: "1",
-            name: "test",
-            date: new Date(),
-            description: "test",
-            color: "red",
-        },
-        {
-            _id: "2",
-            name: "test",
-            date: new Date(),
-            description: "test",
-            color: "red",
-        },
-        {
-            _id: "3",
-            name: "test",
-            date: new Date(),
-            description: "test",
-            color: "red",
-        }];
+    const {events, _} : any = React.useContext(EventContext);
 
     React.useEffect(() => {
         const getPopupEvents = () => {

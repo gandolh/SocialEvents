@@ -6,6 +6,7 @@ import { PopupModal } from '@/types/PopupModal';
 import Divider from '@/components/Shared/atoms/Divider';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa';
 import { FULL_MONTH_NAMES } from '@/types/constants';
+import { EventContext, SelectedDateContext } from '@/components/Providers';
 // import { useTranslations } from 'next-intl';
 type MiniCalendarProps = {
     initialValue: Date;
@@ -31,9 +32,10 @@ const MiniCalendar = ({ initialValue, navigationDisabled, bordered, borderColorC
     const [isSelectingYear, setIsSelectingYear] = React.useState<boolean>(false)
     const [currentDate, setCurrentDate] = React.useState<Date>(initialValue)
     const [eventDates, setEventDates] = React.useState<Date[]>([]);
+    const {events, _} : any = React.useContext(EventContext);
+    const {selectedDate, setSelectedDate} = React.useContext(SelectedDateContext) as any;
+
     const tradText = (a: any) => a;
-    const selectedDate = new Date();
-    const setSelectedDate = (date: Date) => { };
 
     React.useEffect(() => {
         setCurrentDate(initialValue)
