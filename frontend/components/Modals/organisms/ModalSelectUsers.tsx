@@ -1,5 +1,5 @@
 'use client'
-import { useUsers } from "@/components/utils/ApiCallers/UsersApiCalls";
+import { useUsers } from "@/components/utils/ApiCallers/SwrApiCallers";
 import ModalLayout from "./ModalLayout";
 import { Dialog } from "@/components/Shared/molecules/Dialog";
 import React from "react";

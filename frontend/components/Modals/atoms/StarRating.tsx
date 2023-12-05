@@ -2,7 +2,7 @@
 import { FaStar, FaRegCircleXmark } from "react-icons/fa6";
 import styles from "@/styles/StarRating.module.css";
 import React from "react";
-import { addRating, getRating, removeRating, updateRating } from "@/components/utils/ApiCallers/StarRatingApiCalls";
+import { addRating, getRating, removeRating, updateRating } from "@/components/utils/ApiCallers/ServerApiCallers";
 import { Rating } from "@/types/Rating";
 import { useSession } from 'next-auth/react';
 

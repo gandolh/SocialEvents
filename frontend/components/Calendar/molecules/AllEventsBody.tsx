@@ -1,6 +1,6 @@
 'use client';
 import styles from '@/styles/Calendar.module.css'
-import { getAllEvents } from "@/components/utils/ApiCallers/EventsApiCalls";
+import { getAllEvents } from "@/components/utils/ApiCallers/ServerApiCallers";
 import { groupEvents, filterEvents } from "@/components/utils/EventsOperations";
 import { getTimeString,getDateStringFromNumbers } from "@/components/utils/DateFormat";
 import Divider from "@/components/Shared/atoms/Divider";

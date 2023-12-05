@@ -3,7 +3,7 @@ import React from "react";
 // import { useTranslations } from "next-intl";
 import Input from "@/components/Shared/atoms/Input";
 import Button from "../Shared/atoms/Button";
-import { HandleChangePassword } from "../utils/ApiCallers/UsersApiCalls";
+import { HandleChangePassword } from "@/components/utils/ApiCallers/ServerApiCallers";
 import { Formik } from "formik";
 import Feedback from "../Authentication/atoms/Feedback";
 import { checkPassword } from "../Authentication/Validations";

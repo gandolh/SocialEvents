@@ -5,7 +5,7 @@ import React from "react";
 import Input from "@/components/Shared/atoms/Input";
 import Button from "../Shared/atoms/Button";
 import { SocialEventsUser } from "@/types/SocialEventsUser";
-import { UpdateUsername } from "../utils/ApiCallers/UsersApiCalls";
+import { UpdateUsername } from "@/components/utils/ApiCallers/ServerApiCallers";
 import { useSession } from "next-auth/react";
 
 const UserProfile = ({ handleUserEdit, user }) => {

@@ -1,8 +1,9 @@
 'use client'
 import { Dialog } from '@/components/Shared/molecules/Dialog';
 import ModalLayout from './ModalLayout';
-import { getUsersInDepartment, updateDepartment } from '@/components/utils/ApiCallers/UsersApiCalls';
-import { UseDepartments, addDepartment, removeDepartment } from '@/components/utils/ApiCallers/DepartmentsApiCalls';
+import { UseDepartments } from '@/components/utils/ApiCallers/SwrApiCallers';
+import { getUsersInDepartment, updateDepartment, addDepartment, removeDepartment } 
+    from '@/components/utils/ApiCallers/ServerApiCallers';
 import DepartmentCard from '../molecules/DepartmentCard';
 import UserCard from '../molecules/UserCard';
 import React from 'react';
