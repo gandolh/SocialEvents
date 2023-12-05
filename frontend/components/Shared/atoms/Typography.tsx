@@ -31,7 +31,7 @@ const Typography = ({variant, color, className, children, ...rest} : TypographyP
     }
     let classes = className + " " + getClases(); 
     template = React.createElement(
-        MapVariantToElement[variant] ?? "p",
+        MapVariantToElement[variant ?? ""] ?? "p",
         {
             ...rest,
             className: classes,

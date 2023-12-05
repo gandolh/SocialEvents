@@ -35,11 +35,11 @@ const UsersSelector = ({setAttendees}) => {
             <div className="bg-gray-300 text-black min-h-[128px] max-h-[256px] w-full rounded-lg overflow-auto">
                 <div className="flex flex-wrap overflow-auto gap-2 p-2">
                     {selectedUsers.map((user) => (
-                        <Chip key={"addEventModal" + user.email}>{user.email}</Chip>
+                        <Chip key={"addEventModal" + (user as any).email}>{(user as any).email}</Chip>
                     ))}                   
                 </div>
             </div>
-            {open &&
+            {openSelectUsers &&
                 <LazyModalSelectUsers
                 handleOpen={handleOpenSelectUsers}
                 open={openSelectUsers}

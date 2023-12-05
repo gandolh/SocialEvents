@@ -122,7 +122,7 @@ const MiniCalendar = ({ initialValue, navigationDisabled, bordered, borderColorC
                     hasEvent={hasEvent}
                     selectedDate={selectedDate}
                     setSelectedDate={setSelectedDate}
-                    textSize={calendarSizes.split(' ')[1] + ' ' + calendarSizes.split(' ')[2]}
+                    textSize={calendarSizes?.split(' ')[1] + ' ' + calendarSizes?.split(' ')[2]}
                 />}
         </div>
 

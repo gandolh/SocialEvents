@@ -18,7 +18,7 @@ import Textarea from "@/components/Shared/atoms/Textarea";
 import { Formik } from "formik";
 import UsersSelector from "../molecules/UsersSelector";
 import { createEvent } from "@/components/utils/ApiCallers/ServerApiCallers";
-import { addNotifications } from "@/components/utils/ApiCallers/ServerApiCallers";
+// import { addNotifications } from "@/components/utils/ApiCallers/ServerApiCallers";
 import { SocialEventsUser } from "@/types/SocialEventsUser";
 
 type Location = {
@@ -50,7 +50,7 @@ const ModalCreateEvent = ({ open, handleOpen, user }) => {
       handleOpen();
       console.log(tradText('Created Event'));
     });
-    addNotifications(event);
+    // addNotifications(event);
     setSubmitting(false);
   }
 

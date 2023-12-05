@@ -10,8 +10,8 @@ type SingleEventMapProps = {
 }
 const SingleEventMap = ({event, width, height} : SingleEventMapProps) => {
     const TimisoaraCoordinates = { lat: 45.760696, lng: 21.226788 } as Coordinate;
-    const eventLat =parseFloat(event?.location[1]);
-    const eventLng = parseFloat(event?.location[2])
+    const eventLat =parseFloat(event!.location[1]);
+    const eventLng = parseFloat(event!.location[2])
     const EventCoordinates = { 
         lat: eventLat ?? TimisoaraCoordinates.lat, 
         lng: eventLng ?? TimisoaraCoordinates.lng

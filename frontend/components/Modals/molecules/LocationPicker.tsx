@@ -11,7 +11,7 @@ const LocationPicker = ({ setLocation }) => {
   const onLoad = ref => searchBox.current = ref;
 
   const onPlacesChanged = () => {
-    const foundPlace = searchBox!.current.getPlace();
+    const foundPlace = (searchBox as any).current.getPlace();
     const locationObject = {
       formatted_address: foundPlace.formatted_address,
       coordinates: [foundPlace.geometry.location.lat(), foundPlace.geometry.location.lng()]

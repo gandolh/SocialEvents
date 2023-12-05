@@ -20,7 +20,7 @@ const ModalSelectUsers = ({ onSelected, open, handleOpen, departmentsSelectable 
      
     const [allUsers, setAllUsers] = React.useState([] as SocialEventsUser[]);
     const [filteredUsers, setFilteredUsers] = React.useState([] as SocialEventsUser[]);
-    const [selectedUsers, setSelectedUsers] = React.useState([]);
+    const [selectedUsers, setSelectedUsers] = React.useState<SocialEventsUser[]>([]);
 
     React.useEffect(() => {
         getAllUsers().then((resp) => {
@@ -30,7 +30,7 @@ const ModalSelectUsers = ({ onSelected, open, handleOpen, departmentsSelectable 
         });
     }, []);
 
-    const handleSelect = (user) => {
+    const handleSelect = (user : SocialEventsUser) => {
         if (selectedUsers.includes(user)) {
             setSelectedUsers(selectedUsers.filter((u) => u._id !== user._id));
         }

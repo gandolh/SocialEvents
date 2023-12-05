@@ -33,7 +33,7 @@ const InputDatePicker = ({date, setDate, label} : InputDatePickerProps) => {
     );
 
     const handleFocus= () =>{
-        datepickerWrapperRef.current.focus();
+        (datepickerWrapperRef.current as any).focus();
         setDateFocused(true)
     }
 

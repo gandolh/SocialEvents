@@ -3,7 +3,7 @@ const objectsToArray = (object : object) =>  {
   
     Object.values(object).forEach((value) => {
       if (typeof value === "string") {
-        result = [...result, value];
+        result = [...result, value] as never[];
       } else if (typeof value === "object" && !Array.isArray(value) && value !== null) {
         result = [...result, ...objectsToArray(value)];
       }

@@ -16,7 +16,7 @@ import Chip from "@/components/Shared/atoms/Chip";
 type ModalEventProps = {
     open: boolean,
     handleOpen: () => void,
-    event: Event
+    event: Event | null,
 }
 
 

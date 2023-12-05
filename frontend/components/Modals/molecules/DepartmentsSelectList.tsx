@@ -1,10 +1,11 @@
 import { UseDepartments } from "@/components/utils/ApiCallers/SwrApiCallers";
 import DepartmentCardSelectable from "./DepartmentCardSelectable";
 import React from "react";
+import { Department } from "@/types/Department";
 const DepartmentsSelectList = ({allUsers, addUsers, removeUsers}) => {
     const { allDepts} = UseDepartments();
-    const [selectedDepts, setSelectedDepts] = React.useState([]);
-    const handleSelect = (dept) => {
+    const [selectedDepts, setSelectedDepts] = React.useState<Department[]>([]);
+    const handleSelect = (dept : Department) => {
         if (selectedDepts.includes(dept)) {
             const new_depts = selectedDepts.filter((u) => u._id !== dept._id);
             setSelectedDepts(new_depts);

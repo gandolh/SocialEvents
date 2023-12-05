@@ -20,9 +20,9 @@ const PopupViewEvents = ({ popupModal }: PopupViewEventsProps) => {
             if (!popupModal.date) return [];
             return events.filter((el) => {
                 return (
-                    el.date.getFullYear() == popupModal.date.getFullYear() &&
-                    el.date.getMonth() == popupModal.date.getMonth() &&
-                    el.date.getDate() == popupModal.date.getDate()
+                    el.date.getFullYear() == popupModal.date!.getFullYear() &&
+                    el.date.getMonth() == popupModal.date!.getMonth() &&
+                    el.date.getDate() == popupModal.date!.getDate()
                 );
             });
         }

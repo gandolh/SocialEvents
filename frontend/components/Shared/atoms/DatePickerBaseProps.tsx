@@ -22,7 +22,8 @@ const DatePickerBase = ({ datePickerDate, setDatePickerDate, OnChange, onClick, 
     };
 
     React.useEffect(() => {
-        OnChange(datePickerDate)
+        if(OnChange != null)
+            OnChange(datePickerDate)
     }, [datePickerDate]);
 
     const onDateChange = (dir: 'forward' | 'backward') => () => {

@@ -71,13 +71,13 @@ const ModalAdminPanel = ({ handleOpen, open }) => {
         handleOpenAreYouSure();
     }
 
-    const removeUserFromDept = async (user) => {
+    const removeUserFromDept = async (user : SocialEventsUser) => {
         if (user.department === "Guest")
             return;
         const { error } = await updateDepartment(user.email, "Guest");
         if (!error)
             return;
-        setDeptUsers(deptUsers.filter((u) => u._id !== user._id))
+        setDeptUsers(deptUsers.filter((u) => (u as any)._id !== user._id))
     }
 
     const handleCreateDepartment = async (deptName) => {
@@ -122,7 +122,7 @@ const ModalAdminPanel = ({ handleOpen, open }) => {
         if (value === "")
             setFilteredDeptUsers(deptUsers);
         else {
-            const filteredUsers = deptUsers.filter((user) => user.name.toLowerCase().includes(value.toLowerCase()));
+            const filteredUsers = deptUsers.filter((user) => (user as any).name.toLowerCase().includes(value.toLowerCase()));
             setFilteredDeptUsers(filteredUsers);
         }
     }
@@ -163,7 +163,7 @@ const ModalAdminPanel = ({ handleOpen, open }) => {
 
                         <div className='overflow-auto flex-grow'>
                             {filteredDeptUsers.map((user) => (
-                                <UserCard key={user._id} removeUserFromDept={removeUserFromDept} user={user} />
+                                <UserCard key={(user as any)._id} removeUserFromDept={removeUserFromDept} user={user} />
                             ))}
                         </div>
 

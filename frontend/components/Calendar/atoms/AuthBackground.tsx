@@ -29,7 +29,7 @@ const AuthBackground = ({ children, className } : AuthBackgroundProps) => {
                 }));
         }
         return () => {
-            if (vantaEffect) vantaEffect.destroy()
+            if (vantaEffect) (vantaEffect as any).destroy()
         }
     }, [vantaEffect])
 

@@ -25,8 +25,8 @@ declare module "next-auth" {
 export  const nextAuthConfig : NextAuthOptions= {
     providers: [
       GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        clientId: process.env.GOOGLE_CLIENT_ID || "",
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
       }),
       CredentialsProvider({
         type: "credentials",
@@ -37,8 +37,8 @@ export  const nextAuthConfig : NextAuthOptions= {
     
         async authorize(credentials) {
           const credentialDetails = {
-            email: credentials.email,
-            password: credentials.password,
+            email: credentials?.email,
+            password: credentials?.password,
           };
           try{
             const resp = await axios.post(backendURL + "/User", credentialDetails);
@@ -92,8 +92,8 @@ export  const nextAuthConfig : NextAuthOptions= {
       session: ({ session, token }) => {
         
         if (token) {
-          session.user.email = token.email;
-          session.user.name = token.name ;
+          session.user.email = token.email || "";
+          session.user.name = token.name || "";
           session.user.isAdmin = token.isAdmin as boolean;
           session.user.department = token.department as string;
         }

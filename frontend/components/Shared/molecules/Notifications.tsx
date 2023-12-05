@@ -2,7 +2,7 @@
 import styles from '@/styles/Notifications.module.css'
 import { FaBell, FaChild } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
-import { getNotifications } from '@/components/utils/ApiCallers/NotificationsApiCalls';
+// import { getNotifications } from '@/components/utils/ApiCallers/NotificationsApiCalls';
 import { useState, useEffect, useMemo} from 'react';
 import { Notification } from '@/types/Notification';
 import { getDateStringFromDate } from '@/components/utils/DateFormat';

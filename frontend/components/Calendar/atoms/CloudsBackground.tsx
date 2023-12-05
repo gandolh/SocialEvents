@@ -32,7 +32,7 @@ const CloudsBackground = ({ children, className } : CloudsBackgroundProps) => {
                 }));
         }
         return () => {
-            if (vantaEffect) vantaEffect.destroy()
+            if (vantaEffect) (vantaEffect as any).destroy()
         }
     }, [vantaEffect])
 

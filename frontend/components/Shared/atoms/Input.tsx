@@ -33,14 +33,14 @@ const Input = ({
   const { base, variants } = styles;
 
   //styles
-  const inputVariant = variants[variant];
-  const inputSize = inputVariant.sizes[size];
+  const inputVariant = variants[variant ?? "standard"];
+  const inputSize = inputVariant.sizes[size ?? "md"];
   const inputError = objectsToString(inputVariant.error.input);
   const inputSuccess = objectsToString(inputVariant.success.input);
-  const inputColor = objectsToString(inputVariant.colors.input[color]);
+  const inputColor = objectsToString(inputVariant.colors.input[color ?? "primary"]);
   const labelError = objectsToString(inputVariant.error.label);
   const labelSuccess = objectsToString(inputVariant.success.label);
-  const labelColor = objectsToString(inputVariant.colors.label[color]);
+  const labelColor = objectsToString(inputVariant.colors.label[color ?? "primary"]);
   const containerClasses = classnames(
     objectsToString(base.container),
     objectsToString(inputSize.container));
