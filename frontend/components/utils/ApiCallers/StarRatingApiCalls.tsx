@@ -1,14 +1,11 @@
 import axios from 'axios';
-const getOnePath = "/Rating";
-const addRatingPath = "Rating/create/"
-const updateRatingPath = "Rating/update/"
-const deleteRatingPath = "Rating/delete/"
+import { ApiPaths } from './ApiPaths';
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const getRating = async (ratingID : string) => {
     try {
-       const data =  (await axios.post(getOnePath, { id: ratingID })).data;
+       const data =  (await axios.post(ApiPaths.rating.getOnePath, { id: ratingID })).data;
         return { rating: data.rating }
     } catch (err) {
         return { error: (err) }
@@ -20,7 +17,7 @@ const getRating = async (ratingID : string) => {
 // ratingDict - dictionar de forma {Email1: nota1, Email2: nota2, ...}
 const addRating = async (ratingID: string, ratingDict) => {
     try {
-        await axios.post(addRatingPath, { id: ratingID, ratingDict: ratingDict })
+        await axios.post(ApiPaths.rating.addRatingPath, { id: ratingID, ratingDict: ratingDict })
         return { error: null }
     } catch (err) {
         return { error: (err) }
@@ -32,7 +29,7 @@ const addRating = async (ratingID: string, ratingDict) => {
 // ratingDict - dictionar de forma {Email1: nota1, Email2: nota2, ...}
 const updateRating = async (ratingID, ratingDict) => {
     try {
-        await axios.put(updateRatingPath, { id: ratingID, ratingDict: ratingDict })
+        await axios.put(ApiPaths.rating.updateRatingPath, { id: ratingID, ratingDict: ratingDict })
         return { error: null }
     } catch (err) {
         return { error: (err) }
@@ -42,7 +39,7 @@ const updateRating = async (ratingID, ratingDict) => {
 // ratingID - Id-ul userului sau event-ului
 const removeRating = async (ratingID) => {
     try {
-        await axios.delete(deleteRatingPath, { data: { id: ratingID  } })
+        await axios.delete(ApiPaths.rating.deleteRatingPath, { data: { id: ratingID  } })
         return { error: null }
     } catch (err) {
         return { error: (err) }

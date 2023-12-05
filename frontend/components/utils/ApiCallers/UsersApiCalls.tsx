@@ -2,17 +2,13 @@ import { SocialEventsUser } from '@/types/SocialEventsUser';
 import axios from 'axios';
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 import useSWR from 'swr'
-const updateUser = "/User/update/";
-const updateName = "/User/update/name/";
-const getAll = "/User/all/";
-const updateDept = "/User/update/dept/";
-const getUserDept = "/User/dept/";
-const getOne = "/User/";
+import { ApiPaths } from './ApiPaths';
+
 const fetcher = url => axios.get(url).then(res => res.data)
 
 const HandleChangePassword = async ( email, oldPassword, newPassword) => {
     try {
-        await axios.put(updateUser, { email, oldPassword, newPassword })
+        await axios.put(ApiPaths.user.updateUser, { email, oldPassword, newPassword })
         return { error: null}
     }
     catch(err){
@@ -24,7 +20,7 @@ const HandleChangePassword = async ( email, oldPassword, newPassword) => {
 
 const UpdateUsername = async ( name, email) => {
     try{
-        await axios.put(updateName, { name, email })
+        await axios.put(ApiPaths.user.updateName, { name, email })
         return { error: null}
     }
     catch(err){
@@ -35,7 +31,7 @@ const UpdateUsername = async ( name, email) => {
 
 
 const useUsers = () => {
-    const { data, error, isLoading } = useSWR(getAll, fetcher, {fallbackData: {users: []}})
+    const { data, error, isLoading } = useSWR(ApiPaths.user.getAll, fetcher, {fallbackData: {users: []}})
     return {
         allUsers: data?.users as SocialEventsUser[],
         isLoading,
@@ -46,7 +42,7 @@ const useUsers = () => {
 const updateDepartment = async (email, department) => {
     console.log(email, department)
     try{
-        await axios.put(updateDept, { email, department })
+        await axios.put(ApiPaths.user.updateDept, { email, department })
         return { error: null}
     }
     catch(err){
@@ -57,7 +53,7 @@ const updateDepartment = async (email, department) => {
 
 const getUsersInDepartment = async (department) => {
     try{
-        const res = await axios.post(getUserDept, { department}) as any
+        const res = await axios.post(ApiPaths.user.getUserDept, { department}) as any
         return { error: null , users: res.data.user}
     }
     catch(err){
@@ -67,7 +63,7 @@ const getUsersInDepartment = async (department) => {
 
 const getAllUsers = async () => {
     try{
-        let res =  await axios.get(getAll)
+        let res =  await axios.get(ApiPaths.user.getAll)
         return {users: res.data.users}
     }catch(err){
         return {error: (err)}
@@ -78,7 +74,7 @@ const getAllUsers = async () => {
 const getOneUser = async (email) => {
     if( email == "") return {err: "email not found"};
     try{
-        let res =  await axios.post(getOne, {email})
+        let res =  await axios.post(ApiPaths.user.getOne, {email})
         return {user: res.data.user}
     }catch(err){
         return {error: (err)}
