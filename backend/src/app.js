@@ -6,7 +6,6 @@ const cors = require('cors');
 const deptRoutes = require('./routes/Department');
 const eventRoutes = require('./routes/Event');
 const userRoutes = require('./routes/User');
-const ratingRoutes = require('./routes/Rating');
 
 const app = express();
 app.use(cors());
@@ -21,7 +20,6 @@ app.use('/API/Event', eventRoutes);
 
 app.use('/API/Department', deptRoutes);
 
-app.use('/API/Rating', ratingRoutes);
 
 app.use('/API/1987', (req, res) => {
   res.send({message: "Is that the bite of '87?!"});
