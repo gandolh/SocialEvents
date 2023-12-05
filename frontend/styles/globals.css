@@ -5,3 +5,7 @@
 .bg-card-white-transparent{
     background-color: rgba(255,255,255,0.9);
 }
+
+.pac-container{
+    z-index: 10000;
+}

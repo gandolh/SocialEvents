@@ -45,7 +45,7 @@ const createEvent = (event) => {
 const addNotifications = async (event: Event) => {
     getAllUsers().then((res) => {
         const attendeesEmails = event.attendees.map((attendee) => attendee.email);
-        const users = res.users.filter((user) => attendeesEmails.includes(user.email));
+        const users = res.users!.filter((user) => attendeesEmails.includes(user.email));
         const creationDate = new Date();
         users.forEach((user) => {
             const notifs = user.notifications ?? [];
@@ -94,7 +94,7 @@ const getUsersInDepartment = async (department) => {
 const getAllUsers = async () => {
     try {
         let res = await axios.get(ApiPaths.user.getAll)
-        return { users: res.data.users }
+        return { users: res.data.users as SocialEventsUser[] }
     } catch (err) {
         return { error: (err) }
     }

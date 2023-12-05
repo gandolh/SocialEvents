@@ -1,5 +1,4 @@
 'use client'
-import { useUsers } from "@/components/utils/ApiCallers/SwrApiCallers";
 import ModalLayout from "./ModalLayout";
 import { Dialog } from "@/components/Shared/molecules/Dialog";
 import React from "react";
@@ -7,6 +6,8 @@ import Button from "@/components/Shared/atoms/Button";
 import UserCardSelectable from "../molecules/UserCardSelectable";
 import DepartmentsSelectList from "../molecules/DepartmentsSelectList";
 import Input from "@/components/Shared/atoms/Input";
+import { getAllUsers } from "@/components/utils/ApiCallers/ServerApiCallers";
+import { SocialEventsUser } from "@/types/SocialEventsUser";
 
 type ModalSelectUsersProps = {
     onSelected: (users: any[]) => void;
@@ -16,14 +17,18 @@ type ModalSelectUsersProps = {
 }
 
 const ModalSelectUsers = ({ onSelected, open, handleOpen, departmentsSelectable }: ModalSelectUsersProps) => {
-    const { allUsers } = useUsers();
-    const [filteredUsers, setFilteredUsers] = React.useState([]);
+     
+    const [allUsers, setAllUsers] = React.useState([] as SocialEventsUser[]);
+    const [filteredUsers, setFilteredUsers] = React.useState([] as SocialEventsUser[]);
     const [selectedUsers, setSelectedUsers] = React.useState([]);
 
     React.useEffect(() => {
-        setFilteredUsers(allUsers);
-    }, [allUsers]);
-    
+        getAllUsers().then((resp) => {
+            console.log(resp.users);
+            setAllUsers(resp.users as SocialEventsUser[]);
+            setFilteredUsers(resp.users as SocialEventsUser[]);
+        });
+    }, []);
 
     const handleSelect = (user) => {
         if (selectedUsers.includes(user)) {

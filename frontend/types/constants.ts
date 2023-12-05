@@ -41,6 +41,6 @@ export const SHORT_DAY_NAMES = [
 
 export const CalendarShowTypes =
     [
-        { name: 'Year', href: 'calendar/year' },
-        { name: 'All', href: 'calendar/all' }
+        { name: 'Year', href: '/calendar/year' },
+        { name: 'All', href: '/calendar/all' }
     ];

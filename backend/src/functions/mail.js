@@ -24,13 +24,13 @@ function SetMailData(to, subject, html) {
 }
 
 async function SendMail(to, subject, html) { 
-    SetMailData(to, subject, html);                                          
-    return await transporter.sendMail(mailData, function (err, info) {
-        if (err)
-            console.log(err);
-        // else
-        //     console.log(info);
-    })
+    // SetMailData(to, subject, html);                                          
+    // return await transporter.sendMail(mailData, function (err, info) {
+    //     if (err)
+    //         console.log(err);
+    //     // else
+    //     //     console.log(info);
+    // })
 };
 
 const Mail = {SendMail}; 

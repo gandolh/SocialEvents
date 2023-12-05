@@ -67,8 +67,6 @@ const CalendarNavBar = () => {
             <Notifications/>
         </div>
         <div className='flex gap-2'>
-
-
             <div className='flex gap-2'>
 
             {CalendarShowTypes.map((showType) => {
