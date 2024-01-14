@@ -21,7 +21,7 @@ const ModalAdminPanel = ({ handleOpen, open }) => {
     const { allDepts } = UseDepartments();
     const [depts, setDepts] = React.useState(allDepts);
     const [deptUsers, setDeptUsers] = React.useState([]);
-    const [filteredDeptUsers, setFilteredDeptUsers] = React.useState([]);
+    const [filteredDeptUsers, setFilteredDeptUsers] = React.useState([] as SocialEventsUser[]);
     const [selectedDept, setSelectedDept] = React.useState("");
     const [openCreateDept, setOpenCreateDept] = React.useState(false);
     const [openSelectUsers, setOpenSelectUsers] = React.useState(false);
@@ -64,7 +64,7 @@ const ModalAdminPanel = ({ handleOpen, open }) => {
         
         const { error } = await removeDepartment(toBeRemovedDept.name);
         if (error) {
-            console.log(error);
+            console.log("cannot remove dept");
             return;
         }
         setDepts(depts.filter((d) => d._id !== toBeRemovedDept._id))
@@ -136,7 +136,7 @@ const ModalAdminPanel = ({ handleOpen, open }) => {
                         <div className='overflow-auto flex-grow'>
                             {depts.map((dept) => (
                                 <DepartmentCard
-                                    key={dept._id}
+                                    key={dept._id +" " + dept.name}
                                     selected={selectedDept === dept.name}
                                     onClick={() => setSelectedDept(dept.name)}
                                     remove_dept={open_remove_modal}
@@ -163,7 +163,7 @@ const ModalAdminPanel = ({ handleOpen, open }) => {
 
                         <div className='overflow-auto flex-grow'>
                             {filteredDeptUsers.map((user) => (
-                                <UserCard key={(user as any)._id} removeUserFromDept={removeUserFromDept} user={user} />
+                                <UserCard key={user._id + " " + user.name} removeUserFromDept={removeUserFromDept} user={user} />
                             ))}
                         </div>
 

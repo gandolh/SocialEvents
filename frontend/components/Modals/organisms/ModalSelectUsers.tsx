@@ -24,7 +24,7 @@ const ModalSelectUsers = ({ onSelected, open, handleOpen, departmentsSelectable 
 
     React.useEffect(() => {
         getAllUsers().then((resp) => {
-            console.log(resp.users);
+            // console.log(resp.users);
             setAllUsers(resp.users as SocialEventsUser[]);
             setFilteredUsers(resp.users as SocialEventsUser[]);
         });
