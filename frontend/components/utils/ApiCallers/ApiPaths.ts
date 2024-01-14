@@ -8,9 +8,6 @@ const ApiPaths = {
         'getAll': "/Event/all/",
         'create': "/Event/create/"
     },
-    'notification': {
-        'addNotification': "/User/update/notifications/",
-    },
     'user': {
         'updateUser': "/User/update/",
         'updateName': "/User/update/name/",
@@ -18,6 +15,11 @@ const ApiPaths = {
         'updateDept': "/User/update/dept/",
         'getUserDept': "/User/dept/",
         'getOne': "/User/"
+    },
+    'notification': {
+        'getAll': "/Notification/all/",
+        'addNotification': "/Notification/create/",
+        'deleteNotification': "/Notification/delete/"
     }
 }
 

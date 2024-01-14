@@ -6,6 +6,7 @@ const cors = require('cors');
 const deptRoutes = require('./routes/Department');
 const eventRoutes = require('./routes/Event');
 const userRoutes = require('./routes/User');
+const notifRoutes = require('./routes/Notification');
 
 const app = express();
 app.use(cors());
@@ -19,6 +20,8 @@ app.use('/API/User', userRoutes);
 app.use('/API/Event', eventRoutes);
 
 app.use('/API/Department', deptRoutes);
+
+app.use('/API/Notification', notifRoutes);
 
 
 app.use('/API/1987', (req, res) => {

@@ -2,34 +2,32 @@
 import styles from '@/styles/Notifications.module.css'
 import { FaBell, FaChild } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
-// import { getNotifications } from '@/components/utils/ApiCallers/NotificationsApiCalls';
-import { useState, useEffect, useMemo} from 'react';
+ import { getNotifications } from '@/components/utils/ApiCallers/ServerApiCallers';
+import { useState, useEffect} from 'react';
 import { Notification } from '@/types/Notification';
 import { getDateStringFromDate } from '@/components/utils/DateFormat';
 const Notifications = () => {
     const {data : session } = useSession();
-    // const [notifications, setNotifications] = useState([]);
+    const [notifs, setNotifs] = useState([] as Notification[]);
    
 
 
-    // useEffect(() => {
-    //     const fetchNotifications = async () => {
-    //         console.log(session?.user?.email)
-    //         getNotifications(session?.user?.email ?? "")
-    //         .then(res =>{
-    //             if(res.err)
-    //                 return;
-    //             const notifs
-    //                 = res.notifications
-    //                     .map(notification => { return { ...notification, date: new Date(notification.date) } }
-    //                     );
-    //             setNotifications(notifs)
-    //         } 
-    //         );
-    //     }
-    //     fetchNotifications();
-    // }, [ session?.user?.email]);
-    const notificationsNumber = 0; // useMemo(() => notifications?.length ?? 0, [notifications]);
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            if(!session?.user?.email)
+            return;
+        
+            getNotifications(session.user.email)
+            .then(res =>{
+                console.log(res);
+                const newNotifs = res.notifications;
+                setNotifs(newNotifs)
+            } 
+            );
+        }
+        fetchNotifications();
+    }, [ session?.user?.email]);
+    const notificationsNumber = 0;
     const notifications = useState([] as Notification[])[0];
 
     

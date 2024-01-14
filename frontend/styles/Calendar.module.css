@@ -7,7 +7,7 @@
 
 .yearview__container {
     @apply bg-white-aero-02;
-    border-radius: 0.5rem;
+    border-radius: 0rem;
 }
 
     .formatted_date {

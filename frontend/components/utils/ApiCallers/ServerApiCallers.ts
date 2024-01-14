@@ -42,32 +42,19 @@ const createEvent = (event) => {
         })
 }
 
-// const addNotifications = async (event: Event) => {
-//     getAllUsers().then((res) => {
-//         const attendeesEmails = event.attendees.map((attendee) => attendee.email);
-//         const users = res.users!.filter((user) => attendeesEmails.includes(user.email));
-//         const creationDate = new Date();
-//         users.forEach((user) => {
-//             const notifs = (user.notifications as any) ?? [];
-//             console.log(user);
-//             notifs.push({
-//                 msg: `Ai fost invitat la evenimentul ${event.name}  `,
-//                 date: creationDate,
-//             } as Notification)
-//             axios.put(ApiPaths.notification.addNotification, {
-//                 email: user.email,
-//                 notifs: notifs
-//             })
-//         })
-//     })
-// }
+type NotificationResponse = {
+    notifications: Notification[],
+    error?: string
+}
 
-const getNotifications = async (email: string) => {
-    const data = await getOneUser(email);
-    console.log(data);
-    if (data.err) return { err: data.err };
-    const notifs = data.user.notifications as Notification[];
-    return { notifications: notifs };
+const getNotifications = async (email: string) : Promise<NotificationResponse> => {
+
+    try {
+        let res = await axios.get(ApiPaths.notification.getAll + "?email=" + email)
+        return { notifications: res.data.notifications as Notification[] }
+    } catch (err) {
+        return { error: (err), notifications: [] }
+    }
 }
 
 const updateDepartment = async (email, department) => {
@@ -135,7 +122,6 @@ export {
     removeDepartment,
     getAllEvents,
     createEvent,
-    // addNotifications,
     getNotifications,
     updateDepartment,
     getUsersInDepartment,
