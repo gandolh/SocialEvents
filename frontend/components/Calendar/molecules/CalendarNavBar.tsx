@@ -20,8 +20,13 @@ const DynamicModalCreateEvent = dynamic(() => import('../../Modals/organisms/Mod
 
 
 const CalendarNavBar = () => {
-    // const tradText = useTranslations('Misc');
-    // const tradMonthsText = useTranslations('CalendarMonthsFull');
+    const [windowLocationPathname, setWindowLocationPathname] = React.useState<string>("");
+    
+    React.useEffect(() => {
+        if(typeof window !== 'undefined')
+            setWindowLocationPathname(window.location.pathname);
+    }, []);
+
     const tradText = (a: any) => a;
     const tradMonthsText = (a: any) => a;
     const [open, setOpen] = React.useState(false);
@@ -40,7 +45,7 @@ const CalendarNavBar = () => {
     }
 
     const handleTimeChange = (dir: "forward" | "backward") => {
-        const pathname = window.location.pathname.split("/");
+        const pathname = windowLocationPathname.split("/");
         const showType = pathname[pathname.length - 1];
         let step = -1;
         if (dir === 'forward')

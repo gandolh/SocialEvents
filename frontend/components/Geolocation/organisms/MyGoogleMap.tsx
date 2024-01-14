@@ -2,7 +2,6 @@
 import { useLoadScript, GoogleMap, MarkerF } from '@react-google-maps/api';
 import { useMemo } from 'react';
 import { Coordinate } from '@/types/Coordinate';
-// import { useTranslations } from 'next-intl';
 
 type MapProps = {
     center: Coordinate,

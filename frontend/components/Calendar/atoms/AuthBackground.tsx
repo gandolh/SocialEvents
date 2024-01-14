@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
-import TOPOLOGY from 'vanta/dist/vanta.topology.min.js';
-import p5 from 'p5';
+import * as THREE from 'three'
+import FOG from 'vanta/dist/vanta.fog.min.js';
 type AuthBackgroundProps = {
     children?: React.ReactNode,
     className?: string,
@@ -14,22 +14,25 @@ const AuthBackground = ({ children, className } : AuthBackgroundProps) => {
     const myRef = React.useRef(null)
     React.useEffect(() => {
 
-            if (!vantaEffect) {
+            if ( typeof window !== 'undefined' && !vantaEffect) {
                 console.log('set vanta effect')
-                setVantaEffect(TOPOLOGY({
+                setVantaEffect(FOG({
                     el: myRef.current,
-                    mouseControls: true,
-                    touchControls: true,
+                    mouseControls: false,
+                    touchControls: false,
                     gyroControls: false,
                     minHeight: 200.00,
                     minWidth: 200.00,
-                    scale: 1.00,
-                    scaleMobile: 1.00,
-                    p5: p5
+                    highlightColor: 0xf4faff,
+                    midtoneColor: 0x2196f3,
+                    lowlightColor: 0x1e293b,
+                    baseColor: 0xffffff,
+                    blurFactor: 0.70,
+                    THREE: THREE
                 }));
         }
         return () => {
-            if (vantaEffect) (vantaEffect as any).destroy()
+            if ( typeof window !== 'undefined' &&  vantaEffect) (vantaEffect as any).destroy()
         }
     }, [vantaEffect])
 

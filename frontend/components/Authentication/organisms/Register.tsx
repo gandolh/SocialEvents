@@ -1,5 +1,4 @@
 'use client'
-// import { useLocale, useTranslations } from "next-intl";
 import Checkbox from "@/components/Shared/atoms/Checkbox";
 import Card from "@/components/Shared/atoms/Card";
 import Input from "@/components/Shared/atoms/Input";
@@ -14,12 +13,15 @@ import { Formik } from 'formik';
 import React from "react";
 import Feedback from "../atoms/Feedback";
 import { checkEmail } from "../Validations";
-import Starry from "./Starry";
 const Register = () => {
 
-    // const locale = useLocale();
-    const tradText = (a)=>a; // useTranslations('Register');
-
+    const tradText = (a)=>a;
+    const [windowOrigin, setWindowOrigin] = React.useState<string>("");
+    
+    React.useEffect(() => {
+        if(typeof window !== 'undefined')
+            setWindowOrigin(window.location.origin);
+    }, []);
 
     return (
         <>
@@ -86,7 +88,7 @@ const Register = () => {
                                         signIn("credentials", {
                                             email: values.email,
                                             password: values.password,
-                                            callbackUrl: `${window.location.origin}/calendar/year`
+                                            callbackUrl: `${windowOrigin}/calendar/year`
                                         })
                                 } catch (error) {
                                     if(error.response.status == 409){
@@ -162,8 +164,8 @@ const Register = () => {
                                     {tradText('Register')}
                                 </Button>
                                 <div className="grid grid-cols-2 gap-2">
-                                    <Button className="my-2 mx-1 flex items-center gap-2" onClick={() => signIn("google",{ callbackUrl: `${window.location.origin}/calendar/year`})}><FaGoogle color="white" size="25px"></FaGoogle>{tradText('Register Google')}</Button>
-                                    <Button color="gray" className="my-2 mx-1 flex items-center gap-2" onClick={() => signIn("github",{ callbackUrl: `${window.location.origin}/calendar/year`})}><FaGithub size="25px"></FaGithub>{tradText('Register Github')}</Button>
+                                    <Button className="my-2 mx-1 flex items-center gap-2" onClick={() => signIn("google",{ callbackUrl: `${windowOrigin}/calendar/year`})}><FaGoogle color="white" size="25px"></FaGoogle>{tradText('Register Google')}</Button>
+                                    <Button color="gray" className="my-2 mx-1 flex items-center gap-2" onClick={() => signIn("github",{ callbackUrl: `${windowOrigin}/calendar/year`})}><FaGithub size="25px"></FaGithub>{tradText('Register Github')}</Button>
                                 </div>
                                 <Typography color="blue-gray" className="mt-4 text-center font-normal">
                                     {tradText('Already account')}{" "}

@@ -3,17 +3,22 @@
 import Input from "@/components/Shared/atoms/Input";
 import Button from "@/components/Shared/atoms/Button";
 import Typography from "@/components/Shared/atoms/Typography";
-// import { useTranslations, useLocale } from "next-intl";
 import { Formik } from "formik";
 import { signIn } from "next-auth/react"
 import Link from "next/link";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { SocialEventsUser } from "@/types/SocialEventsUser";
 import Feedback from "../atoms/Feedback";
+import React from "react";
 
 const LoginForm = () => {
-    const tradText = (a)=> a; // useTranslations('LogIn');
-    // const locale = useLocale();
+    const tradText = (a)=> a;
+    const [windowOrigin, setWindowOrigin] = React.useState<string>("");
+    
+    React.useEffect(() => {
+        if(typeof window !== 'undefined')
+            setWindowOrigin(window.location.origin);
+    }, []);
 
     return (
         <Formik
@@ -29,7 +34,7 @@ const LoginForm = () => {
                     await signIn('credentials', {
                         email: values.email,
                         password: values.password,
-                        callbackUrl: `${window.location.origin}/calendar/year`,
+                        callbackUrl: `${windowOrigin}/calendar/year`,
                     });
                     setSubmitting(false);
                 }, 400);
@@ -61,12 +66,12 @@ const LoginForm = () => {
                     <div className="grid grid-cols-2 gap-2">
                         <Button
                             className="my-2 mx-1 flex items-center gap-2"
-                            onClick={() => signIn("google", { callbackUrl: `${window.location.origin}/calendar/year` })}>
+                            onClick={() => signIn("google", { callbackUrl: `${windowOrigin}/calendar/year` })}>
                             <FaGoogle color="white" size="25px"></FaGoogle>{tradText('Log In Google')}</Button>
                         <Button
                             color="blue-gray"
                             className="my-2 mx-1 flex items-center gap-2"
-                            onClick={() => signIn("github", { callbackUrl: `${window.location.origin}/calendar/year` })}>
+                            onClick={() => signIn("github", { callbackUrl: `${windowOrigin}/calendar/year` })}>
                             <FaGithub size="25px">
                             </FaGithub>{tradText('Log In Github')}</Button>
                     </div>
