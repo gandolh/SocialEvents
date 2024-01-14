@@ -20,13 +20,13 @@ exports.getAllNotifications = async (req, res) => {
 
 exports.createNotification = async (req, res) => {
     try {
-        const dept = new Notifications({
+        const notif = new Notifications({
                 msg : req.body.msg,
                 date : req.body.date,
                 email : req.body.email
         });
 
-        const existing = await Dept.findOne({
+        const existing = await Notifications.findOne({
             msg: req.body.msg,
             date: req.body.date,
             email: req.body.email
@@ -37,13 +37,14 @@ exports.createNotification = async (req, res) => {
                 status: 'ERR',
             });
         } else {
-            await dept.save();
+            await notif.save();
             res.status(200).json({
                 status: 'OK',
-                dept
+                notif
             });
         }
     } catch (err) {
+      console.log(err)
         res.status(500).json({
             status: 'ERR',
             message: err.message

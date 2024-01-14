@@ -34,7 +34,12 @@ const getAllEvents = async () => {
     }
 };
 
-const createEvent = (event) => {
+const createEvent = (event : Event) => {
+
+    for (let i = 0; i < event.attendees.length; i++) {
+        createNotification(event.attendees[i].email, `Ai fost invitat la evenimentul ${event.name} de catre ${event.host}`);
+    }    
+
     return axios
         .post(ApiPaths.event.create, event)
         .catch((err) => {
@@ -54,6 +59,15 @@ const getNotifications = async (email: string) : Promise<NotificationResponse> =
         return { notifications: res.data.notifications as Notification[] }
     } catch (err) {
         return { error: (err), notifications: [] }
+    }
+}
+
+const createNotification = async (email : string, msg : string) => {
+    try {
+        const currentDate = new Date();
+        await axios.post(ApiPaths.notification.addNotification, { email, msg, date: currentDate})
+    } catch (err) {
+        return { error: (err) }
     }
 }
 

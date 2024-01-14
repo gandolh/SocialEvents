@@ -3,7 +3,7 @@ import styles from '@/styles/Notifications.module.css'
 import { FaBell, FaChild } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
  import { getNotifications } from '@/components/utils/ApiCallers/ServerApiCallers';
-import { useState, useEffect} from 'react';
+import { useState, useEffect, useMemo} from 'react';
 import { Notification } from '@/types/Notification';
 import { getDateStringFromDate } from '@/components/utils/DateFormat';
 const Notifications = () => {
@@ -19,17 +19,14 @@ const Notifications = () => {
         
             getNotifications(session.user.email)
             .then(res =>{
-                console.log(res);
-                const newNotifs = res.notifications;
+                const newNotifs = res.notifications.map(el => ({...el, date: new Date(el.date)}));
                 setNotifs(newNotifs)
             } 
             );
         }
         fetchNotifications();
     }, [ session?.user?.email]);
-    const notificationsNumber = 0;
-    const notifications = useState([] as Notification[])[0];
-
+    const notificationsNumber = useMemo(() => notifs?.length ?? 0, [notifs]);
     
     return (
         <div className={styles.notification}>
@@ -43,7 +40,7 @@ const Notifications = () => {
                             <div className={styles.cent}>Nu aveti notificari!</div>
                         </div>
                         <div className={styles.cont}>
-                            {notifications?.map((notification : Notification) => (
+                            {notifs?.map((notification : Notification) => (
                             <div key={notification.msg + ' ' + notification.date.toISOString()} className={styles.sec + " " + styles.new}>
                                 <div className={styles.txt}>{notification.msg}</div>
                                 <div className={styles.txt + " " + styles.sub}>{getDateStringFromDate(notification?.date)}</div>
