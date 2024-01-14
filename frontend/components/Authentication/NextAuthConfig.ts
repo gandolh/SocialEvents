@@ -47,8 +47,7 @@ export  const nextAuthConfig : NextAuthOptions= {
           
           }
           catch(error){
-            console.log(error);
-            return null;
+            console.log("User not found." + error);
           }
         }
     })

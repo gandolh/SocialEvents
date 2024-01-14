@@ -21,6 +21,18 @@ const LoginForm = () => {
     }, []);
 
     return (
+        //TODO: check if user exists
+        // const credentialDetails = {
+        //     email: credentials?.email,
+        //     password: credentials?.password,
+        //   };
+        //   try{
+        //     const resp = await axios.post(backendURL + "/User", credentialDetails);
+        //     const {user, message } = await resp.data;
+        //     return user;
+        //     }catch(err){
+        //     }
+
         <Formik
             initialValues={{ email: '', password: '', name: '', }}
             validate={values => {
