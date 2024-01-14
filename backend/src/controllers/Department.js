@@ -94,10 +94,9 @@ exports.deleteDept = async (req, res) => {
         const dept = await Dept.findOne({
             name: req.body.name
         }).exec();
-
         if (dept) {
             await deptDelete.changeAllDeptsOnRemove(dept.name);
-            await dept.remove();
+            await dept.deleteOne();
             res.status(200).json({
                 status: 'OK',
                 dept
@@ -108,6 +107,7 @@ exports.deleteDept = async (req, res) => {
             });
         }
     } catch (err) {
+        console.log(err);
         res.status(500).json({
             status: 'ERR',
             message: err.message
