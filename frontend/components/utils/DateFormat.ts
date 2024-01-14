@@ -6,7 +6,6 @@ const getDateStringFromNumbers = (day : number, month : number, year : number) =
 }
 
 const getDateStringFromDate = (date: Date) => {
-    console.log(date);
     const dayString = date.getDate().toString().padStart(2, '0');
     const monthString = (date.getMonth() + 1).toString().padStart(2, '0');
     const yearString = date.getFullYear().toString().padStart(4, '0');
