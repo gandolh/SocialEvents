@@ -176,6 +176,15 @@ const deleteRating = async (ratingId, email) => {
     }
 }
 
+const getWeather = async (lat, lon) => {
+    try {
+        let res = await axios.get(ApiPaths.weather.getWeather + `?lat=${lat}&lon=${lon}`)
+        return { weather: res.data }
+    } catch (err) {
+        return { error: (err) }
+    }
+}
+
 
 
 export {
@@ -193,5 +202,6 @@ export {
     getRating,
     doRating,
     deleteRating,
-    createRating
+    createRating,
+    getWeather
 }

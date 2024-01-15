@@ -26,6 +26,9 @@ const ApiPaths = {
         'doRating': "/Rating/doRating/",
         'deleteRating': "/Rating/delete/",
         'createRating': "/Rating/create/"
+    },
+    'weather': {
+        'getWeather': '/Weather/'
     }
 }
 

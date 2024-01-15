@@ -12,7 +12,7 @@ import React from "react";
 import ModalMap from "./ModalMap";
 import Chip from "@/components/Shared/atoms/Chip";
 import StarRatingEvent from "../atoms/StarRatingEvent";
-
+import WeatherComponent from "@/components/Modals/atoms/WeatherComponent";
 
 type ModalEventProps = {
     open: boolean,
@@ -23,7 +23,6 @@ type ModalEventProps = {
 
 
 const ModalEvent = ({ open, handleOpen, event }: ModalEventProps) => {
-    console.log(event);
 
     const [openLocationModal, setOpenLocationModal] = React.useState(false);
     
@@ -44,6 +43,7 @@ const ModalEvent = ({ open, handleOpen, event }: ModalEventProps) => {
                 <div className="grid grid-cols-[150px_1fr] gap-2">
                     <div>date:</div>
                     <div>{getFullDateTimeString(event?.date ?? new Date())}</div>
+                    <WeatherComponent lat={event.location[1]} lon={event.location[2]} />
                     <div>host:</div>
                     <div className="flex w-full gap-2">
                         {event?.host}
