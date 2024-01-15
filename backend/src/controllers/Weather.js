@@ -1,58 +1,46 @@
-const baseUrl = 'https://api.openweathermap.org/data/3.0/onecall';
+const baseUrl = 'http://api.weatherstack.com/current';
 
-const cachedWeather = [
-    {location: 'Manila', weather: 'sunny'}
+let cachedWeather = [
 ];
 
 exports.getWeather = async (req, res) => {
-    req.body.lat = 39.791000;
-    req.body.lon = -86.148003;
-    req.body.date = new Date();
-    // console.log(process.env.WEATHER_API_KEY);
+
+    cachedWeather = cachedWeather.filter(weather => {
+        return weather.timestamp + 1000 * 60 * 60 * 24 > Date.now();
+    });
+    
+    const weather = cachedWeather.find(weather => weather.lat === req.query.lat && weather.lon === req.query.lon);
+    if(weather!== undefined && weather !== null) {
+        res.status(200).send(weather.resultData);
+        return;
+    }
+    // req.body.forecast_days = 0;
     const params = new URLSearchParams({
-        lat: req.body.lat,
-        lon: req.body.lon,
-        exclude: 'minutely,hourly', // Exclude unnecessary details
-        appid: process.env.WEATHER_API_KEY,
+        access_key: process.env.WEATHER_API_KEY,
+        query: `${req.query.lat},${req.query.lon}`,
+        // forecast_days: req.body.forecast_days
     });
 
     const url = `${baseUrl}?${params.toString()}`;
-    console.log(url);
     try {
         const response = await fetch(url);
-
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
         const data = await response.json();
-
-        // Find the forecast for the specific date in the daily array
-        const forecastForDate = data.daily.find((day) => {
-            const dayTimestamp = day.dt * 1000; // Convert seconds to milliseconds
-            return new Date(dayTimestamp).toDateString() === date.toDateString();
+        const resultData = {
+            description: data.current.weather_descriptions[0],
+            icon: data.current.weather_icons[0]
+        };
+        res.status(200).send(resultData);
+        cachedWeather.push({
+            lat: req.query.lat,
+            lon: req.query.lon,
+            timestamp: Date.now(),
+            resultData: resultData
         });
 
-        if (forecastForDate) {
-            // Extract weather information for the specific date
-            // Example: You can use forecastForDate.weather[0].main
-
-            // Handle the data based on your needs
-            res.status(200).json({
-                status: 'OK',
-                message:  forecastForDate
-              });
-        } else {
-            res.status(500).json({
-                status: 'ERR',
-                message:  'No forecast available for the specified date.'
-              });
-        }
-        
     } catch (error) {
-        res.status(500).json({
-            status: 'ERR',
-            message:  'Error fetching weather data:' + error.message
-          });
+        res.status(500).send('Error fetching weather data:', error.message);
     }
 };

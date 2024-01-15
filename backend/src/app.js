@@ -31,7 +31,7 @@ app.use('/API/1987', (req, res) => {
   res.send({ message: "Is that the bite of '87?!" });
 });
 
-app.use('/API/weather', (req, res) => {
+app.use('/API/Weather', (req, res) => {
   getWeather(req, res);
 });
 
