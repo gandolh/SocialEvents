@@ -64,8 +64,6 @@
 
 .star__count {
   color: #5e5e5e;
-  font-size: 1.2rem;
-  line-height: 1.25rem;
   display: flex;
   align-items: center;
 }

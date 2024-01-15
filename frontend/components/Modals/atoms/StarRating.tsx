@@ -1,6 +1,6 @@
 'use client'
 import { FaStar, FaRegCircleXmark } from "react-icons/fa6";
-import styles from "@/styles/StarRatingEvent.module.css";
+import styles from "@/styles/StarRating.module.css";
 import React from "react";
 import { Rating } from "@/types/Rating";
 import { useSession } from 'next-auth/react';
@@ -8,11 +8,12 @@ import { createRating, deleteRating, doRating, getRating } from "@/components/ut
 
 
 // Rating - eventid or user email
-type StarRatingEventProps = {
+type StarRatingProps = {
     eventId?: string,
     hostId?: string,
+    fontSize?: string
 }
-const StarRatingEvent = ({ eventId, hostId }: StarRatingEventProps) => {
+const StarRating = ({ eventId, hostId, fontSize }: StarRatingProps) => {
     const [starCount, setStarCount] = React.useState<number>(0);
     const [avgStarRating, setAvgStarRating] = React.useState<number>(0);
     const [Rating, setRating] = React.useState<Rating>();
@@ -62,7 +63,10 @@ const StarRatingEvent = ({ eventId, hostId }: StarRatingEventProps) => {
         <div className={styles.ratting__star__wrapper}>
             {Rating &&
                 <>
-                    <span className={styles.star__count}> Total: {avgStarRating}/5  </span>
+                    <span className={styles.star__count} 
+                    style={fontSize !== undefined ? {fontSize: fontSize, lineHeight: fontSize} : {}}>
+                         Total: {avgStarRating}/5  
+                    </span>
                     <FaRegCircleXmark className={styles.XMark} onClick={handleRemoveRating} />
                     <div className={styles.star__wrapper}>
                         <FaStar className={styles.star + ' ' + styles.s1 + ' ' + (5 - starCount < 1 ? styles.selected : '')}
@@ -88,4 +92,4 @@ const StarRatingEvent = ({ eventId, hostId }: StarRatingEventProps) => {
     );
 }
 
-export default StarRatingEvent;
+export default StarRating;
