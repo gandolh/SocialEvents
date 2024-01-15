@@ -23,8 +23,10 @@ type ModalEventProps = {
 
 
 const ModalEvent = ({ open, handleOpen, event }: ModalEventProps) => {
-    const [openLocationModal, setOpenLocationModal] = React.useState(false);
+    console.log(event);
 
+    const [openLocationModal, setOpenLocationModal] = React.useState(false);
+    
     const handleOpenLocationModal = () => {
         setOpenLocationModal((prev) => !prev);
     }

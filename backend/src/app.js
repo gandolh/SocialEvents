@@ -8,6 +8,7 @@ const eventRoutes = require('./routes/Event');
 const userRoutes = require('./routes/User');
 const notifRoutes = require('./routes/Notification');
 const ratingRouter = require('./routes/Rating');
+const { getWeather } = require('./controllers/Weather');
 
 const app = express();
 app.use(cors());
@@ -27,15 +28,20 @@ app.use('/API/Rating', ratingRouter);
 
 
 app.use('/API/1987', (req, res) => {
-  res.send({message: "Is that the bite of '87?!"});
+  res.send({ message: "Is that the bite of '87?!" });
+});
+
+app.use('/API/weather', (req, res) => {
+  getWeather(req, res);
 });
 
 app.use('/', (req, res) => {
-  res.status(200).json({status: 'Running!'});
+  res.status(200).json({ status: 'Running!' });
 });
+
 
 const port = 3001;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-});
+});  
 
