@@ -3,6 +3,7 @@ import axios from 'axios';
 import { SocialEventsUser } from '@/types/SocialEventsUser';
 import { Event } from '@/types/Event';
 import { Notification } from '@/types/Notification';
+import { Rating } from '@/types/Rating';
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -53,7 +54,6 @@ type NotificationResponse = {
 }
 
 const getNotifications = async (email: string) : Promise<NotificationResponse> => {
-
     try {
         let res = await axios.get(ApiPaths.notification.getAll + "?email=" + email)
         return { notifications: res.data.notifications as Notification[] }
@@ -131,6 +131,53 @@ const UpdateUsername = async (name, email) => {
     }
 };
 
+type result = {
+    ratings?: Rating,
+    error?: string
+}
+const getRating = async (ratingId) => {
+    try {
+        let res = await axios.get(ApiPaths.rating.getRatings + `?ratingId=${ratingId}`)
+        return { rating: res.data.rating }
+    } catch (err) {
+        return { error: (err) }
+    }
+}
+
+const doRating = async (ratingId, email, rating) => {
+    try {
+        await axios.post(ApiPaths.rating.doRating, { ratingId, email, rating })
+        return { error: null }
+    }
+    catch (err) {
+        console.log(err)
+        return { error: err }
+    }
+}
+
+const createRating = async (ratingId) => {
+    try {
+        await axios.post(ApiPaths.rating.createRating, { ratingId })
+        return { error: null }
+    }
+    catch (err) {
+        return { error: err }
+    }
+}
+
+
+const deleteRating = async (ratingId, email) => {
+    try {
+        await axios.delete(ApiPaths.rating.deleteRating, { data: { ratingId, email } })
+        return { error: null }
+    }
+    catch (err) {
+        return { error: err }
+    }
+}
+
+
+
 export {
     addDepartment,
     removeDepartment,
@@ -142,5 +189,9 @@ export {
     getAllUsers,
     getOneUser,
     HandleChangePassword,
-    UpdateUsername
+    UpdateUsername,
+    getRating,
+    doRating,
+    deleteRating,
+    createRating
 }

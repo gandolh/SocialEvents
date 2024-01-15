@@ -20,6 +20,12 @@ const ApiPaths = {
         'getAll': "/Notification/all/",
         'addNotification': "/Notification/create/",
         'deleteNotification': "/Notification/delete/"
+    },
+    'rating':{
+        'getRatings': "/Rating/",
+        'doRating': "/Rating/doRating/",
+        'deleteRating': "/Rating/delete/",
+        'createRating': "/Rating/create/"
     }
 }
 
