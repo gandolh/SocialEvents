@@ -81,6 +81,7 @@ const LoginForm = () => {
                             onClick={() => signIn("google", { callbackUrl: `${windowOrigin}/calendar/year` })}>
                             <FaGoogle color="white" size="25px"></FaGoogle>{tradText('Log In Google')}</Button>
                         <Button
+                            disabled
                             color="blue-gray"
                             className="my-2 mx-1 flex items-center gap-2"
                             onClick={() => signIn("github", { callbackUrl: `${windowOrigin}/calendar/year` })}>

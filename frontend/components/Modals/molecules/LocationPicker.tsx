@@ -34,16 +34,16 @@ const LocationPicker = ({ setLocation }) => {
     <>
       <div>
         <div className="mb-2 block">
-          <Autocomplete
+          {/* <Autocomplete
             onLoad={onLoad}
             onPlaceChanged={onPlacesChanged}
             bounds = {bounds}
-             >
+             > */}
             <Input
               variant="outlined"
               label={tradText('Choose Location')}
             />
-          </Autocomplete>
+          {/* </Autocomplete> */}
         </div>
       </div>
     </>
