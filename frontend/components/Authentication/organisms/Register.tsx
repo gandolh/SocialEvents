@@ -33,8 +33,7 @@ const Register = () => {
 
                         {tradText('Register')}
                     </Typography>
-                    <Typography color="gray" className="mt-1 font-normal">
-                        {tradText('Enter details')}
+                    <Typography color="gray" className="mt-1 font-normal" children="">
                     </Typography>
                     <Formik
                         initialValues={{ email: '', password: '', confirmPassword: '', name: '', agreeCheck: [] }}

@@ -95,7 +95,7 @@ const CalendarNavBar = () => {
                 color='teal'
                 onClick={handleOpen}
                 disabled={!session?.user}
-            >{tradText('AddEvent')}</Button>
+            >{tradText('Add event')}</Button>
         </div>
         {open && <DynamicModalCreateEvent open={open} handleOpen={handleOpen} user={session?.user} />}
     </div>

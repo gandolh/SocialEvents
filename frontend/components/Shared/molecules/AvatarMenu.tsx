@@ -64,10 +64,10 @@ const AvatarMenu = () => {
           </div>
           <ul className="py-2 text-sm text-gray-700 " aria-labelledby="avatarButton">
             <li>
-              <a href={`/calendar/all`} className="block px-4 py-2 hover:bg-gray-100 ">{tradText('MyEvents')}</a>
+              <a href={`/calendar/all`} className="block px-4 py-2 hover:bg-gray-100 ">{tradText('My events')}</a>
             </li>
             <li>
-              <a onClick={handleOpenMyProfile} className="block px-4 py-2 hover:bg-gray-100">{tradText('MyProfile')}</a>
+              <a onClick={handleOpenMyProfile} className="block px-4 py-2 hover:bg-gray-100">{tradText('My profile')}</a>
             </li>
             <li>
               <a onClick={handleOpenMap} className="block px-4 py-2 hover:bg-gray-100 ">{tradText('Maps')}</a>
@@ -83,7 +83,7 @@ const AvatarMenu = () => {
             <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               onClick={logout}
             >
-              {tradText('SignOut')}</a>
+              {tradText('Sign out')}</a>
           </div>
         </div>
       </div>

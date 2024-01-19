@@ -8,8 +8,8 @@ const LoginHeader = () => {
             <Typography variant="h4" color="blue-gray">
                 {tradText('Log In')}
             </Typography>
-            <Typography color="gray" className="mt-1 font-normal">
-                {tradText('Enter details')}
+            <Typography color="gray" className="mt-1 font-normal" children="">
+                
             </Typography>
         </>);
 }
