@@ -13,3 +13,4 @@ data/
 .vite/
 coverage/
 *.tsbuildinfo
+client/dist-types/
