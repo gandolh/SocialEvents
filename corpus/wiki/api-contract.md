@@ -1,7 +1,7 @@
 # API contract
 
 REST, base `/api`, JSON, Zod-validated (shared schemas). Auth via cookie. Standard
-status codes. Full table: [docs/SPEC.md](../../docs/SPEC.md) §5. Authorization rules:
+status codes. Full table: [sources/SPEC.md](../sources/SPEC.md) §5. Authorization rules:
 [auth.md](auth.md).
 
 ## Auth

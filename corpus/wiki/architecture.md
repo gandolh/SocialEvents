@@ -7,7 +7,8 @@ SocialEvents/
 ├─ shared/               # API contract: zod schemas + inferred TS types
 ├─ server/               # Fastify + better-sqlite3 + hand-written DAL
 ├─ client/               # React + Vite + Tailwind + TanStack Query/Router
-├─ corpus/  docs/
+├─ corpus/               # wiki + work tracker + sources/ + test-plans/
+├─ playwright/           # UI testing hub (screenshots gitignored)
 ```
 
 `shared/` is the **single source of truth for the API contract**. Both client and

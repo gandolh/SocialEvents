@@ -4,8 +4,8 @@ Internal company social-events planner. Departments, events with attendees,
 calendar/map/list views, ratings, notifications, weather, email invites.
 
 A ground-up rebuild. The project's knowledge & work tracking live in
-[`corpus/`](corpus/index.md); the product spec is [`docs/SPEC.md`](docs/SPEC.md);
-the visual design is in [`docs/stitch_design/`](docs/stitch_design/).
+[`corpus/`](corpus/index.md); the product spec is [`corpus/sources/SPEC.md`](corpus/sources/SPEC.md);
+the visual design is in [`corpus/sources/stitch_design/`](corpus/sources/stitch_design/).
 
 ## Stack
 - **client** — React 19 + Vite 8 + TypeScript + Tailwind v4 + TanStack Query/Router
@@ -41,5 +41,7 @@ implementations. Provide keys in `.env` to enable the real ones.
 ```
 shared/  server/  client/   # the app (npm workspaces)
 corpus/                      # LLM-maintained wiki + work tracker
-docs/                        # SPEC.md + Stitch design
+  sources/                   # source spec (SPEC.md) + Stitch design
+  test-plans/                # plain-text UI test plans
+playwright/                  # UI testing hub (run instructions; screenshots gitignored)
 ```

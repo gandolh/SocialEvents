@@ -24,6 +24,11 @@ The front door. What lives where.
 - [briefs/superseded/](briefs/superseded/) — replaced (immutable)
 - [todos/](todos/) — captured ideas (pre-spec)
 
-## External sources
-- [docs/SPEC.md](../docs/SPEC.md) — product/architecture spec (upstream)
-- [docs/stitch_design/](../docs/stitch_design/) — Stitch design output (HTML/PNG + DESIGN.md)
+## Test plans (what to test) + UI testing (how)
+- [test-plans/index.md](test-plans/index.md) — plain-text UI test plans (TP-01…06)
+- [test-plans/RESULTS.md](test-plans/RESULTS.md) — latest audit run
+- [../playwright/README.md](../playwright/README.md) — test server bring-up, fixtures, conventions
+
+## Sources (human-curated inputs the wiki synthesizes from)
+- [sources/SPEC.md](sources/SPEC.md) — product/architecture spec (upstream)
+- [sources/stitch_design/](sources/stitch_design/) — Stitch design output (HTML/PNG + DESIGN.md)

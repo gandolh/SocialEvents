@@ -4,7 +4,7 @@
 
 Bootstrapped `corpus/` (CLAUDE.md, index.md, log.md, wiki spine). Ingested the
 Stitch design (5 screens + DESIGN.md) into [wiki/design-system.md](wiki/design-system.md).
-Folded the product spec ([docs/SPEC.md](../docs/SPEC.md)) into wiki synthesis
+Folded the product spec ([sources/SPEC.md](sources/SPEC.md)) into wiki synthesis
 pages (overview, architecture, data-model, api-contract, auth, integrations).
 Locked tech choices + pinned package versions in [wiki/decisions.md](wiki/decisions.md).
 Rebuild has not started; old `frontend/` + `backend/` still present (to be wiped).
@@ -44,3 +44,13 @@ Final verification: tsc -b clean (3 workspaces), 27/27 tests pass, client builds
 (220 modules), live browser smoke confirmed on-design rendering with real seed data
 (login → calendar → directory → event detail). Single-origin static serving works.
 All 10 briefs done. v1 complete.
+
+## [2026-06-25] ingest | UI test plans + Playwright hub; docs moved into corpus
+
+Added corpus/test-plans/ (TP-01…06 plain-text plans + RESULTS.md) and a
+playwright/ hub (README with server bring-up + fixtures, start-test-server.sh;
+screenshots gitignored). Ran an MCP-driven UI audit on a seeded server: all
+functional flows PASS (auth, calendar, events incl. create round-trip, ratings,
+admin). Findings: F1 no responsive layout (medium), F2 host-rating value not shown
+(low) — filed as todos; F3 dark mode (known). Moved docs/ → corpus/sources/ and
+fixed all relative links (wiki, index, CLAUDE, README, TP-06).

@@ -1,6 +1,6 @@
 # Auth (self-made)
 
-No auth library for the core flow. Full detail: [docs/SPEC.md](../../docs/SPEC.md) §6.
+No auth library for the core flow. Full detail: [sources/SPEC.md](../sources/SPEC.md) §6.
 
 ## Authentication
 1. Register/login → bcrypt verify/hash (cost ≥ 10).

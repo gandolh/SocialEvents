@@ -13,15 +13,16 @@ correctness, and low ops overhead (single SQLite file).
 
 ## Lineage
 This is a **ground-up rebuild** of an older Next.js + Express + (two) MongoDB app.
-The old code is being wiped; only `corpus/` and `docs/` survive. See
-[docs/SPEC.md](../../docs/SPEC.md) §10 for the full old-vs-new diff.
+The old code was wiped; only `corpus/` survived. See
+[sources/SPEC.md](../sources/SPEC.md) §10 for the full old-vs-new diff.
 
 ## Cast (top-level)
 - `client/` — React + Vite SPA (the UI)
 - `server/` — Fastify API + SQLite + hand-written data access layer
 - `shared/` — Zod schemas + TS types shared as the API contract
-- `corpus/` — this wiki + work tracker
-- `docs/` — SPEC.md + Stitch design output
+- `corpus/` — this wiki + work tracker; `corpus/sources/` holds the source spec
+  + Stitch design; `corpus/test-plans/` holds UI test plans
+- `playwright/` — UI testing hub (run instructions, gitignored screenshots)
 
 See [architecture.md](architecture.md) for how it fits together,
 [decisions.md](decisions.md) for the locked stack.

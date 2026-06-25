@@ -1,6 +1,6 @@
 # Design system (Stitch output)
 
-Source: [docs/stitch_design/](../../docs/stitch_design/) — 5 screens (HTML + PNG)
+Source: [sources/stitch_design/](../sources/stitch_design/) — 5 screens (HTML + PNG)
 + `internal_connection_system/DESIGN.md` (tokens). System name: **"Internal
 Connection System"**, aesthetic **"Professional Play" / Corporate Modern**: a
 structured high-utility frame punctuated by energetic accents and soft geometry.

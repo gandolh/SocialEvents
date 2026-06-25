@@ -14,3 +14,12 @@ data/
 coverage/
 *.tsbuildinfo
 client/dist-types/
+
+# Playwright: keep the dir + docs/scripts, ignore captured screenshots & traces
+playwright/screenshots/
+playwright/.output/
+playwright/**/*.png
+playwright/**/*.jpeg
+playwright/**/*.webm
+playwright/**/*.zip
+.playwright-mcp/

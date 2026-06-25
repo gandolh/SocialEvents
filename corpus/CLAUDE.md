@@ -38,7 +38,7 @@ corpus/
 1. The **actual code** wins over any wiki claim.
 2. A brief in **`done/`** wins over `wiki/` if the wiki hasn't caught up.
 3. **`decisions.md`** wins over `status.md` for tech choices not formally revisited.
-4. **[docs/SPEC.md](../docs/SPEC.md)** is the upstream product spec; it wins on
+4. **[sources/SPEC.md](sources/SPEC.md)** is the upstream product spec; it wins on
    product/scope intent where the wiki is silent.
 
 Verify any path/function a page names (it may have drifted) before acting on it.

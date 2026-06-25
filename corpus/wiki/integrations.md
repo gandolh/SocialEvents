@@ -3,7 +3,7 @@
 Pattern: each integration is an **interface** with a **real** impl (used when its
 key/config is present) and a **mock** impl (otherwise), chosen at startup. **The
 app must run and demo with zero keys configured.** Startup logs which mode each is
-in. Detail: [docs/SPEC.md](../../docs/SPEC.md) §8.
+in. Detail: [sources/SPEC.md](../sources/SPEC.md) §8.
 
 | Integration | Env | Real | Mock |
 |---|---|---|---|

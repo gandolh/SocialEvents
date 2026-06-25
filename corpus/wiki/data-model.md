@@ -1,7 +1,7 @@
 # Data model
 
 Normalized SQLite with real FKs. IDs are app-generated UUID `TEXT`. Timestamps are
-ISO-8601 UTC `TEXT`. Booleans are `INTEGER 0/1`. Full rationale: [docs/SPEC.md](../../docs/SPEC.md) §4.
+ISO-8601 UTC `TEXT`. Booleans are `INTEGER 0/1`. Full rationale: [sources/SPEC.md](../sources/SPEC.md) §4.
 
 ## Tables
 - **users** — `id, name, email (unique, lowercased), password_hash, role
