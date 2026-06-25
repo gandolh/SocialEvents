@@ -66,3 +66,68 @@ Re-audited after briefs 11 (host rating), 12 (responsive), 13 (Aero theme).
 ## Verdict (run 2)
 F1 and F2 resolved; Aero theme applied cleanly with no functional regressions.
 One minor contrast nit (F4) noted for future polish.
+
+---
+
+## Run 3 — 2026-06-25 (screenshot-based UI audit, full current Aero set)
+
+Refreshed all stale (pre-Aero) screenshots, then audited the complete current set
+against the Aero design intent. Screenshots in `playwright/screenshots/`
+(gitignored): login, invalid-login, calendar-month, create-modal, host-rating
+(detail), admin, empty-day, aero-events, mobile-events, mobile-drawer.
+
+### Strengths
+- Aero identity is coherent across login, shell, modals, cards, admin, create form
+  (glass + glossy blue + glow + desktop gradient).
+- Login, invalid-login, create-modal, and event-detail are the strongest: opaque
+  glass + white input fields → crisp, legible text.
+- Responsive (mobile) and host-rating display confirmed good (carried from run 2).
+
+### Findings — all stem from one root cause: the transparent content area sits
+directly on the saturated mid-blue desktop gradient.
+
+- **F4a — Calendar grid blue-on-blue (medium).** Month grid cells are translucent
+  over the blue background; the calendar looks washed out and structure is hard to
+  read. `TP-02-calendar-month.png`. Most prominent issue.
+- **F4b — "Other"-category chips invisible (medium).** Neutral-tint chips (e.g.
+  "New Hire Welcome") render as dark text with no visible chip background on the
+  blue calendar; colored chips (purple/green) survive. `TP-02-calendar-month.png`.
+- **F4c — Headings/body low contrast (low–med).** Page headings ("Event
+  Directory", "Departments"), admin rows, and the empty-day message are dark text
+  on mid-blue — legible but under a comfortable contrast bar.
+  `TP-06-aero-events.png`, `TP-05-admin.png`, `TP-06-empty-day.png`.
+- **F5 — Event cards over-translucent (low).** Blue bleeds through directory cards,
+  muting text. `TP-06-aero-events.png`.
+
+### Recommended fix (single, contained)
+Give the **main content area a light glass backing** (or raise card/grid/cell
+opacity and give the "Other" chip a real light background). Putting content on a
+lighter surface rather than directly on the gradient resolves F4a–c and F5 at once.
+Filed as todo [2026-06-25-aero-content-contrast](../todos/2026-06-25-aero-content-contrast.md).
+
+## Verdict (run 3)
+Aero theme is coherent and functional; the dominant issue is contrast where
+content sits on the desktop gradient (calendar grid + neutral chips worst). One
+contained CSS fix (light content surface) addresses the whole cluster.
+
+---
+
+## Run 4 — 2026-06-25 (post contrast fix, brief 14)
+
+Re-audited calendar, events directory, and admin after the content-surface fix.
+
+| Finding | Result | Evidence |
+|---|---|---|
+| F4a calendar grid blue-on-blue | **RESOLVED** | Grid now on a white surface inside a light glass content panel; cells + numbers crisp. `TP-02-calendar-month.png`. |
+| F4b "Other" chip invisible | **RESOLVED** | Chips use solid light tints; "New Hire Welcome" shows a visible white pill. `TP-02-calendar-month.png`, `TP-06-aero-events.png`. |
+| F4c headings/body low contrast | **RESOLVED** | Content sits on `bg-white/55` glass panel; headings/rows high-contrast. `TP-06-aero-events.png`, `TP-05-admin.png`. |
+| F5 cards over-translucent | **RESOLVED** | Cards crisp on the lighter panel. `TP-06-aero-events.png`. |
+
+Change: `<main>` wrapped in a light glass panel; calendar grid given a white
+surface; `categoryChipClasses` switched to solid light tints. Aero glass aesthetic
+preserved (translucency + desktop gradient still frame the panel). tsc+build clean;
+27/27 tests green.
+
+## Verdict (run 4)
+All run-3 contrast findings resolved with one contained change; no functional or
+aesthetic regression. UI is clean and legible across all audited screens.

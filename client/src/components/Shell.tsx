@@ -173,7 +173,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto p-4 sm:p-6">{children}</main>
+        <main className="flex-1 overflow-auto p-4 sm:p-6">
+          <div className="mx-auto min-h-full max-w-[1400px] rounded-2xl bg-white/55 p-4 shadow-[0_8px_30px_rgba(13,45,80,0.12)] ring-1 ring-white/60 backdrop-blur-md sm:p-6">
+            {children}
+          </div>
+        </main>
       </div>
 
       {createOpen && (

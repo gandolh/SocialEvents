@@ -57,7 +57,7 @@ export function CalendarMonth() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <div className="overflow-hidden rounded-lg border border-outline-variant/60">
+        <div className="overflow-hidden rounded-lg border border-outline-variant/60 bg-white/85 shadow-sm">
           <div className="grid grid-cols-7 bg-surface-container-high text-xs font-semibold text-on-surface-variant">
             {WEEKDAYS.map((d) => (
               <div key={d} className="px-2 py-2 text-center">

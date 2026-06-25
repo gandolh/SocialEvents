@@ -66,3 +66,21 @@ unchanged. tsc+build clean, 27/27 tests green. Playwright re-audit (run 2 in
 test-plans/RESULTS.md) confirms F1+F2 resolved and Aero applied; screenshots in
 playwright/screenshots/ (gitignored). New minor nit F4 (content-area contrast).
 Closed both todos.
+
+## [2026-06-25] lint | UI audit over screenshots (run 3)
+
+Refreshed all stale (pre-Aero) screenshots and audited the full current Aero set.
+Aero theme coherent + functional. Findings cluster around one root cause — the
+transparent content area over the mid-blue desktop gradient: calendar grid
+blue-on-blue (F4a), neutral "Other" chips invisible (F4b), low-contrast headings
+(F4c), over-translucent cards (F5). Filed todo
+[2026-06-25-aero-content-contrast]. Recommended single fix: light content surface.
+See test-plans/RESULTS.md run 3. Screenshots gitignored.
+
+## [2026-06-25] done | Brief 14 — Aero content-area contrast fix
+
+Resolved the run-3 audit cluster (F4a/F4b/F4c/F5): wrapped main content in a light
+glass panel, gave the calendar grid a white surface, switched category chips to
+solid light tints (visible "Other" chip). Re-audit (RESULTS run 4) confirms all
+resolved; Aero aesthetic preserved. tsc+build clean, 27/27 tests green. Closed
+todo 2026-06-25-aero-content-contrast.
