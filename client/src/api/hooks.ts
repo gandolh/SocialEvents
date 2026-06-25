@@ -213,12 +213,23 @@ export function useSetEventRating() {
   });
 }
 
+export function useHostRating(hostId: string | null) {
+  return useQuery({
+    queryKey: ["host-rating", hostId],
+    enabled: !!hostId,
+    queryFn: () => api.get<RatingResponse>(`/users/${hostId}/rating`),
+  });
+}
+
 export function useSetHostRating() {
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: (vars: { hostId: string; rating: number }) =>
       api.put<RatingResponse>(`/users/${vars.hostId}/rating`, {
         rating: vars.rating,
       }),
+    onSuccess: (_d, vars) =>
+      qc.invalidateQueries({ queryKey: ["host-rating", vars.hostId] }),
   });
 }
 

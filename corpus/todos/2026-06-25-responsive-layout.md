@@ -1,7 +1,7 @@
 ---
 title: Responsive layout (sidebar collapse on mobile/tablet)
 created: 2026-06-25
-status: open
+status: promoted
 tags: [ui, responsive, audit]
 ---
 
@@ -20,3 +20,5 @@ desktop (>1024px) full layout.
 ## Acceptance
 At mobile/tablet widths the shell stays usable: sidebar collapses (drawer/bottom
 sheet or icon rail), top bar fits, no clipped controls.
+
+Promoted to [Brief 12](../briefs/todo/12-responsive-layout.md).

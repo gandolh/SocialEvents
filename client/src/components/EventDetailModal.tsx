@@ -4,6 +4,7 @@ import {
   useMe,
   useSetEventRating,
   useSetHostRating,
+  useHostRating,
   useWeather,
   useRsvp,
   useDeleteEvent,
@@ -28,6 +29,7 @@ export function EventDetailModal({
   const [showMap, setShowMap] = useState(false);
 
   const weather = useWeather(event?.location.lat ?? null, event?.location.lng ?? null);
+  const hostRating = useHostRating(event?.hostId ?? null);
 
   const canManage = !!event && (me?.id === event.hostId || me?.role === "admin");
   const myAttendance = event?.attendees.find((a) => a.userId === me?.id);
@@ -97,7 +99,8 @@ export function EventDetailModal({
             <dd className="flex items-center gap-2">
               {event.hostName}
               <StarRating
-                value={0}
+                value={hostRating.data?.aggregate.average ?? 0}
+                count={hostRating.data?.aggregate.count}
                 size={14}
                 onRate={(rating) =>
                   setHostRating.mutate({ hostId: event.hostId, rating })

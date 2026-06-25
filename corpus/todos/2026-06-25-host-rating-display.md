@@ -1,7 +1,7 @@
 ---
 title: Host rating control shows no current value
 created: 2026-06-25
-status: open
+status: promoted
 tags: [ui, ratings, audit]
 ---
 
@@ -21,3 +21,5 @@ aggregate + myRating, mirroring the event rating display.
 ## Acceptance
 Host star control shows the host's current average (and the caller's own rating),
 consistent with how event ratings are displayed.
+
+Promoted to [Brief 11](../briefs/todo/11-host-rating-display.md).

@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IoCalendarOutline,
   IoListOutline,
@@ -7,6 +7,8 @@ import {
   IoShieldCheckmarkOutline,
   IoAdd,
   IoNotificationsOutline,
+  IoMenu,
+  IoClose,
 } from "react-icons/io5";
 import { useMe } from "../api/hooks.js";
 import { Avatar, Button } from "./ui/index.js";
@@ -34,76 +36,124 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const [createOpen, setCreateOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
+
+  // Close the mobile drawer on navigation.
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [path]);
+
+  // Close the drawer on Escape.
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setDrawerOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [drawerOpen]);
+
+  const sidebarContent = (
+    <>
+      <div className="px-2">
+        <h1 className="text-xl font-bold text-primary">SocialEvents</h1>
+        <p className="text-xs text-on-surface-variant">Internal Coordination</p>
+      </div>
+
+      <div className="mt-6">
+        <Button className="w-full" onClick={() => setCreateOpen(true)}>
+          <IoAdd size={18} /> Create Event
+        </Button>
+      </div>
+
+      <nav className="mt-6 flex flex-col gap-1">
+        {nav.map((item) => {
+          if (item.adminOnly && me?.role !== "admin") return null;
+          const active = path.startsWith(item.to);
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                active
+                  ? "bg-primary/10 text-primary"
+                  : "text-on-surface-variant hover:bg-surface-container",
+              )}
+            >
+              <item.icon size={20} />
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+    </>
+  );
 
   return (
     <div className="flex h-screen overflow-hidden bg-background text-on-surface">
-      {/* Sidebar */}
-      <aside className="flex w-[280px] shrink-0 flex-col border-r border-outline-variant/60 bg-surface-container-low px-4 py-6">
-        <div className="px-2">
-          <h1 className="text-xl font-bold text-primary">SocialEvents</h1>
-          <p className="text-xs text-on-surface-variant">Internal Coordination</p>
-        </div>
-
-        <div className="mt-6">
-          <Button className="w-full" onClick={() => setCreateOpen(true)}>
-            <IoAdd size={18} /> Create Event
-          </Button>
-        </div>
-
-        <nav className="mt-6 flex flex-col gap-1">
-          {nav.map((item) => {
-            if (item.adminOnly && me?.role !== "admin") return null;
-            const active = path.startsWith(item.to);
-            return (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                  active
-                    ? "bg-primary/10 text-primary"
-                    : "text-on-surface-variant hover:bg-surface-container",
-                )}
-              >
-                <item.icon size={20} />
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-
+      {/* Sidebar — fixed on desktop (lg+) */}
+      <aside className="hidden w-[280px] shrink-0 flex-col border-r border-outline-variant/60 bg-surface-container-low px-4 py-6 lg:flex">
+        {sidebarContent}
         <div className="mt-auto" />
       </aside>
+
+      {/* Mobile drawer (below lg) */}
+      {drawerOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div
+            className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm"
+            onClick={() => setDrawerOpen(false)}
+          />
+          <aside className="absolute left-0 top-0 flex h-full w-[280px] max-w-[80vw] flex-col bg-surface-container-low px-4 py-6 shadow-xl">
+            <button
+              onClick={() => setDrawerOpen(false)}
+              aria-label="Close menu"
+              className="absolute right-3 top-3 rounded-full p-1 text-on-surface-variant hover:bg-surface-container"
+            >
+              <IoClose size={20} />
+            </button>
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
 
       {/* Main column */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-outline-variant/60 bg-surface px-6">
-          <nav className="flex items-center gap-1">
-            {views.map((v) => {
-              const active =
-                v.to === "/calendar"
-                  ? path === "/calendar"
-                  : path.startsWith(v.to);
-              return (
-                <Link
-                  key={v.label}
-                  to={v.to}
-                  className={cn(
-                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                    active
-                      ? "text-primary underline underline-offset-8 decoration-2"
-                      : "text-on-surface-variant hover:text-on-surface",
-                  )}
-                >
-                  {v.label}
-                </Link>
-              );
-            })}
-          </nav>
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-outline-variant/60 bg-surface px-3 sm:px-6">
+          <div className="flex min-w-0 items-center gap-1">
+            <button
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open menu"
+              className="rounded-lg p-2 text-on-surface-variant hover:bg-surface-container lg:hidden"
+            >
+              <IoMenu size={22} />
+            </button>
+            <nav className="flex min-w-0 items-center gap-1 overflow-x-auto">
+              {views.map((v) => {
+                const active =
+                  v.to === "/calendar"
+                    ? path === "/calendar"
+                    : path.startsWith(v.to);
+                return (
+                  <Link
+                    key={v.label}
+                    to={v.to}
+                    className={cn(
+                      "shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                      active
+                        ? "text-primary underline underline-offset-8 decoration-2"
+                        : "text-on-surface-variant hover:text-on-surface",
+                    )}
+                  >
+                    {v.label}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <div className="relative">
               <button
                 onClick={() => setNotifOpen((o) => !o)}
@@ -123,7 +173,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto p-6">{children}</main>
+        <main className="flex-1 overflow-auto p-4 sm:p-6">{children}</main>
       </div>
 
       {createOpen && (
