@@ -54,3 +54,15 @@ functional flows PASS (auth, calendar, events incl. create round-trip, ratings,
 admin). Findings: F1 no responsive layout (medium), F2 host-rating value not shown
 (low) — filed as todos; F3 dark mode (known). Moved docs/ → corpus/sources/ and
 fixed all relative links (wiki, index, CLAUDE, README, TP-06).
+
+## [2026-06-25] done | Briefs 11–13 — Audit fixes + Aero theme
+
+Worked the open todos. Brief 11: host rating now displays its aggregate
+(useHostRating hook). Brief 12: responsive shell — sidebar→glass drawer below lg,
+top bar fits on mobile, no clipped controls. Brief 13: full modern Windows-7 "Aero"
+theme (frosted glass + glossy blue gradients + glow) across shell, cards, modals,
+inputs, buttons, and login, over a desktop-style gradient background. Layout
+unchanged. tsc+build clean, 27/27 tests green. Playwright re-audit (run 2 in
+test-plans/RESULTS.md) confirms F1+F2 resolved and Aero applied; screenshots in
+playwright/screenshots/ (gitignored). New minor nit F4 (content-area contrast).
+Closed both todos.

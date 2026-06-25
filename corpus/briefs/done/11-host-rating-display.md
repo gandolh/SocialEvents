@@ -25,3 +25,9 @@ the host's current aggregate. The API already supports it
 ## Acceptance
 Host star control shows the host's current average + count, and updates after the
 caller rates. Typecheck + build clean.
+
+---
+## Outcome (2026-06-25)
+Shipped. Added `useHostRating(hostId)` query hook + invalidation on
+`useSetHostRating`. EventDetailModal host row now shows the host's aggregate
+average + count. Verified in browser: "Alex Engineer ★★★★★ 5.0 (1)".

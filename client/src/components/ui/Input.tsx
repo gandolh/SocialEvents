@@ -2,7 +2,9 @@ import type { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { cn } from "../../lib/utils.js";
 
 const base =
-  "w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-sm text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary";
+  "w-full rounded-lg border border-white/70 bg-white/70 px-3 py-2 text-sm text-on-surface " +
+  "shadow-[inset_0_1px_2px_rgba(13,45,80,0.12)] placeholder:text-on-surface-variant/60 " +
+  "focus:outline-none focus:border-primary focus:bg-white/90 focus-visible:aero-glow";
 
 interface FieldProps {
   label?: string;

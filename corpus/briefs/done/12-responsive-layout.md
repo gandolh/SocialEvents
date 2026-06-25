@@ -24,3 +24,10 @@ sheet; tablet → icon rail; desktop → full.
 At 375px / 600px / 1024px+ the shell is usable: no clipped controls; sidebar
 reachable via drawer on small screens; desktop unchanged. Typecheck + build clean;
 verified in a browser at multiple widths.
+
+---
+## Outcome (2026-06-25)
+Shipped. Shell sidebar hidden below lg; hamburger opens a glass overlay drawer
+(backdrop, closes on nav-click + Escape). Top bar fits at 390px with no clipped
+controls (view switcher scrolls; bell+avatar always visible). Desktop unchanged.
+Verified in browser at 390px (drawer + stacked cards).

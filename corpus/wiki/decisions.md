@@ -3,6 +3,11 @@
 Settled choices. Don't relitigate without an explicit revisit + a `log.md` note.
 
 ## Stack
+- **Visual theme:** Windows-7 **Aero** (modern interpretation) — frosted glass +
+  glossy blue + glow, over a desktop gradient. Implemented via Tailwind v4
+  `@theme` tokens + `@utility` glass/gloss/glow classes in
+  `client/src/styles/index.css`. Stitch layout/IA preserved; only the skin
+  changed. (Brief 13.)
 - **Monorepo**, npm workspaces: `client` / `server` / `shared`. `shared` = API contract.
 - **Frontend:** React + Vite + TypeScript + Tailwind + TanStack Query + TanStack Router.
 - **Backend:** Fastify (TypeScript).

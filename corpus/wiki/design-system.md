@@ -1,5 +1,17 @@
 # Design system (Stitch output)
 
+> **Applied theme (since 2026-06-25): Windows-7 "Aero" (modern interpretation).**
+> The **layout, structure, and screen inventory** below (from Stitch) still hold,
+> but the **visual skin** was reworked to Aero — frosted glass surfaces
+> (`backdrop-blur`), glossy blue gradient buttons, soft blue glow, over a
+> desktop-style gradient background. Aero tokens + `@utility` classes
+> (`aero-glass`, `aero-glass-strong`, `aero-gloss`, `aero-gloss-light`,
+> `aero-glow`) live in `client/src/styles/index.css`; token *names* (primary,
+> surface, etc.) are unchanged so component classes still resolve. Category accent
+> colors are preserved. See [decisions.md](decisions.md) and brief 13. The flat
+> Material-3 palette below is the original Stitch source, kept for reference.
+
+
 Source: [sources/stitch_design/](../sources/stitch_design/) — 5 screens (HTML + PNG)
 + `internal_connection_system/DESIGN.md` (tokens). System name: **"Internal
 Connection System"**, aesthetic **"Professional Play" / Corporate Modern**: a

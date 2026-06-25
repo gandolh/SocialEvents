@@ -76,8 +76,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                 active
-                  ? "bg-primary/10 text-primary"
-                  : "text-on-surface-variant hover:bg-surface-container",
+                  ? "aero-gloss-light text-primary border border-white/70"
+                  : "text-on-surface-variant hover:bg-white/40",
               )}
             >
               <item.icon size={20} />
@@ -92,7 +92,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen overflow-hidden bg-background text-on-surface">
       {/* Sidebar — fixed on desktop (lg+) */}
-      <aside className="hidden w-[280px] shrink-0 flex-col border-r border-outline-variant/60 bg-surface-container-low px-4 py-6 lg:flex">
+      <aside className="aero-glass hidden w-[280px] shrink-0 flex-col rounded-none border-y-0 border-l-0 px-4 py-6 lg:flex">
         {sidebarContent}
         <div className="mt-auto" />
       </aside>
@@ -104,7 +104,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm"
             onClick={() => setDrawerOpen(false)}
           />
-          <aside className="absolute left-0 top-0 flex h-full w-[280px] max-w-[80vw] flex-col bg-surface-container-low px-4 py-6 shadow-xl">
+          <aside className="aero-glass-strong absolute left-0 top-0 flex h-full w-[280px] max-w-[80vw] flex-col rounded-none px-4 py-6">
             <button
               onClick={() => setDrawerOpen(false)}
               aria-label="Close menu"
@@ -120,7 +120,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       {/* Main column */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-outline-variant/60 bg-surface px-3 sm:px-6">
+        <header className="aero-glass flex h-16 shrink-0 items-center justify-between gap-2 rounded-none border-x-0 border-t-0 px-3 sm:px-6">
           <div className="flex min-w-0 items-center gap-1">
             <button
               onClick={() => setDrawerOpen(true)}

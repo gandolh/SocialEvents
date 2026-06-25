@@ -37,9 +37,32 @@ rather than the host's current aggregate; rating still persists. Cosmetic/data
 display gap. → filed as [todo](../todos/2026-06-25-host-rating-display.md).
 
 ### F3 — Dark mode not implemented (low / known)
-Tokens + strategy exist in DESIGN.md but no dark theme is wired. Tracked in
-[status.md](../wiki/status.md) "possible next work".
+Tokens + strategy existed in the Stitch DESIGN.md but no dark theme was wired.
+Now superseded by the Aero theme direction (see run 2 below).
 
-## Verdict
+## Verdict (run 1)
 All functional flows pass end-to-end against the live API. UI matches the Stitch
 design on desktop. The notable gap is responsive behavior (F1).
+
+---
+
+## Run 2 — 2026-06-25 (post-fixes + Aero theme)
+
+Re-audited after briefs 11 (host rating), 12 (responsive), 13 (Aero theme).
+
+| Check | Result | Evidence |
+|---|---|---|
+| F1 responsive — resolved | **PASS** | At 390px: hamburger + glass drawer, top bar fits, no clipped avatar, cards stack. `TP-06-mobile-events.png`, `TP-06-mobile-drawer.png`. |
+| F2 host rating — resolved | **PASS** | Host row shows "Alex Engineer ★★★★★ 5.0 (1)". `TP-04-host-rating.png`. |
+| Aero theme (brief 13) | **PASS** | Glass + gloss + blue-glow across login, shell, cards, modals, buttons. `TP-06-aero-login.png`, `TP-06-aero-events.png`. |
+| Functional flows | **PASS** | Re-confirmed login → directory → detail; 27/27 unit tests still green. |
+
+### New finding
+- **F4 — content-area contrast (low).** With the Aero transparent main area, the
+  "Event Directory" heading and some card text sit on the medium-blue desktop
+  background; legible but contrast is modest. Consider a faint glass backing panel
+  behind page headers, or darkening text. Not filed as a blocking todo; noted here.
+
+## Verdict (run 2)
+F1 and F2 resolved; Aero theme applied cleanly with no functional regressions.
+One minor contrast nit (F4) noted for future polish.

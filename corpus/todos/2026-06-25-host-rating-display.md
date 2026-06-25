@@ -1,7 +1,7 @@
 ---
 title: Host rating control shows no current value
 created: 2026-06-25
-status: promoted
+status: done
 tags: [ui, ratings, audit]
 ---
 
@@ -23,3 +23,5 @@ Host star control shows the host's current average (and the caller's own rating)
 consistent with how event ratings are displayed.
 
 Promoted to [Brief 11](../briefs/todo/11-host-rating-display.md).
+
+Resolved 2026-06-25 — see [Brief 11](../briefs/done/11-host-rating-display.md).

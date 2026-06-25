@@ -31,14 +31,14 @@ export function Modal({ open, onClose, title, children, footer, size = "md" }: M
     >
       <div
         className={cn(
-          "flex max-h-[90vh] w-full flex-col rounded-2xl bg-surface-container-lowest shadow-2xl",
+          "aero-glass-strong flex max-h-[90vh] w-full flex-col rounded-2xl",
           sizes[size],
         )}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
       >
-        <div className="flex items-center justify-between border-b border-outline-variant/60 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-white/50 px-6 py-4">
           <h2 className="text-lg font-semibold text-on-surface">{title}</h2>
           <button
             onClick={onClose}
@@ -50,7 +50,7 @@ export function Modal({ open, onClose, title, children, footer, size = "md" }: M
         </div>
         <div className="flex-1 overflow-auto px-6 py-4">{children}</div>
         {footer && (
-          <div className="flex justify-end gap-2 border-t border-outline-variant/60 px-6 py-4">
+          <div className="flex justify-end gap-2 border-t border-white/50 px-6 py-4">
             {footer}
           </div>
         )}

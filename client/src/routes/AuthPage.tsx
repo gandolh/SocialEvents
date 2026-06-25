@@ -35,8 +35,8 @@ export function AuthPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-surface-dim/40 p-4">
-      <div className="w-full max-w-sm rounded-2xl border border-outline-variant/60 bg-surface-container-lowest p-8 shadow-lg">
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <div className="aero-glass-strong w-full max-w-sm rounded-2xl p-8">
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-bold text-primary">SocialEvents</h1>
           <p className="text-sm text-on-surface-variant">Internal Coordination</p>
