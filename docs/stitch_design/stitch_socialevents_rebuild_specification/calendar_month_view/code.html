@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SocialEvents - Calendar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container": "#e9edff",
+                      "inverse-primary": "#b2c5ff",
+                      "secondary-fixed": "#e8deff",
+                      "on-primary-fixed": "#001848",
+                      "surface-container-high": "#e1e8ff",
+                      "tertiary-container": "#b02300",
+                      "surface-bright": "#faf9ff",
+                      "on-secondary-container": "#e9dfff",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#ccdaff",
+                      "primary": "#003d9b",
+                      "background": "#faf9ff",
+                      "on-secondary": "#ffffff",
+                      "secondary-container": "#7034ff",
+                      "primary-fixed-dim": "#b2c5ff",
+                      "on-error-container": "#93000a",
+                      "outline-variant": "#c3c6d6",
+                      "secondary": "#5700e2",
+                      "surface-container-low": "#f1f3ff",
+                      "on-surface": "#051a3e",
+                      "surface-tint": "#0c56d0",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#cdbdff",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "inverse-on-surface": "#edf0ff",
+                      "on-tertiary-fixed": "#3d0600",
+                      "tertiary-fixed-dim": "#ffb4a3",
+                      "surface-variant": "#d8e2ff",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed": "#20005f",
+                      "surface": "#faf9ff",
+                      "outline": "#737685",
+                      "tertiary": "#851800",
+                      "surface-container-highest": "#d8e2ff",
+                      "on-primary-fixed-variant": "#0040a2",
+                      "on-surface-variant": "#434654",
+                      "on-primary-container": "#c4d2ff",
+                      "on-secondary-fixed-variant": "#5000d0",
+                      "tertiary-fixed": "#ffdad2",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-surface": "#1d3054",
+                      "primary-fixed": "#dae2ff",
+                      "on-background": "#051a3e",
+                      "on-tertiary-fixed-variant": "#8b1a00",
+                      "primary-container": "#0052cc",
+                      "on-tertiary-container": "#ffc6b9"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "lg": "24px",
+                      "sm": "8px",
+                      "md": "16px",
+                      "gutter": "20px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "margin": "24px"
+              },
+              "fontFamily": {
+                      "label-md": ["Geist"],
+                      "headline-lg-mobile": ["Geist"],
+                      "body-lg": ["Geist"],
+                      "body-md": ["Geist"],
+                      "label-sm": ["Geist"],
+                      "headline-lg": ["Geist"],
+                      "display": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "title-md": ["Geist"]
+              },
+              "fontSize": {
+                      "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                      "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                      "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                      "label-sm": ["10px", { "lineHeight": "12px", "fontWeight": "600" }],
+                      "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                      "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                      "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full w-[280px] bg-surface dark:bg-surface-dim bg-surface-container-low dark:bg-surface-container-lowest shadow-sm flex-col p-margin z-20">
+<div class="mb-lg">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">SocialEvents</h1>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Internal Coordination</p>
+</div>
+<button class="w-full bg-primary text-on-primary py-sm px-md rounded-full font-title-md text-title-md hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm mb-xl flex items-center justify-center gap-2 cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add</span>
+            Create Event
+        </button>
+<ul class="flex-grow space-y-sm font-body-md text-body-md">
+<li class="group">
+<a class="flex items-center gap-3 p-sm rounded-lg text-primary dark:text-inverse-primary font-bold border-r-4 border-primary dark:border-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+                    Calendar
+                </a>
+</li>
+<li class="group">
+<a class="flex items-center gap-3 p-sm rounded-lg text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">event_note</span>
+                    All Events
+                </a>
+</li>
+<li class="group">
+<a class="flex items-center gap-3 p-sm rounded-lg text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">map</span>
+                    Map
+                </a>
+</li>
+<li class="group">
+<a class="flex items-center gap-3 p-sm rounded-lg text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+                    Admin
+                </a>
+</li>
+</ul>
+<div class="mt-auto border-t border-outline-variant pt-md font-body-md text-body-md">
+<ul class="space-y-sm">
+<li>
+<a class="flex items-center gap-3 p-sm rounded-lg text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">filter_list</span>
+                        Filters
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 p-sm rounded-lg text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+                        Mini Calendar
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col md:ml-[280px] h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-lg py-md bg-surface dark:bg-surface-dim bg-surface-bright dark:bg-surface-container-high shadow-sm z-10">
+<div class="flex items-center gap-4">
+<div class="relative w-64 hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Search events..." type="text"/>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-lg font-title-md text-title-md">
+<a class="text-primary dark:text-inverse-primary border-b-2 border-primary dark:border-inverse-primary pb-1 hover:text-primary dark:hover:text-primary-fixed transition-all cursor-pointer active:opacity-80" href="#">Month</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed transition-all cursor-pointer active:opacity-80" href="#">Day</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed transition-all cursor-pointer active:opacity-80" href="#">List</a>
+<a class="text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed transition-all cursor-pointer active:opacity-80" href="#">Map</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="md:hidden bg-primary text-on-primary py-xs px-sm rounded-full font-label-md text-label-md">Create Event</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors relative cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<img alt="User Profile" class="w-8 h-8 rounded-full border-2 border-surface object-cover cursor-pointer active:opacity-80" data-alt="A modern, high-quality circular user profile picture featuring a professional headshot of a smiling individual against a clean, light-mode background. The lighting is soft and flattering, suitable for a corporate social events dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnr2di5sI1afJUBJZPAd7FWiWBPu2l43MH7aqqxZfOuZ9-I9Z8yO4rY7qGHo3Bo896ZvMYBCsovBHdirl7gYlRWxowbay9ORirTQhAuy-pYBISdyFD62Lr11skd9WkRxgtqHNeq5IO909isHl67RRnEpalftTlQopqxPetLXIq-l7_VbA4SyKEtsecNVAWycvFkq561eRR9O4ABpEzHk04zP-tCfxapzAIU5qRbQy80XobO7Va_22-hakzcUXdFJSH31l__TbWfQ"/>
+</div>
+</header>
+<!-- Canvas (Calendar Area) -->
+<main class="flex-1 overflow-y-auto bg-surface-container-lowest p-md md:p-margin flex flex-col">
+<!-- Calendar Header controls -->
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-headline-lg text-headline-lg text-on-background">October 2023</h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-2 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Calendar Grid -->
+<div class="flex-1 border border-outline-variant rounded-lg overflow-hidden flex flex-col bg-surface">
+<!-- Days of week -->
+<div class="grid grid-cols-7 border-b border-outline-variant bg-surface-container-low">
+<div class="py-sm text-center font-label-md text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Sun</div>
+<div class="py-sm text-center font-label-md text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Mon</div>
+<div class="py-sm text-center font-label-md text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Tue</div>
+<div class="py-sm text-center font-label-md text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Wed</div>
+<div class="py-sm text-center font-label-md text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Thu</div>
+<div class="py-sm text-center font-label-md text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Fri</div>
+<div class="py-sm text-center font-label-md text-label-md text-on-surface-variant font-bold uppercase tracking-wider">Sat</div>
+</div>
+<!-- Days grid -->
+<div class="flex-1 grid grid-cols-7 grid-rows-5 bg-outline-variant gap-[1px]">
+<!-- Week 1 -->
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-surface-variant/50 self-end">1</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-surface-variant/50 self-end">2</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-surface-variant/50 self-end">3</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">4</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">5</span>
+<div class="mt-1 px-2 py-[2px] bg-secondary-container/10 border border-secondary-container/20 text-secondary-container rounded-full font-label-sm text-label-sm truncate">Weekly Board Games</div>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">6</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">7</span>
+</div>
+<!-- Week 2 -->
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">8</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">9</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">10</span>
+<div class="mt-1 px-2 py-[2px] bg-[#006e1c]/10 border border-[#006e1c]/20 text-[#006e1c] rounded-full font-label-sm text-label-sm truncate">New Hire Welcome</div>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">11</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">12</span>
+<div class="mt-1 px-2 py-[2px] bg-secondary-container/10 border border-secondary-container/20 text-secondary-container rounded-full font-label-sm text-label-sm truncate">Weekly Board Games</div>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">13</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">14</span>
+</div>
+<!-- Week 3 -->
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">15</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col bg-surface-container-low/50">
+<span class="w-6 h-6 flex items-center justify-center bg-primary text-on-primary rounded-full font-body-md text-body-md self-end shadow-sm">16</span>
+<div class="mt-1 px-2 py-[2px] bg-[#006e1c]/10 border border-[#006e1c]/20 text-[#006e1c] rounded-full font-label-sm text-label-sm truncate">Q3 Team Offsite</div>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">17</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">18</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">19</span>
+<div class="mt-1 px-2 py-[2px] bg-secondary-container/10 border border-secondary-container/20 text-secondary-container rounded-full font-label-sm text-label-sm truncate">Weekly Board Games</div>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">20</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">21</span>
+</div>
+<!-- Week 4 -->
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">22</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">23</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">24</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">25</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">26</span>
+<div class="mt-1 px-2 py-[2px] bg-secondary-container/10 border border-secondary-container/20 text-secondary-container rounded-full font-label-sm text-label-sm truncate">Weekly Board Games</div>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">27</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">28</span>
+<div class="mt-1 px-2 py-[2px] bg-tertiary-container/10 border border-tertiary-container/20 text-tertiary-container rounded-full font-label-sm text-label-sm truncate">Halloween Mixer</div>
+</div>
+<!-- Week 5 -->
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">29</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">30</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-background self-end">31</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-surface-variant/50 self-end">1</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-surface-variant/50 self-end">2</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-surface-variant/50 self-end">3</span>
+</div>
+<div class="bg-surface p-xs min-h-[100px] hover:bg-surface-container-low transition-colors cursor-pointer group flex flex-col">
+<span class="font-body-md text-body-md text-on-surface-variant/50 self-end">4</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

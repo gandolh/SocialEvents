@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Event Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container": "#e9edff",
+                      "inverse-primary": "#b2c5ff",
+                      "secondary-fixed": "#e8deff",
+                      "on-primary-fixed": "#001848",
+                      "surface-container-high": "#e1e8ff",
+                      "tertiary-container": "#b02300",
+                      "surface-bright": "#faf9ff",
+                      "on-secondary-container": "#e9dfff",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#ccdaff",
+                      "primary": "#003d9b",
+                      "background": "#faf9ff",
+                      "on-secondary": "#ffffff",
+                      "secondary-container": "#7034ff",
+                      "primary-fixed-dim": "#b2c5ff",
+                      "on-error-container": "#93000a",
+                      "outline-variant": "#c3c6d6",
+                      "secondary": "#5700e2",
+                      "surface-container-low": "#f1f3ff",
+                      "on-surface": "#051a3e",
+                      "surface-tint": "#0c56d0",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#cdbdff",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "inverse-on-surface": "#edf0ff",
+                      "on-tertiary-fixed": "#3d0600",
+                      "tertiary-fixed-dim": "#ffb4a3",
+                      "surface-variant": "#d8e2ff",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed": "#20005f",
+                      "surface": "#faf9ff",
+                      "outline": "#737685",
+                      "tertiary": "#851800",
+                      "surface-container-highest": "#d8e2ff",
+                      "on-primary-fixed-variant": "#0040a2",
+                      "on-surface-variant": "#434654",
+                      "on-primary-container": "#c4d2ff",
+                      "on-secondary-fixed-variant": "#5000d0",
+                      "tertiary-fixed": "#ffdad2",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-surface": "#1d3054",
+                      "primary-fixed": "#dae2ff",
+                      "on-background": "#051a3e",
+                      "on-tertiary-fixed-variant": "#8b1a00",
+                      "primary-container": "#0052cc",
+                      "on-tertiary-container": "#ffc6b9"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "lg": "24px",
+                      "sm": "8px",
+                      "md": "16px",
+                      "gutter": "20px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "margin": "24px"
+              },
+              "fontFamily": {
+                      "label-md": ["Geist"],
+                      "headline-lg-mobile": ["Geist"],
+                      "body-lg": ["Geist"],
+                      "body-md": ["Geist"],
+                      "label-sm": ["Geist"],
+                      "headline-lg": ["Geist"],
+                      "display": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "title-md": ["Geist"]
+              },
+              "fontSize": {
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-sm": ["10px", {"lineHeight": "12px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen w-full flex items-center justify-center p-md">
+<!-- Backdrop Blur & Overlay -->
+<div class="fixed inset-0 bg-surface-variant/40 backdrop-blur-sm z-40 flex items-center justify-center p-md">
+<!-- Modal Container -->
+<div class="bg-surface-container-lowest w-full max-w-3xl rounded-xl shadow-lg border border-outline-variant/30 flex flex-col max-h-[921px] overflow-hidden z-50 relative">
+<!-- Close Button -->
+<button class="absolute top-md right-md w-8 h-8 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface-variant z-10">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<!-- Header Section with Image Background -->
+<div class="relative h-48 w-full shrink-0">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A modern, high-quality photograph of an elegant outdoor corporate retreat setting. Lush green lawns, soft sunlight filtering through tall trees, and minimalist white event tents in the background. The scene is bright, optimistic, and deeply professional with subtle vibrant accents. The lighting conveys a sunny, welcoming atmosphere." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC-cWWHA1SzrhTZTgLamHtR5QVcwQ0WOrEA139TEKGb_F0wdfvyjdrV_a-ng6s9_ioaYxoRpuptqYNdYjNVNuaERqt0OC27MFNu63EAbH4V1fPsumyD3OzTU9OeGSeymZNcL8qISiroaaAsgJMtDiJfNKd2BNh8F3zRkMVfIVBajQI6FiHi1x2_UrpEb4Hb9UVf3JvyHrY9EDNH8OxAXiRGO_43-KXla0QsFptUjLKLR3zn5CwypmoKxaPLsQMfoFA0GHlpnkwDEA')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/50 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-lg w-full">
+<div class="flex items-center gap-2 mb-xs">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-secondary-container/10 text-secondary border border-secondary-container/20 font-label-sm text-label-sm lowercase">
+                            strategy session
+                        </span>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span></div></div></div></div></div></div></body></html>

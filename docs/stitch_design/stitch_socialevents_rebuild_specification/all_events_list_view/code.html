@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>All Events - SocialEvents</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e9edff",
+                        "inverse-primary": "#b2c5ff",
+                        "secondary-fixed": "#e8deff",
+                        "on-primary-fixed": "#001848",
+                        "surface-container-high": "#e1e8ff",
+                        "tertiary-container": "#b02300",
+                        "surface-bright": "#faf9ff",
+                        "on-secondary-container": "#e9dfff",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#ccdaff",
+                        "primary": "#003d9b",
+                        "background": "#faf9ff",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#7034ff",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c3c6d6",
+                        "secondary": "#5700e2",
+                        "surface-container-low": "#f1f3ff",
+                        "on-surface": "#051a3e",
+                        "surface-tint": "#0c56d0",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#cdbdff",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#edf0ff",
+                        "on-tertiary-fixed": "#3d0600",
+                        "tertiary-fixed-dim": "#ffb4a3",
+                        "surface-variant": "#d8e2ff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#20005f",
+                        "surface": "#faf9ff",
+                        "outline": "#737685",
+                        "tertiary": "#851800",
+                        "surface-container-highest": "#d8e2ff",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "on-surface-variant": "#434654",
+                        "on-primary-container": "#c4d2ff",
+                        "on-secondary-fixed-variant": "#5000d0",
+                        "tertiary-fixed": "#ffdad2",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#1d3054",
+                        "primary-fixed": "#dae2ff",
+                        "on-background": "#051a3e",
+                        "on-tertiary-fixed-variant": "#8b1a00",
+                        "primary-container": "#0052cc",
+                        "on-tertiary-container": "#ffc6b9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "margin": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "display": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "title-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["10px", { "lineHeight": "12px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Custom Scrollbar for Event List */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #c3c6d6; /* outline-variant */
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-lg h-full flex overflow-hidden antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen p-margin fixed left-0 top-0 w-[280px] bg-surface bg-surface-container-low shadow-sm z-20 border-r border-surface-container-high">
+<!-- Header -->
+<div class="flex items-center gap-md mb-xl">
+<div class="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-surface">
+<img alt="User profile picture" class="w-full h-full object-cover" data-alt="A professional headshot of a young woman with dark hair smiling gently against a bright, well-lit modern corporate background, utilizing a light-mode aesthetic with soft natural lighting and a crisp, clean finish. The portrait conveys approachable professionalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxgfpVyS9SXAcc_ZlPpHbfwclPtEERVFXaxdZKAc81TDen_LUGbYDDuMqj4HqOGtK1jv7dxOQqxJQRRXDn7xGrIts-W_qZbDP_KgyvYGzE3k-30Av9Ic5bbA9xJ_-epwO_vafWaC9PKuwXc8RtUBf8LbObimLiCBlT8H-QF96Ju8EWwnqUQypJ9TgO86EcDyI_GkMEyyQUc5Un5h9CtUnzbtsy__NPYOpbyTDxTD3YQxAP3_2kiJ3_kwY-nk9QEQwslL6XFvUggw"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">SocialEvents</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Internal Coordination</p>
+</div>
+</div>
+<!-- Main Navigation Tabs -->
+<div class="flex flex-col gap-sm flex-grow">
+<!-- Calendar -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer active:scale-95 text-on-surface-variant font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span>Calendar</span>
+</a>
+<!-- All Events (ACTIVE) -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg cursor-pointer active:scale-95 bg-primary-container/10 text-primary font-bold border-r-4 border-primary font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined filled" data-icon="event_note">event_note</span>
+<span>All Events</span>
+</a>
+<!-- Map -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer active:scale-95 text-on-surface-variant font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span>Map</span>
+</a>
+<!-- Admin -->
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer active:scale-95 text-on-surface-variant font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span>Admin</span>
+</a>
+</div>
+<!-- Footer Actions/Tabs -->
+<div class="mt-auto flex flex-col gap-sm mb-lg border-t border-surface-container-high pt-md">
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer active:scale-95 text-on-surface-variant font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+<span>Filters</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer active:scale-95 text-on-surface-variant font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span>Mini Calendar</span>
+</a>
+</div>
+<!-- CTA -->
+<button class="w-full bg-primary text-on-primary font-title-md text-title-md py-sm px-md rounded-lg hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-sm shadow-sm active:scale-95">
+<span class="material-symbols-outlined">add</span>
+            Create Event
+        </button>
+</nav>
+<!-- Main Content Area Wrapper -->
+<div class="flex-grow flex flex-col md:ml-[280px] h-screen bg-background relative z-10">
+<!-- TopNavBar (Web Only) -->
+<header class="hidden md:flex justify-between items-center w-full px-lg py-md bg-surface shadow-sm z-20">
+<!-- Left Side: Brand (hidden since SideNav has it, but JSON implies it could be here, keeping structure minimal) & Search -->
+<div class="flex items-center gap-xl flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-outline" placeholder="Search events, hosts, or locations..." type="text"/>
+</div>
+</div>
+<!-- Middle: Navigation Links (Secondary Views within All Events context, optional based on JSON but implemented to match) -->
+<div class="flex items-center gap-sm mx-lg">
+<a class="px-md py-sm font-title-md text-title-md text-on-surface-variant hover:text-primary transition-all cursor-pointer active:opacity-80" href="#">Month</a>
+<a class="px-md py-sm font-title-md text-title-md text-on-surface-variant hover:text-primary transition-all cursor-pointer active:opacity-80" href="#">Day</a>
+<a class="px-md py-sm font-title-md text-title-md text-primary border-b-2 border-primary pb-1 cursor-pointer" href="#">List</a>
+<a class="px-md py-sm font-title-md text-title-md text-on-surface-variant hover:text-primary transition-all cursor-pointer active:opacity-80" href="#">Map</a>
+</div>
+<!-- Right Side: Actions -->
+<div class="flex items-center gap-md flex-1 justify-end">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-tertiary-container rounded-full"></span>
+</button>
+<button class="bg-primary text-on-primary font-title-md text-title-md py-2 px-4 rounded-lg hover:bg-on-primary-fixed-variant transition-colors shadow-sm active:scale-95">
+                    Create Event
+                </button>
+<div class="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-outline-variant cursor-pointer ml-sm">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A clean, minimalist circular profile picture placeholder showing a generic user silhouette icon on a soft light blue background, designed for a modern professional corporate web application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP7TcHiR_p0ZBXKBLrpgl_Kra30xd1OgFhyauL34BcMo3UeVb0EUoplRKutYGV2r5I-Enb0QJbsXGHcTvAKo9k_xSs0nhFG6fbG0qLRohFij_KqEa0y28Y6RSHvpDk02BNh1Uuvwb-Bd-Rz8yhhoTSQevQLL1ri-NGQh_56Yp4Xf-9Kx6DNglC6E_5j3LaJiU_6zIb2656RpuukvW4idNf8vMaT89gSRvs-fmEUXPOOG9NeJfoYT9JglYL8IKxI5Hn38jT5Ih-7w"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow p-4 md:p-lg overflow-y-auto custom-scrollbar flex flex-col gap-lg bg-background">
+<!-- Page Header & Controls -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Event Directory</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Browse, filter, and manage all company activities.</p>
+</div>
+<!-- Controls Container -->
+<div class="flex flex-wrap items-center gap-sm w-full md:w-auto">
+<!-- Toggle: Mine/Invited vs All -->
+<div class="flex bg-surface-container-low p-1 rounded-lg border border-outline-variant">
+<button class="px-4 py-1.5 rounded-md bg-surface shadow-sm font-label-md text-label-md text-primary font-medium transition-all">All Events</button>
+<button class="px-4 py-1.5 rounded-md text-on-surface-variant hover:text-primary font-label-md text-label-md transition-all">Mine / Invited</button>
+</div>
+<!-- Filter Dropdown Trigger -->
+<button class="flex items-center gap-xs px-4 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface hover:bg-surface-container-low transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+                        Filters
+                    </button>
+<!-- Sort Dropdown Trigger -->
+<button class="flex items-center gap-xs px-4 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface hover:bg-surface-container-low transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">sort</span>
+                        Sort: Date
+                    </button>
+</div>
+</div>
+<!-- Bento Grid / Cards Layout for Events -->
+<!-- We use a CSS Grid to create a responsive, modern card layout instead of a plain table -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-md">
+<!-- Event Card 1: Standard Corporate -->
+<article class="bg-surface rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow flex flex-col relative overflow-hidden group">
+<!-- Top Color Bar - Category Indicator -->
+<div class="h-1 w-full bg-primary absolute top-0 left-0"></div>
+<div class="p-md flex flex-col h-full">
+<div class="flex justify-between items-start mb-sm">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-primary/10 text-primary border border-primary/20">company all-hands</span>
+<button class="text-outline hover:text-secondary-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface mb-xs line-clamp-2 group-hover:text-primary transition-colors cursor-pointer">Q3 Global Town Hall &amp; Strategy Review</h3>
+<div class="flex items-center gap-xs text-on-surface-variant font-body-md text-body-md mb-xs">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>Oct 15, 2023 • 10:00 AM PST</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant font-body-md text-body-md mb-md">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>Main Auditorium + Virtual</span>
+</div>
+<div class="mt-auto flex items-center justify-between pt-md border-t border-surface-container-low">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-surface bg-surface-container flex items-center justify-center">
+<span class="font-label-sm text-primary">SC</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Sarah C.</span>
+</div>
+<button class="text-primary font-label-md text-label-md hover:bg-primary/5 px-3 py-1.5 rounded-md transition-colors">RSVP</button>
+</div>
+</div>
+</article>
+<!-- Event Card 2: Social/Playful -->
+<article class="bg-surface rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow flex flex-col relative overflow-hidden group">
+<!-- Top Color Bar - Category Indicator (Secondary/Purple for Social) -->
+<div class="h-1 w-full bg-secondary-container absolute top-0 left-0"></div>
+<div class="p-md flex flex-col h-full">
+<div class="flex justify-between items-start mb-sm">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-container/10 text-secondary-container border border-secondary-container/20">social &amp; wellness</span>
+<button class="text-outline hover:text-secondary-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface mb-xs line-clamp-2 group-hover:text-primary transition-colors cursor-pointer">Engineering Team Board Game Night</h3>
+<div class="flex items-center gap-xs text-on-surface-variant font-body-md text-body-md mb-xs">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>Oct 18, 2023 • 5:30 PM PST</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant font-body-md text-body-md mb-md">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>Breakout Room C (The Cave)</span>
+</div>
+<div class="mt-auto flex items-center justify-between pt-md border-t border-surface-container-low">
+<div class="flex items-center gap-sm">
+<!-- Avatar Stack -->
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-surface bg-surface-container-high z-30">
+<img class="w-full h-full object-cover" data-alt="A close-up profile photo of a young man with glasses smiling in a well-lit modern office setting, bright light-mode aesthetic, corporate casual." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQLiM5qRSjCChkLrAWEgPfQrce0S_t0paH2bFMtizjJ03ozf_TWJdIRTkrlneEy-4lh4VZijI6bl2rdT_lqz8-vu4x10znlRWeL4Fv5DmiYZ617jxfk8WKLCwfmufisjdvaif9S08xRCmx_qsL_uDmb7AsdJk_7zfoZnuFjF7rn8l6WrFC_1NFEXy-hU9EYCr2az-_xeEhkKq0pQb-xWtq-t_xEvBa3rxek1FmbbAnWegv9ivm936W-2wYXfAnFECE69schUaUOQ"/>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-surface bg-surface-container-high z-20">
+<img class="w-full h-full object-cover" data-alt="A portrait of a cheerful woman with curly hair against a soft pastel background, professional lighting, corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq_6ByzrIBhyD0a-p2R9van0IpecPS7KvgUQjkQuq0gbos70bNZOdjR0Q2S6fMEnmKA-rnPV-YHb21SpQF5dSeb4HFTdH6x_lbYqFemnFBTb0dm7wrYiEAyiV2m71Tc46T6wtE8qBiMMHCGhdSO8_P7erI1x3EWWxtmJfDV7Y2zvsENe5-F_x-6XmRL_wRz8Y2px3IdrurlfIcMz1UrKOhzAqiFsVe-wz6bRu1nJ9imq9yjkA2LvdPtURtDIk0smGUtZG6J3Idgw"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-surface-container flex items-center justify-center z-10">
+<span class="font-label-sm text-label-sm text-on-surface-variant">+4</span>
+</div>
+</div>
+<span class="font-label-md text-label-md text-on-surface ml-1">Hosted by Alex</span>
+</div>
+<!-- Social Accent Button -->
+<button class="bg-secondary-container text-on-secondary font-label-md text-label-md hover:opacity-90 px-3 py-1.5 rounded-md transition-opacity">Join Fun</button>
+</div>
+</div>
+</article>
+<!-- Event Card 3: Training/Learning -->
+<article class="bg-surface rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow flex flex-col relative overflow-hidden group">
+<div class="h-1 w-full bg-[#006A60] absolute top-0 left-0"></div> <!-- Custom subtle accent for training -->
+<div class="p-md flex flex-col h-full">
+<div class="flex justify-between items-start mb-sm">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm text-label-sm bg-[#006A60]/10 text-[#006A60] border border-[#006A60]/20">learning</span>
+<button class="text-secondary-container transition-colors"> <!-- Active bookmark -->
+<span class="material-symbols-outlined filled text-[20px]">bookmark</span>
+</button>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface mb-xs line-clamp-2 group-hover:text-primary transition-colors cursor-pointer">Advanced Figma Prototyping Workshop</h3>
+<div class="flex items-center gap-xs text-on-surface-variant font-body-md text-body-md mb-xs">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>Oct 20, 2023 • 1:00 PM PST</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant font-body-md text-body-md mb-md">
+<span class="material-symbols-outlined text-[16px]">videocam</span>
+<span>Google Meet Link</span>
+</div>
+<div class="mt-auto flex items-center justify-between pt-md border-t border-surface-container-low">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-surface bg-surface-container flex items-center justify-center">
+<span class="font-label-sm text-primary">DS</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Design Team</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-[#006A60]">check_circle</span> Attending
+                            </span>
+</div>
+</div>
+</article>
+</div>
+</main>
+</div>
+</body></html>

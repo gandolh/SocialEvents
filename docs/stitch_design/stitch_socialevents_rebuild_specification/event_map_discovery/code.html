@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SocialEvents - Map View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#e9edff",
+                        "inverse-primary": "#b2c5ff",
+                        "secondary-fixed": "#e8deff",
+                        "on-primary-fixed": "#001848",
+                        "surface-container-high": "#e1e8ff",
+                        "tertiary-container": "#b02300",
+                        "surface-bright": "#faf9ff",
+                        "on-secondary-container": "#e9dfff",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#ccdaff",
+                        "primary": "#003d9b",
+                        "background": "#faf9ff",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#7034ff",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c3c6d6",
+                        "secondary": "#5700e2",
+                        "surface-container-low": "#f1f3ff",
+                        "on-surface": "#051a3e",
+                        "surface-tint": "#0c56d0",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#cdbdff",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#edf0ff",
+                        "on-tertiary-fixed": "#3d0600",
+                        "tertiary-fixed-dim": "#ffb4a3",
+                        "surface-variant": "#d8e2ff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#20005f",
+                        "surface": "#faf9ff",
+                        "outline": "#737685",
+                        "tertiary": "#851800",
+                        "surface-container-highest": "#d8e2ff",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "on-surface-variant": "#434654",
+                        "on-primary-container": "#c4d2ff",
+                        "on-secondary-fixed-variant": "#5000d0",
+                        "tertiary-fixed": "#ffdad2",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#1d3054",
+                        "primary-fixed": "#dae2ff",
+                        "on-background": "#051a3e",
+                        "on-tertiary-fixed-variant": "#8b1a00",
+                        "primary-container": "#0052cc",
+                        "on-tertiary-container": "#ffc6b9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "gutter": "20px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "margin": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "display": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "title-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["10px", { "lineHeight": "12px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .map-marker {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .map-marker:hover {
+            transform: scale(1.2);
+        }
+        .peek-card {
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            pointer-events: none;
+        }
+        .peek-card.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background h-full font-sans flex overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen p-margin bg-surface dark:bg-surface-dim shadow-sm fixed left-0 top-0 w-[280px] z-50">
+<!-- Header -->
+<div class="flex items-center gap-md mb-xl">
+<img alt="User profile picture" class="w-[40px] h-[40px] rounded-full object-cover border-2 border-surface" data-alt="A clean, corporate yet friendly profile avatar of a smiling young professional in a brightly lit modern office setting. Light mode aesthetic with soft blues and crisp whites. High resolution, professional headshot style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXNnsTqnczp_QfGCy149Cgr14MBEn61fGI1f4K_opicANzbNkN14a7vIDHqynC60AUddUh31fZ_Cuo6_cwn9-7-BhVl1fXpeUGXD8W03eCdABAMPS4y16SZbo0J5-kO_CWOXKoE4Vs0Gg9J1NrbGPtOpyF8PnXT90P2nYBVN4-jg7hJkhQhF4fXcpOgtnSLMPq9gPQm34OovNMJ1JzR8styGcIri9IvWgi0Bkj35sSgLHdMnEnM4TKjvXYDEHOaWgDzQKamITPkw"/>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">SocialEvents</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Internal Coordination</p>
+</div>
+</div>
+<!-- CTA -->
+<button class="bg-primary text-on-primary font-body-md text-body-md py-sm px-md rounded-DEFAULT w-full mb-lg hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+            Create Event
+        </button>
+<!-- Navigation -->
+<nav class="flex-1 flex flex-col gap-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+                Calendar
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">event_note</span>
+                All Events
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-primary dark:text-inverse-primary font-bold border-r-4 border-primary dark:border-inverse-primary bg-surface-container-low dark:bg-surface-container-lowest transition-colors cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+                Map
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+                Admin
+            </a>
+</nav>
+<!-- Footer Nav -->
+<div class="mt-auto pt-lg border-t border-surface-container-highest flex flex-col gap-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">filter_list</span>
+                Filters
+            </a>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+                Mini Calendar
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col w-full h-screen md:ml-[280px] relative">
+<!-- TopNavBar -->
+<header class="docked full-width top-0 flex justify-between items-center w-full px-lg py-md bg-surface-bright dark:bg-surface-container-high shadow-sm z-40 relative">
+<div class="flex items-center gap-md">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary md:hidden">SocialEvents</h1>
+<!-- Search (on_left configuration simulated via positioning if needed, keeping simple here) -->
+<div class="hidden md:flex relative group">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="pl-xl pr-md py-xs rounded-lg border border-outline-variant bg-surface focus:ring-2 focus:ring-primary focus:border-transparent focus:outline-none font-body-md text-body-md w-64 transition-shadow" placeholder="Search events..." type="text"/>
+</div>
+</div>
+<!-- Navigation Links (Hidden on Mobile Nav Shell rules, but TopNavBar JSON suggests showing them for desktop) -->
+<nav class="hidden lg:flex items-center gap-lg">
+<a class="font-title-md text-title-md text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed transition-all cursor-pointer active:opacity-80" href="#">Month</a>
+<a class="font-title-md text-title-md text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed transition-all cursor-pointer active:opacity-80" href="#">Day</a>
+<a class="font-title-md text-title-md text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed transition-all cursor-pointer active:opacity-80" href="#">List</a>
+<a class="font-title-md text-title-md text-primary dark:text-inverse-primary border-b-2 border-primary dark:border-inverse-primary pb-1 cursor-pointer active:opacity-80" href="#">Map</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-80 p-xs rounded-full hover:bg-surface-container-low relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full border border-surface-bright"></span>
+</button>
+<button class="hidden md:block bg-primary text-on-primary font-title-md text-title-md py-xs px-md rounded-DEFAULT hover:bg-primary-container transition-colors shadow-sm cursor-pointer active:opacity-80">
+                    Create Event
+                </button>
+<img alt="User Profile" class="w-[32px] h-[32px] rounded-full object-cover border border-outline-variant md:hidden" data-alt="A clean, corporate yet friendly profile avatar of a smiling young professional in a brightly lit modern office setting. Light mode aesthetic with soft blues and crisp whites. High resolution, professional headshot style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5XPdwd9GK2VXF10jSXo1jlrrZLM4nxh1GWKnt1KXX9H8_ot_IrVKw-UxDbD_lo8ZcrmwtR6EzcfnZFIk7hevNjTnX7UVgM_k22JD5dX3TbrEay3rXhBmwoCr26VdPKCfmiJlnNOgNBFTfxa_Jlrh_zs4QRdky07PVYDDoUzb8KWm7q-t_MGzZrkRW_69BXWO0eu0Z_2VPxZCJlslVmDCM7UoyaZ-mU0rUKxNHG8NCpj5YS0IdeSHLb8EmaAEEuWhYo4eETGLLOg"/>
+</div>
+</header>
+<!-- Full Screen Map Canvas -->
+<div class="flex-1 relative w-full h-full bg-surface-container-lowest overflow-hidden" id="map-container">
+<!-- Simulated Map Background Image -->
+<div class="absolute inset-0 bg-cover bg-center w-full h-full opacity-60 mix-blend-multiply" data-alt="A highly detailed, stylized overhead map view of a modern tech campus or city center in light mode. The map uses a soft, clean palette of cool greys, subtle greens for parks, and pale blues for water features. The aesthetic is corporate modern, pristine, and high-tech but approachable. Bright, flat lighting with no harsh shadows." data-location="San Francisco Tech Campus" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDe-JDxItnlcvoIfe11If5jdwA599cLWWTwWGkU2KXAtNi9Z1DYQVNJPgMQr8yc0oBZv2o5l1KNyWRC6w3yiB5pZscP-8rhFe_q_Q_5uQSDcAdQaHI26xWhQWrLBaKKyKW4c0JV7qDn7gW3Q2HBob4L14pNiPWaRsNino1W43TAXDaKiB9SjNv4XUA_99-nJeRPxi0G9KYC0lXUwY2TZw_5ddvgzmMl0jOPejFYkB32YPfoKvTwjVzgm3-kc3Z_Sr7UnpG9T9mnqA')"></div>
+<!-- Map Controls -->
+<div class="absolute right-lg bottom-lg flex flex-col gap-sm z-30">
+<button aria-label="Recenter Map" class="w-10 h-10 bg-surface-bright shadow-md rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all active:scale-95">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<div class="flex flex-col bg-surface-bright shadow-md rounded-lg overflow-hidden border border-outline-variant">
+<button aria-label="Zoom In" class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all active:bg-surface-container border-b border-outline-variant">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button aria-label="Zoom Out" class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-all active:bg-surface-container">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+</div>
+<!-- Interactive Map Markers -->
+<!-- Marker 1: Main Hall -->
+<div class="absolute top-[30%] left-[40%] z-20">
+<button class="map-marker relative w-8 h-8 flex items-center justify-center cursor-pointer group" onclick="togglePeekCard('peek-card-1')">
+<div class="absolute inset-0 bg-primary opacity-20 rounded-full animate-ping"></div>
+<div class="relative z-10 w-6 h-6 bg-primary text-on-primary rounded-full shadow-md flex items-center justify-center border-2 border-surface-bright">
+<span class="material-symbols-outlined text-[14px]">groups</span>
+</div>
+</button>
+<!-- Peek Card 1 -->
+<div class="peek-card absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-surface-bright shadow-lg rounded-xl border border-surface-container-high p-md z-30 backdrop-blur-sm bg-opacity-95" id="peek-card-1">
+<div class="flex justify-between items-start mb-xs">
+<span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-2 py-0.5 rounded-full lowercase">all hands</span>
+<button class="text-outline hover:text-primary" onclick="closePeekCard(event, 'peek-card-1')"><span class="material-symbols-outlined text-[16px]">close</span></button>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold leading-tight">Q3 Company Townhall</h3>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md mt-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                        2:00 PM - 3:30 PM
+                    </div>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md mt-xs">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+                        Main Auditorium, Bldg A
+                    </div>
+<button class="w-full mt-md py-xs bg-surface-container-low text-primary font-label-md text-label-md rounded-DEFAULT hover:bg-surface-container transition-colors border border-outline-variant">View Details</button>
+</div>
+</div>
+<!-- Marker 2: Cafe -->
+<div class="absolute top-[60%] left-[65%] z-20">
+<button class="map-marker relative w-8 h-8 flex items-center justify-center cursor-pointer group" onclick="togglePeekCard('peek-card-2')">
+<div class="relative z-10 w-6 h-6 bg-secondary text-on-secondary rounded-full shadow-md flex items-center justify-center border-2 border-surface-bright">
+<span class="material-symbols-outlined text-[14px]">restaurant</span>
+</div>
+</button>
+<!-- Peek Card 2 -->
+<div class="peek-card absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-surface-bright shadow-lg rounded-xl border border-surface-container-high p-md z-30 backdrop-blur-sm bg-opacity-95" id="peek-card-2">
+<div class="flex justify-between items-start mb-xs">
+<span class="bg-surface-tint text-on-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full lowercase">social</span>
+<button class="text-outline hover:text-primary" onclick="closePeekCard(event, 'peek-card-2')"><span class="material-symbols-outlined text-[16px]">close</span></button>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold leading-tight">Design Team Lunch</h3>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md mt-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                        12:30 PM - 1:30 PM
+                    </div>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md mt-xs">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+                        Campus Cafe South
+                    </div>
+<div class="mt-sm flex -space-x-2 overflow-hidden">
+<img alt="" class="inline-block h-6 w-6 rounded-full ring-2 ring-surface-bright object-cover" data-alt="A small circular avatar portrait of a smiling person with dark hair, professional yet casual. Light mode lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZYkMm9WShfSeooNqvkGaOXKl6NxEUkkuIMz5Uoe95XbJPcKe7RaDWCN7N9MoBdJvYfgH9uzo7927VrP4a24q3G_sDNbjSRJ1lU_Yn1akyiivd6rDF8pYn4xR4mEYz1-twOM5PbOjAnvSgIwtAfQhi2CzYaVjZcme6utjumVI4W-YrA9bVKSHguaa1h7-SmImeb7O-UBSU1WyTeVsmUPV0lbigoywf12v_Q5cnmIRN3O80l0HvS2tHFsEYX1dGT-cElGKp7jwqAQ"/>
+<img alt="" class="inline-block h-6 w-6 rounded-full ring-2 ring-surface-bright object-cover" data-alt="A small circular avatar portrait of a person with glasses looking thoughtful. Light mode lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdagvW4dv8WLVHRxGoZnvYXTu7ixu4-9u5v_5kUg2A3wd_qzcxfYk7T-yRsP_eVHk_mSAETEzqXwiLiXWh6wWOhaLQPWlB-z_Wg9HhN_7THumOopoDGGJuJEq1nOCL1bBKcTVJgoY2qDBSkhLDvLDct3okfvND1FPcudDo0DvQsZit3QiohXRntsh0cg5FomPnh3q1FHEchxI-q-7ocSb0JAafICE3W-fEkOyLK3EQ-DAVKVIR7HmOzx_tKxfx3Fup-ysKci2pGA"/>
+<span class="inline-block h-6 w-6 rounded-full ring-2 ring-surface-bright bg-surface-container-highest flex items-center justify-center font-label-sm text-label-sm text-on-surface-variant">+4</span>
+</div>
+</div>
+</div>
+<!-- Marker 3: Workshop -->
+<div class="absolute top-[20%] left-[75%] z-20">
+<button class="map-marker relative w-8 h-8 flex items-center justify-center cursor-pointer group" onclick="togglePeekCard('peek-card-3')">
+<div class="relative z-10 w-6 h-6 bg-tertiary-container text-on-tertiary-container rounded-full shadow-md flex items-center justify-center border-2 border-surface-bright">
+<span class="material-symbols-outlined text-[14px]">code</span>
+</div>
+</button>
+<!-- Peek Card 3 -->
+<div class="peek-card absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-surface-bright shadow-lg rounded-xl border border-surface-container-high p-md z-30 backdrop-blur-sm bg-opacity-95" id="peek-card-3">
+<div class="flex justify-between items-start mb-xs">
+<span class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-2 py-0.5 rounded-full lowercase">workshop</span>
+<button class="text-outline hover:text-primary" onclick="closePeekCard(event, 'peek-card-3')"><span class="material-symbols-outlined text-[16px]">close</span></button>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface font-semibold leading-tight">Frontend Architecture Sync</h3>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md mt-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                        4:00 PM - 5:00 PM
+                    </div>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md mt-xs">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+                        Innovation Lab, Bldg C
+                    </div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        function closeAllPeekCards() {
+            document.querySelectorAll('.peek-card').forEach(card => {
+                card.classList.remove('show');
+            });
+        }
+
+        function togglePeekCard(cardId) {
+            const card = document.getElementById(cardId);
+            const isShowing = card.classList.contains('show');
+            
+            closeAllPeekCards();
+            
+            if (!isShowing) {
+                card.classList.add('show');
+            }
+        }
+
+        function closePeekCard(event, cardId) {
+            event.stopPropagation(); // Prevent map marker click from firing
+            document.getElementById(cardId).classList.remove('show');
+        }
+
+        // Close cards when clicking outside on the map
+        document.getElementById('map-container').addEventListener('click', function(e) {
+            if (e.target === this || e.target.tagName.toLowerCase() === 'div' && e.target.hasAttribute('data-location')) {
+                closeAllPeekCards();
+            }
+        });
+    </script>
+</body></html>
