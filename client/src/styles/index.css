@@ -1,0 +1,87 @@
+@import "tailwindcss";
+@import "@fontsource/geist-sans/400.css";
+@import "@fontsource/geist-sans/500.css";
+@import "@fontsource/geist-sans/600.css";
+@import "@fontsource/geist-sans/700.css";
+
+/* SocialEvents design system — "Internal Connection System" (Stitch).
+   Tokens mirror corpus/wiki/design-system.md. Tailwind v4 CSS-first config. */
+@theme {
+  /* Fonts (Geist via the `geist` package, loaded in main entry) */
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+
+  /* Surfaces / background */
+  --color-surface: #faf9ff;
+  --color-surface-dim: #ccdaff;
+  --color-surface-bright: #faf9ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f1f3ff;
+  --color-surface-container: #e9edff;
+  --color-surface-container-high: #e1e8ff;
+  --color-surface-container-highest: #d8e2ff;
+  --color-surface-variant: #d8e2ff;
+  --color-background: #faf9ff;
+
+  /* On-colors / text */
+  --color-on-surface: #051a3e;
+  --color-on-surface-variant: #434654;
+  --color-on-background: #051a3e;
+  --color-inverse-surface: #1d3054;
+  --color-inverse-on-surface: #edf0ff;
+
+  /* Outlines */
+  --color-outline: #737685;
+  --color-outline-variant: #c3c6d6;
+
+  /* Primary (Trust Blue) */
+  --color-primary: #003d9b;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #0052cc;
+  --color-on-primary-container: #c4d2ff;
+  --color-inverse-primary: #b2c5ff;
+  --color-surface-tint: #0c56d0;
+
+  /* Secondary (purple) */
+  --color-secondary: #5700e2;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #7034ff;
+  --color-on-secondary-container: #e9dfff;
+
+  /* Tertiary (orange-red) */
+  --color-tertiary: #851800;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #b02300;
+  --color-on-tertiary-container: #ffc6b9;
+
+  /* Error */
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* Category accents (data-model categories) */
+  --color-cat-game-night: #5700e2;
+  --color-cat-holiday: #b02300;
+  --color-cat-team-building: #006d3b;
+  --color-cat-other: #737685;
+
+  /* Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  -webkit-font-smoothing: antialiased;
+}
