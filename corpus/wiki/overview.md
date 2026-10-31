@@ -1,3 +1,8 @@
+---
+summary: What SocialEvents is, who uses it, where it came from and the top-level layout
+updated: 2026-06-25
+---
+
 # Overview
 
 **SocialEvents** is an internal company tool for planning and managing social

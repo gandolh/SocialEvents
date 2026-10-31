@@ -1,3 +1,8 @@
+---
+summary: The design questions that are still open, such as event cover images
+updated: 2026-06-25
+---
+
 # Open questions
 
 Only genuinely unresolved items. Delete each the moment it's answered.

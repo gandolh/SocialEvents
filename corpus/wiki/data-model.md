@@ -1,3 +1,8 @@
+---
+summary: The SQLite schema: departments, users, events, attendees, ratings and notifications, and how they relate
+updated: 2026-06-25
+---
+
 # Data model
 
 Normalized SQLite with real FKs. IDs are app-generated UUID `TEXT`. Timestamps are

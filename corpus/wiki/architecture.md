@@ -1,3 +1,8 @@
+---
+summary: How the client, server and shared contract fit together, and how a request flows through them
+updated: 2026-06-25
+---
+
 # Architecture
 
 ## Monorepo (npm workspaces)

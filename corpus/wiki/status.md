@@ -1,4 +1,9 @@
-# Status — 2026-06-25
+---
+summary: A dated snapshot of where the project stands, what was checked, and what could come next
+updated: 2026-11-01
+---
+
+# Status — 2026-11-01
 
 ## Where things stand
 **v1 complete and verified end-to-end.** The full rebuild — shared contract,
@@ -8,7 +13,8 @@ design — is built, typechecks clean, passes its test suite, and was smoke-test
 live in a browser against the running server.
 
 Since v1: audit findings F1/F2 fixed and a **Windows-7 "Aero" theme** (modern
-interpretation — frosted glass + glossy blue + glow) applied across the UI.
+interpretation — frosted glass + glossy blue + glow) applied across the UI, then its
+content-area contrast fixed (brief 14).
 
 ## Briefs (all done)
 | # | brief | state |
@@ -26,6 +32,7 @@ interpretation — frosted glass + glossy blue + glow) applied across the UI.
 | 11 | host rating display (audit F2) | done |
 | 12 | responsive layout (audit F1) | done |
 | 13 | Windows-7 Aero theme | done |
+| 14 | Aero content-area contrast (audit F4/F5) | done |
 
 ## Verification (2026-06-25)
 - `npm install` clean, **0 vulnerabilities**.
@@ -37,14 +44,24 @@ interpretation — frosted glass + glossy blue + glow) applied across the UI.
   (purple star rating 4.5, mock weather, attendees, admin delete). 401 enforced;
   built client served single-origin (SPA fallback 200).
 
+## Re-check (2026-11-01)
+Run from a fresh clone with Node 24 on Linux, during a README refresh.
+- `npm install`, `build:shared`, `migrate`, `seed`, both dev servers; signed in
+  and walked the calendar, the directory, an event dialog and the map fallback.
+- `tsc -b` clean, **27/27 Vitest tests** pass, `npm run build` clean.
+- **Fixed:** the one-port production run, `npm run start --workspace server`, died
+  on start because `tsc` does not copy `src/db/migrations/*.sql` into `dist/`. The
+  server build now copies them; `/`, `/events` and `/api` answer as expected.
+- **Not working:** `npm run lint` — there is no ESLint config or dependency. See
+  [todos/2026-11-01-eslint-config.md](../todos/2026-11-01-eslint-config.md).
+
 ## How to run
 See [README.md](../../README.md). `npm install` → `build:shared` → `migrate` →
 `seed` → `dev:server` + `dev:client`. Runs with zero API keys (mocks active).
-Seed logins: admin@/alex@/dana@/max@/sam@socialevents.local (password123).
+The seed prints its sign-in addresses and their shared local password.
 
 ## Possible next work (not started)
-- Content-area contrast polish under Aero (audit finding F4 — see
-  [test-plans/RESULTS.md](../test-plans/RESULTS.md) run 2).
+- An ESLint flat config, so `npm run lint` runs.
 - Aero dark mode (the original Stitch dark-mode plan is superseded by Aero).
 - Live Google Maps interactive markers (currently iframe embed + fallback).
 - Automated E2E tests (Playwright) for the key flows.

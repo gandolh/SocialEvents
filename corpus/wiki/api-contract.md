@@ -1,3 +1,8 @@
+---
+summary: The REST endpoints under /api, who may call each one, and what they return
+updated: 2026-06-25
+---
+
 # API contract
 
 REST, base `/api`, JSON, Zod-validated (shared schemas). Auth via cookie. Standard

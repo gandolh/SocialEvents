@@ -84,3 +84,7 @@ glass panel, gave the calendar grid a white surface, switched category chips to
 solid light tints (visible "Other" chip). Re-audit (RESULTS run 4) confirms all
 resolved; Aero aesthetic preserved. tsc+build clean, 27/27 tests green. Closed
 todo 2026-06-25-aero-content-contrast.
+
+## [2026-11-01] maintenance | README rewritten, docs/ added, production start fixed, corpus brought to corpus-flow
+
+The README follows the readme-docs standard now: a calendar hero, three more screenshots, an honest status line, a diagram and checked run commands, with the long setup moved to `docs/getting-started.md` and the image recipes to `docs/images/shots.md`. The images come from a local run on the seed plus seven made-up November events. The one-port production run, `npm run start --workspace server`, died on start because `tsc` does not copy the SQL migrations into `dist/`; the server build now copies them. Corpus: every wiki page got `summary:` and `updated:` frontmatter, the index lists the wiki from a generated catalog, and `routing.md`, `lint.sh`, `briefs/todo/` and `briefs/superseded/` were added. `status.md` lists brief 14 and today's re-check, and no longer prints the seed password. New todo: `todos/2026-11-01-eslint-config.md`.

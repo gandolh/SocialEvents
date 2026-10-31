@@ -1,3 +1,8 @@
+---
+summary: The self-made sign-in: bcrypt passwords, a JWT in a cookie, and the user, owner and admin checks
+updated: 2026-06-25
+---
+
 # Auth (self-made)
 
 No auth library for the core flow. Full detail: [sources/SPEC.md](../sources/SPEC.md) §6.

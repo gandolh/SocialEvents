@@ -1,3 +1,8 @@
+---
+summary: The design tokens and screens from the Stitch design, and the Aero theme laid over them
+updated: 2026-06-25
+---
+
 # Design system (Stitch output)
 
 > **Applied theme (since 2026-06-25): Windows-7 "Aero" (modern interpretation).**

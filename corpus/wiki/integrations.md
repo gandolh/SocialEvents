@@ -1,3 +1,8 @@
+---
+summary: Weather, maps and email: the real service each one uses with a key, and its stand-in without one
+updated: 2026-06-25
+---
+
 # Integrations (optional keys, mock fallback)
 
 Pattern: each integration is an **interface** with a **real** impl (used when its

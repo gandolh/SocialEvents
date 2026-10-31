@@ -1,3 +1,8 @@
+---
+summary: The locked tech and design choices, including the pinned versions, with the reason for each
+updated: 2026-06-25
+---
+
 # Decisions (locked)
 
 Settled choices. Don't relitigate without an explicit revisit + a `log.md` note.

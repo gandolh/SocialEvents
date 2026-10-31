@@ -34,6 +34,6 @@ the calendar grid + cards) a light glass surface, and the "Other" chip a real
 light background. No regression to the glass aesthetic; verify via a re-audit
 screenshot of the calendar + events pages.
 
-Promoted to [Brief 14](../briefs/todo/14-aero-content-contrast.md).
+Promoted to [Brief 14](../briefs/done/14-aero-content-contrast.md).
 
 Resolved 2026-06-25 — see [Brief 14](../briefs/done/14-aero-content-contrast.md).
