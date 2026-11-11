@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMe, useUpdateProfile, useChangePassword } from "../api/hooks.js";
-import { Modal, Input, Button } from "./ui/index.js";
+import { Dialog, Input, Button } from "./ui/index.js";
 
 export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { data: me } = useMe();
@@ -39,7 +39,7 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Profile & settings">
+    <Dialog open={open} onClose={onClose} title="Profile & settings" dismissOnBackdrop={false}>
       <div className="space-y-6">
         <section className="space-y-3">
           <h3 className="text-sm font-semibold text-on-surface">Profile</h3>
@@ -76,6 +76,6 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
         {msg && <p className="text-sm text-success">{msg}</p>}
         {err && <p className="text-sm text-error">{err}</p>}
       </div>
-    </Modal>
+    </Dialog>
   );
 }

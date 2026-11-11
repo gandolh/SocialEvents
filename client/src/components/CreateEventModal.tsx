@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { EVENT_CATEGORY_NAMES } from "@socialevents/shared";
 import { useCreateEvent, useDepartments, useUsers, useMe } from "../api/hooks.js";
-import { Modal, Input, Textarea, Select, Button } from "./ui/index.js";
+import { Dialog, Input, Textarea, Select, Button } from "./ui/index.js";
 import { cn } from "../lib/cn.js";
 
 export function CreateEventModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -56,11 +56,12 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
   };
 
   return (
-    <Modal
+    <Dialog
       open={open}
       onClose={onClose}
       title="Create event"
       size="lg"
+      dismissOnBackdrop={false}
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>
@@ -73,7 +74,7 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
       }
     >
       <div className="space-y-4">
-        <Input label="Event name" value={name} onChange={(e) => setName(e.target.value)} />
+        <Input data-autofocus label="Event name" value={name} onChange={(e) => setName(e.target.value)} />
         <div className="grid grid-cols-2 gap-4">
           <Input
             label="Date & time"
@@ -148,6 +149,6 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
 
         {err && <p className="text-sm text-error">{err}</p>}
       </div>
-    </Modal>
+    </Dialog>
   );
 }

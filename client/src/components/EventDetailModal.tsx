@@ -9,7 +9,7 @@ import {
   useRsvp,
   useDeleteEvent,
 } from "../api/hooks.js";
-import { Modal, Button, CategoryChip, StarRating, Spinner } from "./ui/index.js";
+import { Dialog, Button, CategoryChip, StarRating, Spinner } from "./ui/index.js";
 import { MapView } from "./MapView.js";
 import { formatDateTime } from "../lib/utils.js";
 
@@ -29,7 +29,7 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
   const myAttendance = event?.attendees.find((a) => a.userId === me?.id);
 
   return (
-    <Modal
+    <Dialog
       open
       onClose={onClose}
       title={event?.name ?? "Event"}
@@ -62,7 +62,7 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
       {isLoading || !event ? (
         <Spinner />
       ) : (
-        <div className="space-y-4">
+        <div tabIndex={-1} data-autofocus className="space-y-4 outline-none">
           <div className="flex items-center justify-between">
             <CategoryChip category={event.category} />
             <StarRating
@@ -145,6 +145,6 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
           </div>
         </div>
       )}
-    </Modal>
+    </Dialog>
   );
 }
