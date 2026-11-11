@@ -13,17 +13,12 @@ export default [
     // Allowed to print: the server entry and the migrate and seed CLIs talk to the person running
     // them, and the config module runs before any logger exists.
     console: ["server/src/index.ts", "server/src/db/migrate.ts", "server/src/seed/seed.ts", "server/src/config/env.ts"],
+    // The one reader of the environment.
+    env: ["server/src/config/env.ts"],
     tailwind: { css: "client/src/styles/index.css", order: true },
     // data/ is the local database.
     ignores: ["data/**", "client/dist-types/**"],
   }),
-  {
-    // The one reader of the environment is server/src/config/env.ts; the house names a file called
-    // config.ts. When that module is renamed to config.ts, this block goes.
-    name: "socialevents/env-module",
-    files: ["server/src/config/env.ts"],
-    rules: { "n/no-process-env": "off" },
-  },
   {
     // A warning for now (2026-11-11): the mailer still prints through console. When it takes the
     // Fastify logger, this block goes and the rule is an error again.
