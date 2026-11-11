@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   IoCalendarOutline,
   IoListOutline,
@@ -7,10 +7,10 @@ import {
   IoShieldCheckmarkOutline,
   IoAdd,
   IoMenu,
-  IoClose,
 } from "react-icons/io5";
 import { useMe } from "../api/hooks.js";
 import { Button } from "./ui/index.js";
+import { NavDrawer } from "./ui/Drawer.js";
 import { NotificationsMenu } from "./NotificationsMenu.js";
 import { AccountMenu } from "./AccountMenu.js";
 import { CreateEventModal } from "./CreateEventModal.js";
@@ -38,14 +38,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
 
-  // Close the drawer on Escape.
-  useEffect(() => {
-    if (!drawerOpen) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setDrawerOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [drawerOpen]);
-
   const sidebarContent = (
     <>
       <div className="px-2">
@@ -54,7 +46,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
       </div>
 
       <div className="mt-6">
-        <Button className="w-full" onClick={() => setCreateOpen(true)}>
+        <Button
+          className="w-full"
+          onClick={() => {
+            setDrawerOpen(false);
+            setCreateOpen(true);
+          }}
+        >
           <IoAdd size={18} /> Create Event
         </Button>
       </div>
@@ -93,35 +91,26 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <div className="mt-auto" />
       </aside>
 
-      {/* Mobile drawer (below lg) */}
-      {drawerOpen && (
-        <div className="fixed inset-0 z-dialog lg:hidden">
-          <div className="absolute inset-0 bg-scrim backdrop-blur-sm" onClick={() => setDrawerOpen(false)} />
-          <aside className="absolute top-0 left-0 flex h-full w-[280px] max-w-[80vw] flex-col rounded-none px-4 py-6 aero-glass-strong">
-            <button
-              onClick={() => setDrawerOpen(false)}
-              aria-label="Close menu"
-              className="absolute top-3 right-3 rounded-full p-1 text-on-surface-variant hover:bg-surface-container"
-            >
-              <IoClose size={20} />
-            </button>
-            {sidebarContent}
-          </aside>
-        </div>
-      )}
-
       {/* Main column */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top bar */}
         <header className="flex h-16 shrink-0 items-center justify-between gap-2 rounded-none border-x-0 border-t-0 px-3 aero-glass sm:px-6">
           <div className="flex min-w-0 items-center gap-1">
-            <button
-              onClick={() => setDrawerOpen(true)}
-              aria-label="Open menu"
-              className="rounded-lg p-2 text-on-surface-variant hover:bg-surface-container lg:hidden"
+            <NavDrawer
+              open={drawerOpen}
+              onOpenChange={setDrawerOpen}
+              title="Menu"
+              trigger={
+                <button
+                  aria-label="Open menu"
+                  className="rounded-lg p-2 text-on-surface-variant hover:bg-surface-container lg:hidden"
+                >
+                  <IoMenu size={22} />
+                </button>
+              }
             >
-              <IoMenu size={22} />
-            </button>
+              {sidebarContent}
+            </NavDrawer>
             <nav className="flex min-w-0 items-center gap-1 overflow-x-auto">
               {views.map((v) => {
                 const active = v.to === "/calendar" ? path === "/calendar" : path.startsWith(v.to);
