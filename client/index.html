@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SocialEvents</title>
+    <script>
+      // The saved theme before the first paint, so a dark choice never flashes light.
+      // Light on a first visit; System follows the operating system.
+      try {
+        var saved = localStorage.getItem("socialevents-theme");
+        var dark = saved === "dark" || (saved === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      } catch (error) {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

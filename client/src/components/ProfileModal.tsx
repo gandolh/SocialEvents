@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMe, useUpdateProfile, useChangePassword } from "../api/hooks.js";
 import { Dialog, Input, Button } from "./ui/index.js";
+import { ThemeSwitch } from "./ThemeSwitch.js";
 
 export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { data: me } = useMe();
@@ -71,6 +72,11 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
           >
             Change password
           </Button>
+        </section>
+
+        <section className="space-y-3 border-t border-outline-variant/60 pt-4">
+          <h3 className="text-sm font-semibold text-on-surface">Appearance</h3>
+          <ThemeSwitch />
         </section>
 
         {msg && <p className="text-sm text-success">{msg}</p>}
