@@ -1,7 +1,7 @@
 ---
 title: npm run lint has no ESLint config
 created: 2026-11-01
-status: open
+status: closed
 tags: [tooling]
 ---
 
@@ -12,3 +12,7 @@ Found on 2026-11-01. The root `package.json` has `"lint": "eslint ."`, but no wo
 ## Acceptance
 
 `eslint` and its TypeScript and React plugins are pinned dev dependencies, like every other version here, a flat `eslint.config.js` covers the three workspaces, and `npm run lint` passes.
+
+## Closed 2026-11-11
+
+Done by the house-style harness brief: `eslint` and the house plugins are pinned, `eslint.config.mjs` wraps the vendored house config over the three workspaces, and `npm run lint` passes with 0 errors.

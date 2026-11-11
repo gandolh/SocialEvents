@@ -200,5 +200,6 @@ Follow `migrating-a-server.md`. One commit per step; after each, `npm run check`
 
 ## Interplay
 
+- Update 2026-11-11: brief 15 already added `.dependency-cruiser.cjs` and put dependency-cruiser in `check:conventions`, with no findings. This brief keeps the rest: the cross-feature check on the new feature folders. The harness configs are `eslint.config.mjs`, `knip.config.js` and `prettier.config.mjs` (the root has no `"type": "module"`). The `n/no-process-env` allow-list for `server/src/config/env.ts` is a block in `eslint.config.mjs`; it goes when the module becomes `config.ts`.
 - Brief 15's `no-console` exception for the email adapter ends here, and its `n/no-process-env` allow-list is `config.ts`.
 - Brief 16 and this brief are independent in code. The client's `api/client.ts` reads `data.error` and `data.message`, which this brief keeps.

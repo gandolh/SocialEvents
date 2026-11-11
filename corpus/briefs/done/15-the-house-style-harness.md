@@ -183,3 +183,31 @@ One commit per step, each with `npm run typecheck`, `npm test` and `npm run buil
 - Brief 16 adds the Base UI lines to `web.md`, drops `check-base-ui`'s `--warn-only`, and removes `Shell.tsx`'s drawer effect for good.
 - Brief 17 deletes the email adapter's `no-console` exception, moves `config/env.ts`, adds dependency-cruiser, and drops `check-structure`'s `--warn-only`.
 - The reformat changes `client/src/styles/index.css`'s hex case and wrapping. Brief 16 edits that file, so it starts after the reformat.
+
+## Outcome (2026-11-11)
+
+**Commits:** `1773606` vendor and pins, `bb925d8` Prettier config, `56f642e` the reformat (44 files, 248 added, 589 removed), `04cf2bd` blame-ignore file, `5b9d176` tsconfig flags and the two error classes, `fd0f2e2` ESLint and its fixes, `b885145` the gate, `e809e24` CLAUDE.md and rules.
+
+**The reformat.** esbuild bundle compare over every `.ts`, `.tsx`, `.js`, `.mjs`, `.css` and `.json` file (82, JSON compared parsed): identical before and after, no differences. `git diff -w` is not empty, since Prettier rewraps lines.
+
+**Measured first (2026-11-11).** Typed rules found 4, 5, 0, 0, 2 and 0 (`no-floating-promises`, `no-misused-promises`, `await-thenable`, `switch-exhaustiveness-check`, `no-unnecessary-type-assertion`, `consistent-type-imports`); `!` 5 in source and 3 in tests; `no-unused-expressions` 1; `react-hooks/set-state-in-effect` 1; vitest recommended 0; `better-tailwindcss` class order 14 (fixed with `--fix`). `tsc`: `noUnusedLocals` 0, `erasableSyntaxOnly` 4. Typed lint on the repo: 12.8 s with `projectService`, 11.6 s with `project: true`; kept `projectService`. knip: 1 unused dependency (`zod` in the client), 5 unused exports, 1 unused type. Lint after: 0 errors, 5 warnings (3 `!` in `dal.test.ts`, 2 `console` in the email adapter, the named exception). No rule found more than 20.
+
+**Convention checkers** (both `--warn-only`, so neither reports nothing): check-base-ui 7 errors (rule-6 6, rule-11 1: arbitrary hex colours in `lib/utils.ts` and `ProfileModal.tsx`, a native `confirm()` in `AdminPage.tsx`); check-structure 67 errors (rule-1 1, rule-3 6, rule-6 60: `listen()` in `index.ts`, `NODE_ENV` and `process.env` reads in `config/env.ts`, routes with no schema). dependency-cruiser: no violations (90 modules).
+
+**Timings (warm):** `check` 25 s; `check:fast` 9 s with one server file changed; `eslint .` about 12 s.
+
+**Checks run:** `npm run check` (exit 0), `npm run build` (0), `npx prettier --check .` (0), `npm run house-style:sync -- --check` (0), `bash corpus/lint.sh`, a deliberate `enum`, `!`, `console.log`, `// TODO`, `export default` and an unawaited promise each made `eslint` exit 1 (reverted), fresh `git clone` + `npm ci` + `npm test` exit 0 with no prior build. Hooks, run by hand with the event JSON: the formatter hook formatted a messy `server/src/messy.ts`; the Stop hook exited 2 with `TS2322` after a noted save, and 0 once reverted.
+
+**Checks skipped:** the live-session hook check waits for the plugin update on this machine.
+
+**Deviations:**
+
+- Config files are `eslint.config.mjs`, `prettier.config.mjs` and `knip.config.js`, not `.js` throughout: the root `package.json` is not `"type": "module"`, so a `.js` config warned (Prettier) or, for knip, `.mjs` is not a name knip reads.
+- `server/src/config/env.ts` is the one environment reader but the house names `config.ts`, so `eslint.config.mjs` turns `n/no-process-env` off for that file, with a dated comment; the file is also in `console`.
+- `check:fast` runs `npm run typecheck` (the same `tsc -b`).
+- The setup commits came before the format commit, as the brief orders; the vendoring commit also pinned the tools.
+- `useUpdateEvent`, `closeDb` and `badRequest` had no caller and were deleted; `ApiError`, `loadUser` and `AppConfig` lost `export`.
+- The `Shell.tsx` drawer closes in the nav links' click handler. Browser back with the drawer open no longer closes it.
+- `knip.config.js` carries the `scripts/*.mjs` entry under `workspaces["."]`.
+
+**Owner steps:** `git config blame.ignoreRevsFile .git-blame-ignore-revs`.

@@ -1,6 +1,6 @@
 ---
 summary: The locked tech and design choices, including the pinned versions, with the reason for each
-updated: 2026-06-25
+updated: 2026-11-11
 ---
 
 # Decisions (locked)
@@ -101,3 +101,22 @@ versions in every `package.json`. When bumping, bump deliberately and update her
 Google Maps JS needs a **browser** key (public). It's the one intentionally-public
 key, exposed to the client via Vite env (`VITE_MAPS_BROWSER_KEY`). All other keys
 stay server-side. Absent → non-interactive fallback. See [integrations.md](integrations.md).
+
+## The house style, formatted and checked (2026-11-11)
+- **Config source:** the estate's `house-style` 1.0.0, vendored at `vendor/house-style/` and refreshed with
+  `npm run house-style:sync`. The root configs (`eslint.config.mjs`, `prettier.config.mjs`, `knip.config.js`,
+  `.dependency-cruiser.cjs`) are thin wrappers; they are `.mjs`/`.js` files because the root `package.json` is not
+  `"type": "module"`.
+- **Prettier at width 120**, double quotes, semicolons, trailing commas. This code was written near 80 columns, so
+  the one reformat commit is larger than in other repos (44 files, 248 lines added, 589 removed); it is in
+  `.git-blame-ignore-revs`. Markdown stays out of Prettier.
+- **tsconfig:** `noUnusedLocals` and `erasableSyntaxOnly` added. `exactOptionalPropertyTypes` waits (7 errors, 3 of
+  them library type friction). `module` and `moduleResolution` stay `ESNext` and `Bundler`: the server runs under
+  `tsx` and `tsc`, and `NodeNext` would force `.js` rules on the client for no gain.
+- **ESLint:** the six typed rules through `projectService` (12.8 s on the repo against 11.6 s for `project: true`,
+  so no change), `!` an error in source and a warning in tests, no enums, no `TODO` comments, no `console` outside the
+  CLIs, no default exports outside `*.config.*`, `process.env` only in `server/src/config/env.ts`.
+- **Gate:** `check` and `check:fast` (typecheck, then ESLint on the changed files, from `scripts/check-fast.mjs`).
+  `pretest` builds `shared`, so a fresh clone tests.
+- **Rejected:** a `NodeNext` move (above); Prettier over Markdown; running the convention checkers strict now (they
+  report 7 and 67 findings, which the Base UI and server briefs fix).

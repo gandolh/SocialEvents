@@ -1,6 +1,6 @@
 ---
 summary: A dated snapshot of where the project stands, what was checked, and what could come next
-updated: 2026-11-01
+updated: 2026-11-11
 ---
 
 # Status — 2026-11-01
@@ -52,8 +52,13 @@ Run from a fresh clone with Node 24 on Linux, during a README refresh.
 - **Fixed:** the one-port production run, `npm run start --workspace server`, died
   on start because `tsc` does not copy `src/db/migrations/*.sql` into `dist/`. The
   server build now copies them; `/`, `/events` and `/api` answer as expected.
-- **Not working:** `npm run lint` — there is no ESLint config or dependency. See
-  [todos/2026-11-01-eslint-config.md](../todos/2026-11-01-eslint-config.md).
+- (`npm run lint` had no config then; the house-style harness fixed that on 2026-11-11, see below.)
+
+## The harness (2026-11-11)
+`npm run check` (typecheck, ESLint, Prettier, knip + dependency-cruiser + the two convention checkers, tests) passes;
+`npm run check:fast` is the quick subset. The code is formatted at width 120 and linted by the vendored house
+config. `check-base-ui` (7 findings) and `check-structure` (67) run `--warn-only` until the Base UI and server
+briefs. See [decisions.md](decisions.md) and the log entry of that date.
 
 ## How to run
 See [README.md](../../README.md). `npm install` → `build:shared` → `migrate` →
@@ -61,7 +66,6 @@ See [README.md](../../README.md). `npm install` → `build:shared` → `migrate`
 The seed prints its sign-in addresses and their shared local password.
 
 ## Possible next work (not started)
-- An ESLint flat config, so `npm run lint` runs.
 - Aero dark mode (the original Stitch dark-mode plan is superseded by Aero).
 - Live Google Maps interactive markers (currently iframe embed + fallback).
 - Automated E2E tests (Playwright) for the key flows.
