@@ -25,9 +25,7 @@ function resolveJwtSecret(): string {
     return parsed.JWT_SECRET;
   }
   if (parsed.NODE_ENV === "production") {
-    throw new Error(
-      "JWT_SECRET is required in production (min 16 chars). Set it in the environment.",
-    );
+    throw new Error("JWT_SECRET is required in production (min 16 chars). Set it in the environment.");
   }
   const ephemeral = crypto.randomBytes(32).toString("hex");
   // eslint-disable-next-line no-console

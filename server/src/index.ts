@@ -34,9 +34,7 @@ async function main(): Promise<void> {
   await app.listen({ port: config.port, host: "0.0.0.0" });
 
   // eslint-disable-next-line no-console
-  console.log(
-    `[server] listening on :${config.port} | weather=${weatherMode()} email=${emailMode()}`,
-  );
+  console.log(`[server] listening on :${config.port} | weather=${weatherMode()} email=${emailMode()}`);
 }
 
 main().catch((err) => {

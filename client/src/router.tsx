@@ -1,9 +1,4 @@
-import {
-  createRouter,
-  createRootRoute,
-  createRoute,
-  Outlet,
-} from "@tanstack/react-router";
+import { createRouter, createRootRoute, createRoute, Outlet } from "@tanstack/react-router";
 import { Shell } from "./components/Shell.js";
 import { CalendarMonth } from "./routes/CalendarMonth.js";
 import { CalendarDay } from "./routes/CalendarDay.js";

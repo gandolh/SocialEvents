@@ -17,10 +17,7 @@ function getTransporter(): Transporter {
       host: config.smtp.host!,
       port: config.smtp.port,
       secure: config.smtp.port === 465,
-      auth:
-        config.smtp.user && config.smtp.pass
-          ? { user: config.smtp.user, pass: config.smtp.pass }
-          : undefined,
+      auth: config.smtp.user && config.smtp.pass ? { user: config.smtp.user, pass: config.smtp.pass } : undefined,
     });
   } else {
     // Mock transport: logs to console instead of sending.

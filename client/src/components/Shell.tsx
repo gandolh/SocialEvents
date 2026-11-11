@@ -131,10 +131,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             </button>
             <nav className="flex min-w-0 items-center gap-1 overflow-x-auto">
               {views.map((v) => {
-                const active =
-                  v.to === "/calendar"
-                    ? path === "/calendar"
-                    : path.startsWith(v.to);
+                const active = v.to === "/calendar" ? path === "/calendar" : path.startsWith(v.to);
                 return (
                   <Link
                     key={v.label}
@@ -180,9 +177,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </main>
       </div>
 
-      {createOpen && (
-        <CreateEventModal open={createOpen} onClose={() => setCreateOpen(false)} />
-      )}
+      {createOpen && <CreateEventModal open={createOpen} onClose={() => setCreateOpen(false)} />}
     </div>
   );
 }

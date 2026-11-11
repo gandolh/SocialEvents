@@ -17,10 +17,7 @@ export function loadUser(request: FastifyRequest): void {
 }
 
 /** preHandler: 401 unless authenticated. */
-export async function requireAuth(
-  request: FastifyRequest,
-  reply: FastifyReply,
-): Promise<void> {
+export async function requireAuth(request: FastifyRequest, reply: FastifyReply): Promise<void> {
   loadUser(request);
   if (!request.user) {
     await reply.code(401).send({ error: "unauthorized" });
@@ -28,10 +25,7 @@ export async function requireAuth(
 }
 
 /** preHandler: 401 if not authed, 403 unless admin. */
-export async function requireAdmin(
-  request: FastifyRequest,
-  reply: FastifyReply,
-): Promise<void> {
+export async function requireAdmin(request: FastifyRequest, reply: FastifyReply): Promise<void> {
   loadUser(request);
   if (!request.user) {
     await reply.code(401).send({ error: "unauthorized" });

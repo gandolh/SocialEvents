@@ -11,14 +11,10 @@ export function NotificationsMenu({ onClose }: { onClose: () => void }) {
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
       <div className="absolute right-0 z-50 mt-2 w-80 rounded-xl border border-outline-variant/60 bg-surface-container-lowest shadow-lg">
-        <div className="border-b border-outline-variant/60 px-4 py-3 text-sm font-semibold">
-          Notifications
-        </div>
+        <div className="border-b border-outline-variant/60 px-4 py-3 text-sm font-semibold">Notifications</div>
         <div className="max-h-96 overflow-auto">
           {notifications.length === 0 && (
-            <p className="p-6 text-center text-sm text-on-surface-variant">
-              You're all caught up.
-            </p>
+            <p className="p-6 text-center text-sm text-on-surface-variant">You're all caught up.</p>
           )}
           {notifications.map((n) => (
             <div
@@ -28,17 +24,10 @@ export function NotificationsMenu({ onClose }: { onClose: () => void }) {
                 !n.read && "bg-primary/5",
               )}
             >
-              <button
-                className="flex-1 text-left"
-                onClick={() => !n.read && mark.mutate({ id: n.id, read: true })}
-              >
-                {!n.read && (
-                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-primary align-middle" />
-                )}
+              <button className="flex-1 text-left" onClick={() => !n.read && mark.mutate({ id: n.id, read: true })}>
+                {!n.read && <span className="mr-1 inline-block h-2 w-2 rounded-full bg-primary align-middle" />}
                 <span className="text-on-surface">{n.message}</span>
-                <span className="mt-0.5 block text-xs text-on-surface-variant">
-                  {formatDateTime(n.createdAt)}
-                </span>
+                <span className="mt-0.5 block text-xs text-on-surface-variant">{formatDateTime(n.createdAt)}</span>
               </button>
               <button
                 onClick={() => del.mutate(n.id)}

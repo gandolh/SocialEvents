@@ -3,13 +3,7 @@ import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { useEvents } from "../api/hooks.js";
 import { EventDetailModal } from "../components/EventDetailModal.js";
 import { Spinner } from "../components/ui/index.js";
-import {
-  monthGrid,
-  monthRange,
-  localIsoDate,
-  MONTH_NAMES,
-  WEEKDAYS,
-} from "../lib/calendar.js";
+import { monthGrid, monthRange, localIsoDate, MONTH_NAMES, WEEKDAYS } from "../lib/calendar.js";
 import { categoryChipClasses, cn } from "../lib/utils.js";
 
 export function CalendarMonth() {
@@ -27,8 +21,7 @@ export function CalendarMonth() {
     byDay.get(key)!.push(e);
   }
 
-  const shift = (delta: number) =>
-    setRef(new Date(ref.getFullYear(), ref.getMonth() + delta, 1));
+  const shift = (delta: number) => setRef(new Date(ref.getFullYear(), ref.getMonth() + delta, 1));
 
   return (
     <div>
@@ -108,9 +101,7 @@ export function CalendarMonth() {
         </div>
       )}
 
-      {selected && (
-        <EventDetailModal eventId={selected} onClose={() => setSelected(null)} />
-      )}
+      {selected && <EventDetailModal eventId={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }

@@ -1,8 +1,4 @@
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
   User,
   Department,
@@ -39,8 +35,7 @@ export function useMe() {
 export function useLogin() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: LoginInput) =>
-      api.post<{ user: User }>("/auth/login", input),
+    mutationFn: (input: LoginInput) => api.post<{ user: User }>("/auth/login", input),
     onSuccess: ({ user }) => qc.setQueryData(["me"], user),
   });
 }
@@ -48,8 +43,7 @@ export function useLogin() {
 export function useRegister() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: RegisterInput) =>
-      api.post<{ user: User }>("/auth/register", input),
+    mutationFn: (input: RegisterInput) => api.post<{ user: User }>("/auth/register", input),
     onSuccess: ({ user }) => qc.setQueryData(["me"], user),
   });
 }
@@ -70,19 +64,14 @@ export function useUsers(departmentId?: string) {
   return useQuery({
     queryKey: ["users", departmentId ?? "all"],
     queryFn: () =>
-      api
-        .get<{ users: User[] }>(
-          "/users" + (departmentId ? `?departmentId=${departmentId}` : ""),
-        )
-        .then((r) => r.users),
+      api.get<{ users: User[] }>("/users" + (departmentId ? `?departmentId=${departmentId}` : "")).then((r) => r.users),
   });
 }
 
 export function useDepartments() {
   return useQuery({
     queryKey: ["departments"],
-    queryFn: () =>
-      api.get<{ departments: Department[] }>("/departments").then((r) => r.departments),
+    queryFn: () => api.get<{ departments: Department[] }>("/departments").then((r) => r.departments),
   });
 }
 
@@ -119,8 +108,7 @@ export function useAssignDepartment() {
 export function useUpdateProfile() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: { name?: string; jobTitle?: string | null }) =>
-      api.patch<{ user: User }>("/users/me", input),
+    mutationFn: (input: { name?: string; jobTitle?: string | null }) => api.patch<{ user: User }>("/users/me", input),
     onSuccess: ({ user }) => qc.setQueryData(["me"], user),
   });
 }
@@ -145,10 +133,7 @@ function eventQueryString(q: EventQuery): string {
 export function useEvents(q: EventQuery = {}) {
   return useQuery({
     queryKey: ["events", q],
-    queryFn: () =>
-      api
-        .get<{ events: EventSummary[] }>("/events" + eventQueryString(q))
-        .then((r) => r.events),
+    queryFn: () => api.get<{ events: EventSummary[] }>("/events" + eventQueryString(q)).then((r) => r.events),
   });
 }
 
@@ -156,16 +141,14 @@ export function useEvent(id: string | null) {
   return useQuery({
     queryKey: ["event", id],
     enabled: !!id,
-    queryFn: () =>
-      api.get<{ event: EventDetail }>(`/events/${id}`).then((r) => r.event),
+    queryFn: () => api.get<{ event: EventDetail }>(`/events/${id}`).then((r) => r.event),
   });
 }
 
 export function useCreateEvent() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: CreateEventInput) =>
-      api.post<{ event: EventDetail }>("/events", input),
+    mutationFn: (input: CreateEventInput) => api.post<{ event: EventDetail }>("/events", input),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["events"] }),
   });
 }
@@ -195,8 +178,7 @@ export function useRsvp() {
   return useMutation({
     mutationFn: (vars: { id: string; status: AttendeeStatus }) =>
       api.put(`/events/${vars.id}/rsvp`, { status: vars.status }),
-    onSuccess: (_d, vars) =>
-      qc.invalidateQueries({ queryKey: ["event", vars.id] }),
+    onSuccess: (_d, vars) => qc.invalidateQueries({ queryKey: ["event", vars.id] }),
   });
 }
 
@@ -208,8 +190,7 @@ export function useSetEventRating() {
       api.put<RatingResponse>(`/events/${vars.id}/rating`, {
         rating: vars.rating,
       }),
-    onSuccess: (_d, vars) =>
-      qc.invalidateQueries({ queryKey: ["event", vars.id] }),
+    onSuccess: (_d, vars) => qc.invalidateQueries({ queryKey: ["event", vars.id] }),
   });
 }
 
@@ -228,8 +209,7 @@ export function useSetHostRating() {
       api.put<RatingResponse>(`/users/${vars.hostId}/rating`, {
         rating: vars.rating,
       }),
-    onSuccess: (_d, vars) =>
-      qc.invalidateQueries({ queryKey: ["host-rating", vars.hostId] }),
+    onSuccess: (_d, vars) => qc.invalidateQueries({ queryKey: ["host-rating", vars.hostId] }),
   });
 }
 
@@ -237,10 +217,7 @@ export function useSetHostRating() {
 export function useNotifications() {
   return useQuery({
     queryKey: ["notifications"],
-    queryFn: () =>
-      api
-        .get<{ notifications: Notification[] }>("/notifications")
-        .then((r) => r.notifications),
+    queryFn: () => api.get<{ notifications: Notification[] }>("/notifications").then((r) => r.notifications),
     refetchInterval: 60_000,
   });
 }
@@ -248,8 +225,7 @@ export function useNotifications() {
 export function useMarkNotification() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (vars: { id: string; read: boolean }) =>
-      api.patch(`/notifications/${vars.id}`, { read: vars.read }),
+    mutationFn: (vars: { id: string; read: boolean }) => api.patch(`/notifications/${vars.id}`, { read: vars.read }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["notifications"] }),
   });
 }

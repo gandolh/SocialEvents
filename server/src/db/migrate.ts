@@ -21,15 +21,11 @@ export function runMigrations(db: Database.Database = getDb()): string[] {
     .filter((f) => f.endsWith(".sql"))
     .sort();
 
-  const appliedRows = db
-    .prepare("SELECT name FROM schema_migrations")
-    .all() as { name: string }[];
+  const appliedRows = db.prepare("SELECT name FROM schema_migrations").all() as { name: string }[];
   const applied = new Set(appliedRows.map((r) => r.name));
 
   const newlyApplied: string[] = [];
-  const insert = db.prepare(
-    "INSERT INTO schema_migrations (name, applied_at) VALUES (?, ?)",
-  );
+  const insert = db.prepare("INSERT INTO schema_migrations (name, applied_at) VALUES (?, ?)");
 
   for (const file of files) {
     if (applied.has(file)) continue;
@@ -46,8 +42,7 @@ export function runMigrations(db: Database.Database = getDb()): string[] {
 }
 
 // CLI entry: `tsx src/db/migrate.ts`
-const isMain =
-  process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+const isMain = process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
 if (isMain) {
   const applied = runMigrations();
   if (applied.length === 0) {

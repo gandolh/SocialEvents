@@ -9,13 +9,7 @@ export function Card({
   ...rest
 }: { children: ReactNode; className?: string } & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div
-      className={cn(
-        "aero-glass rounded-lg",
-        className,
-      )}
-      {...rest}
-    >
+    <div className={cn("aero-glass rounded-lg", className)} {...rest}>
       {children}
     </div>
   );
@@ -88,11 +82,7 @@ export function StarRating({
               onMouseEnter={() => !readOnly && setHover(n)}
               onMouseLeave={() => !readOnly && setHover(0)}
               onClick={() => onRate?.(n)}
-              className={cn(
-                "text-secondary",
-                !readOnly && "cursor-pointer",
-                readOnly && "cursor-default",
-              )}
+              className={cn("text-secondary", !readOnly && "cursor-pointer", readOnly && "cursor-default")}
               aria-label={`${n} star${n > 1 ? "s" : ""}`}
             >
               <Icon size={size} />

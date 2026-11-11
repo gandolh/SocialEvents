@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { EVENT_CATEGORY_NAMES } from "@socialevents/shared";
-import {
-  useCreateEvent,
-  useDepartments,
-  useUsers,
-  useMe,
-} from "../api/hooks.js";
+import { useCreateEvent, useDepartments, useUsers, useMe } from "../api/hooks.js";
 import { Modal, Input, Textarea, Select, Button } from "./ui/index.js";
 import { cn } from "../lib/utils.js";
 
@@ -100,28 +95,14 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
           onChange={(e) => setLocLabel(e.target.value)}
         />
         <div className="grid grid-cols-2 gap-4">
-          <Input
-            label="Latitude (optional)"
-            value={lat}
-            onChange={(e) => setLat(e.target.value)}
-          />
-          <Input
-            label="Longitude (optional)"
-            value={lng}
-            onChange={(e) => setLng(e.target.value)}
-          />
+          <Input label="Latitude (optional)" value={lat} onChange={(e) => setLat(e.target.value)} />
+          <Input label="Longitude (optional)" value={lng} onChange={(e) => setLng(e.target.value)} />
         </div>
-        <Textarea
-          label="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+        <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
 
         {/* Attendees */}
         <div>
-          <span className="mb-1 block text-sm font-medium text-on-surface-variant">
-            Invite
-          </span>
+          <span className="mb-1 block text-sm font-medium text-on-surface-variant">Invite</span>
           <div className="mb-2 flex gap-1 text-sm">
             {(["people", "departments"] as const).map((t) => (
               <button
@@ -129,9 +110,7 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
                 onClick={() => setTab(t)}
                 className={cn(
                   "rounded-md px-3 py-1 capitalize",
-                  tab === t
-                    ? "bg-primary/10 text-primary"
-                    : "text-on-surface-variant hover:bg-surface-container",
+                  tab === t ? "bg-primary/10 text-primary" : "text-on-surface-variant hover:bg-surface-container",
                 )}
               >
                 {t}
@@ -149,8 +128,7 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
                       checked={selectedUsers.has(u.id)}
                       onChange={() => toggle(selectedUsers, u.id, setSelectedUsers)}
                     />
-                    {u.name}{" "}
-                    <span className="text-xs text-on-surface-variant">{u.email}</span>
+                    {u.name} <span className="text-xs text-on-surface-variant">{u.email}</span>
                   </label>
                 ))}
             {tab === "departments" &&

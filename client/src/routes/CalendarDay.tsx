@@ -12,8 +12,7 @@ export function CalendarDay() {
   const range = dayRange(ref);
   const { data: events = [], isLoading } = useEvents(range);
 
-  const shift = (d: number) =>
-    setRef(new Date(ref.getFullYear(), ref.getMonth(), ref.getDate() + d));
+  const shift = (d: number) => setRef(new Date(ref.getFullYear(), ref.getMonth(), ref.getDate() + d));
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -66,9 +65,7 @@ export function CalendarDay() {
         </div>
       )}
 
-      {selected && (
-        <EventDetailModal eventId={selected} onClose={() => setSelected(null)} />
-      )}
+      {selected && <EventDetailModal eventId={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }

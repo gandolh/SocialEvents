@@ -24,8 +24,7 @@ export function verifyToken(token: string): AuthClaims | null {
       algorithms: ["HS256"],
     });
     if (typeof decoded === "string") return null;
-    const { sub, role, name, email } = decoded as jwt.JwtPayload &
-      Partial<AuthClaims>;
+    const { sub, role, name, email } = decoded as jwt.JwtPayload & Partial<AuthClaims>;
     if (!sub || !role || !name || !email) return null;
     return { sub, role, name, email };
   } catch {

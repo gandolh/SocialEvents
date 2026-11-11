@@ -93,9 +93,7 @@ export const eventsRepo = {
       params.push(filters.hostId);
     }
     if (filters.attendeeId) {
-      where.push(
-        "EXISTS (SELECT 1 FROM event_attendees a WHERE a.event_id = e.id AND a.user_id = ?)",
-      );
+      where.push("EXISTS (SELECT 1 FROM event_attendees a WHERE a.event_id = e.id AND a.user_id = ?)");
       params.push(filters.attendeeId);
     }
     if (filters.search) {
@@ -104,18 +102,15 @@ export const eventsRepo = {
       params.push(like, like);
     }
 
-    const sql =
-      SELECT_SUMMARY +
-      (where.length ? ` WHERE ${where.join(" AND ")}` : "") +
-      " ORDER BY e.starts_at ASC";
-    const rows = getDb().prepare(sql).all(...params) as EventRow[];
+    const sql = SELECT_SUMMARY + (where.length ? ` WHERE ${where.join(" AND ")}` : "") + " ORDER BY e.starts_at ASC";
+    const rows = getDb()
+      .prepare(sql)
+      .all(...params) as EventRow[];
     return rows.map(toSummary);
   },
 
   findSummaryById(id: string): EventSummary | null {
-    const row = getDb()
-      .prepare(`${SELECT_SUMMARY} WHERE e.id = ?`)
-      .get(id) as EventRow | undefined;
+    const row = getDb().prepare(`${SELECT_SUMMARY} WHERE e.id = ?`).get(id) as EventRow | undefined;
     return row ? toSummary(row) : null;
   },
 
@@ -124,9 +119,7 @@ export const eventsRepo = {
     if (!summary) return null;
     const attendees = this.attendees(id);
     const agg = getDb()
-      .prepare(
-        "SELECT AVG(rating) AS avg, COUNT(*) AS count FROM event_ratings WHERE event_id = ?",
-      )
+      .prepare("SELECT AVG(rating) AS avg, COUNT(*) AS count FROM event_ratings WHERE event_id = ?")
       .get(id) as { avg: number | null; count: number };
     return {
       ...summary,
@@ -157,12 +150,7 @@ export const eventsRepo = {
   },
 
   /** Duplicate guard: same host + name + time + location label. */
-  findDuplicate(
-    hostId: string,
-    name: string,
-    startsAt: string,
-    locationLabel: string,
-  ): string | null {
+  findDuplicate(hostId: string, name: string, startsAt: string, locationLabel: string): string | null {
     const row = getDb()
       .prepare(
         `SELECT id FROM events
@@ -208,9 +196,7 @@ export const eventsRepo = {
     const unique = [...new Set(userIds)];
     const tx = db.transaction(() => {
       db.prepare("DELETE FROM event_attendees WHERE event_id = ?").run(eventId);
-      const insert = db.prepare(
-        "INSERT INTO event_attendees (event_id, user_id, status) VALUES (?, ?, 'invited')",
-      );
+      const insert = db.prepare("INSERT INTO event_attendees (event_id, user_id, status) VALUES (?, ?, 'invited')");
       for (const uid of unique) insert.run(eventId, uid);
     });
     tx();
@@ -234,10 +220,8 @@ export const eventsRepo = {
       description: fields.description ?? existing.description,
       category: fields.category ?? existing.category,
       location_label: fields.location?.label ?? existing.location.label,
-      location_lat:
-        fields.location !== undefined ? fields.location.lat : existing.location.lat,
-      location_lng:
-        fields.location !== undefined ? fields.location.lng : existing.location.lng,
+      location_lat: fields.location !== undefined ? fields.location.lat : existing.location.lat,
+      location_lng: fields.location !== undefined ? fields.location.lng : existing.location.lng,
     };
     getDb()
       .prepare(
@@ -264,9 +248,7 @@ export const eventsRepo = {
 
   setRsvp(eventId: string, userId: string, status: AttendeeStatus): boolean {
     const res = getDb()
-      .prepare(
-        "UPDATE event_attendees SET status = ? WHERE event_id = ? AND user_id = ?",
-      )
+      .prepare("UPDATE event_attendees SET status = ? WHERE event_id = ? AND user_id = ?")
       .run(status, eventId, userId);
     return res.changes > 0;
   },

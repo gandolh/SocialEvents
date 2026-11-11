@@ -16,9 +16,7 @@ import { integrationRoutes } from "./routes/integrations.js";
 
 export async function buildApp(): Promise<FastifyInstance> {
   const app = Fastify({
-    logger: config.isTest
-      ? false
-      : { transport: undefined, level: config.isProd ? "info" : "debug" },
+    logger: config.isTest ? false : { transport: undefined, level: config.isProd ? "info" : "debug" },
   });
 
   await app.register(helmet, { contentSecurityPolicy: false });
@@ -33,14 +31,10 @@ export async function buildApp(): Promise<FastifyInstance> {
 
   app.setErrorHandler((error, _request, reply) => {
     if (error instanceof ZodError) {
-      return reply
-        .code(400)
-        .send({ error: "validation_error", message: error.issues[0]?.message });
+      return reply.code(400).send({ error: "validation_error", message: error.issues[0]?.message });
     }
     if (error instanceof HttpError) {
-      return reply
-        .code(error.statusCode)
-        .send({ error: error.errorCode, message: error.message });
+      return reply.code(error.statusCode).send({ error: error.errorCode, message: error.message });
     }
     if ((error as { statusCode?: number }).statusCode === 429) {
       return reply.code(429).send({ error: "rate_limited" });

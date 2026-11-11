@@ -15,32 +15,22 @@ function toDepartment(row: DepartmentRow): Department {
 export const departmentsRepo = {
   create(name: string): Department {
     const row: DepartmentRow = { id: newId(), name, created_at: now() };
-    getDb()
-      .prepare(
-        "INSERT INTO departments (id, name, created_at) VALUES (@id, @name, @created_at)",
-      )
-      .run(row);
+    getDb().prepare("INSERT INTO departments (id, name, created_at) VALUES (@id, @name, @created_at)").run(row);
     return toDepartment(row);
   },
 
   findById(id: string): Department | null {
-    const row = getDb()
-      .prepare("SELECT * FROM departments WHERE id = ?")
-      .get(id) as DepartmentRow | undefined;
+    const row = getDb().prepare("SELECT * FROM departments WHERE id = ?").get(id) as DepartmentRow | undefined;
     return row ? toDepartment(row) : null;
   },
 
   findByName(name: string): Department | null {
-    const row = getDb()
-      .prepare("SELECT * FROM departments WHERE name = ?")
-      .get(name) as DepartmentRow | undefined;
+    const row = getDb().prepare("SELECT * FROM departments WHERE name = ?").get(name) as DepartmentRow | undefined;
     return row ? toDepartment(row) : null;
   },
 
   list(): Department[] {
-    const rows = getDb()
-      .prepare("SELECT * FROM departments ORDER BY name")
-      .all() as DepartmentRow[];
+    const rows = getDb().prepare("SELECT * FROM departments ORDER BY name").all() as DepartmentRow[];
     return rows.map(toDepartment);
   },
 
@@ -55,9 +45,7 @@ export const departmentsRepo = {
     if (departmentIds.length === 0) return [];
     const placeholders = departmentIds.map(() => "?").join(",");
     const rows = getDb()
-      .prepare(
-        `SELECT id FROM users WHERE department_id IN (${placeholders})`,
-      )
+      .prepare(`SELECT id FROM users WHERE department_id IN (${placeholders})`)
       .all(...departmentIds) as { id: string }[];
     return rows.map((r) => r.id);
   },

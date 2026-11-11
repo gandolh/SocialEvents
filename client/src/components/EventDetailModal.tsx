@@ -13,13 +13,7 @@ import { Modal, Button, CategoryChip, StarRating, Spinner } from "./ui/index.js"
 import { MapView } from "./MapView.js";
 import { formatDateTime } from "../lib/utils.js";
 
-export function EventDetailModal({
-  eventId,
-  onClose,
-}: {
-  eventId: string;
-  onClose: () => void;
-}) {
+export function EventDetailModal({ eventId, onClose }: { eventId: string; onClose: () => void }) {
   const { data: event, isLoading } = useEvent(eventId);
   const { data: me } = useMe();
   const setEventRating = useSetEventRating();
@@ -59,10 +53,7 @@ export function EventDetailModal({
             >
               {myAttendance.status === "accepted" ? "Attending ✓" : "Join"}
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => rsvp.mutate({ id: eventId, status: "declined" })}
-            >
+            <Button variant="ghost" onClick={() => rsvp.mutate({ id: eventId, status: "declined" })}>
               Can't make it
             </Button>
           </div>
@@ -102,9 +93,7 @@ export function EventDetailModal({
                 value={hostRating.data?.aggregate.average ?? 0}
                 count={hostRating.data?.aggregate.count}
                 size={14}
-                onRate={(rating) =>
-                  setHostRating.mutate({ hostId: event.hostId, rating })
-                }
+                onRate={(rating) => setHostRating.mutate({ hostId: event.hostId, rating })}
               />
             </dd>
 
@@ -112,10 +101,7 @@ export function EventDetailModal({
             <dd className="flex items-center gap-2">
               {event.location.label}
               {event.location.lat !== null && (
-                <button
-                  className="text-primary underline"
-                  onClick={() => setShowMap((s) => !s)}
-                >
+                <button className="text-primary underline" onClick={() => setShowMap((s) => !s)}>
                   {showMap ? "Hide map" : "View map"}
                 </button>
               )}
@@ -144,19 +130,13 @@ export function EventDetailModal({
           )}
 
           <div>
-            <p className="mb-2 text-sm font-medium text-on-surface-variant">
-              Attendees ({event.attendees.length})
-            </p>
+            <p className="mb-2 text-sm font-medium text-on-surface-variant">Attendees ({event.attendees.length})</p>
             <div className="flex flex-wrap gap-2">
               {event.attendees.length === 0 && (
                 <span className="text-sm text-on-surface-variant">No attendees yet.</span>
               )}
               {event.attendees.map((a) => (
-                <span
-                  key={a.userId}
-                  className="rounded-full bg-surface-container px-2.5 py-1 text-xs"
-                  title={a.status}
-                >
+                <span key={a.userId} className="rounded-full bg-surface-container px-2.5 py-1 text-xs" title={a.status}>
                   {a.name}
                   {a.status === "accepted" && " ✓"}
                   {a.status === "declined" && " ✗"}

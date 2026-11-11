@@ -6,12 +6,7 @@ export const idSchema = z.string().uuid();
 /** ISO-8601 UTC timestamp string. */
 export const isoDateTimeSchema = z.string().datetime({ offset: true });
 
-export const emailSchema = z
-  .string()
-  .trim()
-  .toLowerCase()
-  .email()
-  .max(254);
+export const emailSchema = z.string().trim().toLowerCase().email().max(254);
 
 export const passwordSchema = z.string().min(8).max(128);
 

@@ -3,14 +3,7 @@ import { IoSearch } from "react-icons/io5";
 import { EVENT_CATEGORY_NAMES } from "@socialevents/shared";
 import { useEvents, useMe } from "../api/hooks.js";
 import { EventDetailModal } from "../components/EventDetailModal.js";
-import {
-  Card,
-  CategoryChip,
-  Avatar,
-  Spinner,
-  EmptyState,
-  Select,
-} from "../components/ui/index.js";
+import { Card, CategoryChip, Avatar, Spinner, EmptyState, Select } from "../components/ui/index.js";
 import { formatDateTime, cn } from "../lib/utils.js";
 
 type Sort = "date" | "name";
@@ -30,22 +23,14 @@ export function AllEvents() {
   });
 
   const filtered = events
-    .filter((e) =>
-      scope === "mine" && me ? e.hostId === me.id : true,
-    )
-    .sort((a, b) =>
-      sort === "date"
-        ? a.startsAt.localeCompare(b.startsAt)
-        : a.name.localeCompare(b.name),
-    );
+    .filter((e) => (scope === "mine" && me ? e.hostId === me.id : true))
+    .sort((a, b) => (sort === "date" ? a.startsAt.localeCompare(b.startsAt) : a.name.localeCompare(b.name)));
 
   return (
     <div>
       <div className="mb-4">
         <h2 className="text-2xl font-bold">Event Directory</h2>
-        <p className="text-sm text-on-surface-variant">
-          Browse, filter, and manage all company activities.
-        </p>
+        <p className="text-sm text-on-surface-variant">Browse, filter, and manage all company activities.</p>
       </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-3">
@@ -105,16 +90,12 @@ export function AllEvents() {
               <div className="border-t-4 border-primary/0 p-4">
                 <CategoryChip category={e.category} />
                 <h3 className="mt-2 line-clamp-2 text-base font-semibold">{e.name}</h3>
-                <p className="mt-1 text-sm text-on-surface-variant">
-                  {formatDateTime(e.startsAt)}
-                </p>
+                <p className="mt-1 text-sm text-on-surface-variant">{formatDateTime(e.startsAt)}</p>
                 <p className="text-sm text-on-surface-variant">📍 {e.location.label}</p>
                 <div className="mt-3 flex items-center gap-2 border-t border-outline-variant/40 pt-3">
                   <Avatar name={e.hostName} size={28} />
                   <span className="text-sm">{e.hostName}</span>
-                  <span className="ml-auto text-xs text-on-surface-variant">
-                    {e.attendeeCount} attending
-                  </span>
+                  <span className="ml-auto text-xs text-on-surface-variant">{e.attendeeCount} attending</span>
                 </div>
               </div>
             </Card>
@@ -122,9 +103,7 @@ export function AllEvents() {
         </div>
       )}
 
-      {selected && (
-        <EventDetailModal eventId={selected} onClose={() => setSelected(null)} />
-      )}
+      {selected && <EventDetailModal eventId={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }

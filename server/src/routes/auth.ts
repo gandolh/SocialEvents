@@ -11,20 +11,14 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
   app.post("/register", async (request, reply) => {
     const input = registerSchema.parse(request.body);
     const user = await register(input);
-    setSessionCookie(
-      reply,
-      signToken({ sub: user.id, role: user.role, name: user.name, email: user.email }),
-    );
+    setSessionCookie(reply, signToken({ sub: user.id, role: user.role, name: user.name, email: user.email }));
     return reply.code(201).send({ user });
   });
 
   app.post("/login", async (request, reply) => {
     const input = loginSchema.parse(request.body);
     const user = await login(input);
-    setSessionCookie(
-      reply,
-      signToken({ sub: user.id, role: user.role, name: user.name, email: user.email }),
-    );
+    setSessionCookie(reply, signToken({ sub: user.id, role: user.role, name: user.name, email: user.email }));
     return reply.send({ user });
   });
 

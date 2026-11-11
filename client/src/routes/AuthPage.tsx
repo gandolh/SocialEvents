@@ -44,20 +44,9 @@ export function AuthPage() {
 
         <form onSubmit={submit} className="space-y-4">
           {mode === "register" && (
-            <Input
-              label="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+            <Input label="Name" value={name} onChange={(e) => setName(e.target.value)} required />
           )}
-          <Input
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           <Input
             label="Password"
             type="password"
@@ -66,11 +55,7 @@ export function AuthPage() {
             required
           />
           {err && <p className="text-sm text-error">{err}</p>}
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={login.isPending || register.isPending}
-          >
+          <Button type="submit" className="w-full" disabled={login.isPending || register.isPending}>
             {mode === "login" ? "Sign in" : "Create account"}
           </Button>
         </form>

@@ -55,27 +55,20 @@ export const usersRepo = {
   },
 
   findById(id: string): User | null {
-    const row = getDb()
-      .prepare("SELECT * FROM users WHERE id = ?")
-      .get(id) as UserRow | undefined;
+    const row = getDb().prepare("SELECT * FROM users WHERE id = ?").get(id) as UserRow | undefined;
     return row ? toUser(row) : null;
   },
 
   /** Includes password_hash — for auth only. */
-  findByEmailWithHash(
-    email: string,
-  ): (User & { passwordHash: string }) | null {
-    const row = getDb()
-      .prepare("SELECT * FROM users WHERE email = ?")
-      .get(email.toLowerCase()) as UserRow | undefined;
+  findByEmailWithHash(email: string): (User & { passwordHash: string }) | null {
+    const row = getDb().prepare("SELECT * FROM users WHERE email = ?").get(email.toLowerCase()) as UserRow | undefined;
     if (!row) return null;
     return { ...toUser(row), passwordHash: row.password_hash };
   },
 
   findPasswordHash(id: string): string | null {
-    const row = getDb()
-      .prepare("SELECT password_hash FROM users WHERE id = ?")
-      .get(id) as { password_hash: string } | undefined;
+    const row = getDb().prepare("SELECT password_hash FROM users WHERE id = ?").get(id) as
+      { password_hash: string } | undefined;
     return row?.password_hash ?? null;
   },
 
@@ -83,39 +76,27 @@ export const usersRepo = {
     const db = getDb();
     const rows = (
       departmentId
-        ? db
-            .prepare("SELECT * FROM users WHERE department_id = ? ORDER BY name")
-            .all(departmentId)
+        ? db.prepare("SELECT * FROM users WHERE department_id = ? ORDER BY name").all(departmentId)
         : db.prepare("SELECT * FROM users ORDER BY name").all()
     ) as UserRow[];
     return rows.map(toUser);
   },
 
-  updateProfile(
-    id: string,
-    fields: { name?: string; jobTitle?: string | null },
-  ): User | null {
+  updateProfile(id: string, fields: { name?: string; jobTitle?: string | null }): User | null {
     const existing = this.findById(id);
     if (!existing) return null;
     const name = fields.name ?? existing.name;
-    const jobTitle =
-      fields.jobTitle === undefined ? existing.jobTitle : fields.jobTitle;
-    getDb()
-      .prepare("UPDATE users SET name = ?, job_title = ? WHERE id = ?")
-      .run(name, jobTitle, id);
+    const jobTitle = fields.jobTitle === undefined ? existing.jobTitle : fields.jobTitle;
+    getDb().prepare("UPDATE users SET name = ?, job_title = ? WHERE id = ?").run(name, jobTitle, id);
     return this.findById(id);
   },
 
   updatePasswordHash(id: string, passwordHash: string): void {
-    getDb()
-      .prepare("UPDATE users SET password_hash = ? WHERE id = ?")
-      .run(passwordHash, id);
+    getDb().prepare("UPDATE users SET password_hash = ? WHERE id = ?").run(passwordHash, id);
   },
 
   setDepartment(id: string, departmentId: string | null): User | null {
-    getDb()
-      .prepare("UPDATE users SET department_id = ? WHERE id = ?")
-      .run(departmentId, id);
+    getDb().prepare("UPDATE users SET department_id = ? WHERE id = ?").run(departmentId, id);
     return this.findById(id);
   },
 };

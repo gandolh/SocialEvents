@@ -30,10 +30,7 @@ export function Modal({ open, onClose, title, children, footer, size = "md" }: M
       onClick={onClose}
     >
       <div
-        className={cn(
-          "aero-glass-strong flex max-h-[90vh] w-full flex-col rounded-2xl",
-          sizes[size],
-        )}
+        className={cn("aero-glass-strong flex max-h-[90vh] w-full flex-col rounded-2xl", sizes[size])}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -49,11 +46,7 @@ export function Modal({ open, onClose, title, children, footer, size = "md" }: M
           </button>
         </div>
         <div className="flex-1 overflow-auto px-6 py-4">{children}</div>
-        {footer && (
-          <div className="flex justify-end gap-2 border-t border-white/50 px-6 py-4">
-            {footer}
-          </div>
-        )}
+        {footer && <div className="flex justify-end gap-2 border-t border-white/50 px-6 py-4">{footer}</div>}
       </div>
     </div>
   );

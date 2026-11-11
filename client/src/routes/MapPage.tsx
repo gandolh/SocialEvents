@@ -8,9 +8,7 @@ export function MapPage() {
   const { data: events = [], isLoading } = useEvents();
   const [selected, setSelected] = useState<string | null>(null);
 
-  const located = events.filter(
-    (e) => e.location.lat !== null && e.location.lng !== null,
-  );
+  const located = events.filter((e) => e.location.lat !== null && e.location.lng !== null);
   const markers = located.map((e) => ({
     id: e.id,
     lat: e.location.lat as number,
@@ -35,19 +33,13 @@ export function MapPage() {
             <p className="text-sm text-on-surface-variant">📍 {e.location.label}</p>
           </button>
         ))}
-        {located.length === 0 && (
-          <p className="text-sm text-on-surface-variant">
-            No events have map coordinates yet.
-          </p>
-        )}
+        {located.length === 0 && <p className="text-sm text-on-surface-variant">No events have map coordinates yet.</p>}
       </div>
       <div className="flex-1">
         <MapView markers={markers} />
       </div>
 
-      {selected && (
-        <EventDetailModal eventId={selected} onClose={() => setSelected(null)} />
-      )}
+      {selected && <EventDetailModal eventId={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }

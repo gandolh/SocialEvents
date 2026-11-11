@@ -99,11 +99,7 @@ body {
 
 /* Frosted translucent glass panel (sidebar, top bar, cards). */
 @utility aero-glass {
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.78),
-    rgba(255, 255, 255, 0.58)
-  );
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.58));
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.7);
@@ -114,11 +110,7 @@ body {
 
 /* Stronger glass for modals (more opaque for readability). */
 @utility aero-glass-strong {
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.92),
-    rgba(238, 246, 255, 0.86)
-  );
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.92), rgba(238, 246, 255, 0.86));
   backdrop-filter: blur(22px) saturate(150%);
   -webkit-backdrop-filter: blur(22px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.85);
@@ -129,13 +121,7 @@ body {
 
 /* Glossy blue primary button surface (gradient + top sheen). */
 @utility aero-gloss {
-  background: linear-gradient(
-    to bottom,
-    #57a7ef 0%,
-    #2a87e0 48%,
-    #1d6fc7 50%,
-    #1862b4 100%
-  );
+  background: linear-gradient(to bottom, #57a7ef 0%, #2a87e0 48%, #1d6fc7 50%, #1862b4 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.55),
     inset 0 -1px 2px rgba(0, 0, 0, 0.15),
@@ -144,11 +130,7 @@ body {
 
 /* Light glass button (secondary). */
 @utility aero-gloss-light {
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.95),
-    rgba(226, 240, 255, 0.8)
-  );
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(226, 240, 255, 0.8));
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
     0 1px 2px rgba(13, 45, 80, 0.18);

@@ -9,10 +9,7 @@ export const EVENT_CATEGORIES = [
   { name: "Other", colorKey: "other" },
 ] as const;
 
-export const EVENT_CATEGORY_NAMES = EVENT_CATEGORIES.map((c) => c.name) as [
-  string,
-  ...string[],
-];
+export const EVENT_CATEGORY_NAMES = EVENT_CATEGORIES.map((c) => c.name) as [string, ...string[]];
 
 export const eventCategorySchema = z.enum(EVENT_CATEGORY_NAMES);
 export type EventCategory = z.infer<typeof eventCategorySchema>;

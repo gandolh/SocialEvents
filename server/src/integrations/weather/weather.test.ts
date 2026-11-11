@@ -19,7 +19,7 @@ describe("weather (mock mode)", () => {
   });
 
   it("caches by rounded coordinates", async () => {
-    const a = await getWeather(45.700, 21.200);
+    const a = await getWeather(45.7, 21.2);
     const b = await getWeather(45.701, 21.201); // same 2dp bucket
     expect(a.description).toBe(b.description);
   });

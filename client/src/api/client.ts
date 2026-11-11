@@ -10,11 +10,7 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(
-  method: string,
-  path: string,
-  body?: unknown,
-): Promise<T> {
+async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
   const res = await fetch(BASE_URL + path, {
     method,
     headers: body ? { "Content-Type": "application/json" } : undefined,
@@ -28,11 +24,7 @@ async function request<T>(
   const data = text ? JSON.parse(text) : undefined;
 
   if (!res.ok) {
-    throw new ApiError(
-      res.status,
-      data?.error ?? "error",
-      data?.message ?? res.statusText,
-    );
+    throw new ApiError(res.status, data?.error ?? "error", data?.message ?? res.statusText);
   }
   return data as T;
 }

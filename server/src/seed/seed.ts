@@ -109,10 +109,7 @@ async function seed(): Promise<void> {
       location: e.location,
       attendeeUserIds: e.attendees,
     });
-    notificationsRepo.createMany(
-      e.attendees,
-      `You were invited to "${created.name}"`,
-    );
+    notificationsRepo.createMany(e.attendees, `You were invited to "${created.name}"`);
   }
 
   // A couple of ratings.

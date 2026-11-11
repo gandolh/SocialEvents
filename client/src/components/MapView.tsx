@@ -11,13 +11,7 @@ const MAPS_KEY = import.meta.env.VITE_MAPS_BROWSER_KEY as string | undefined;
 
 /** Map component. Renders a live Google map iframe when a browser key is set;
  *  otherwise a non-interactive fallback with coordinates. */
-export function MapView({
-  markers,
-  height = "100%",
-}: {
-  markers: MapMarker[];
-  height?: string;
-}) {
+export function MapView({ markers, height = "100%" }: { markers: MapMarker[]; height?: string }) {
   if (!MAPS_KEY) {
     return (
       <div
@@ -26,9 +20,7 @@ export function MapView({
       >
         <IoLocationOutline size={28} />
         <p className="text-sm font-medium">Map preview unavailable</p>
-        <p className="text-xs">
-          Set VITE_MAPS_BROWSER_KEY to enable interactive maps.
-        </p>
+        <p className="text-xs">Set VITE_MAPS_BROWSER_KEY to enable interactive maps.</p>
         <ul className="mt-2 space-y-1 text-xs">
           {markers.slice(0, 6).map((m) => (
             <li key={m.id}>
@@ -47,12 +39,6 @@ export function MapView({
       : `https://www.google.com/maps/embed/v1/view?key=${MAPS_KEY}&center=${center.lat},${center.lng}&zoom=11`;
 
   return (
-    <iframe
-      title="Map"
-      className="rounded-lg border-0"
-      style={{ width: "100%", height }}
-      loading="lazy"
-      src={src}
-    />
+    <iframe title="Map" className="rounded-lg border-0" style={{ width: "100%", height }} loading="lazy" src={src} />
   );
 }

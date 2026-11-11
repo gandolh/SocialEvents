@@ -53,17 +53,13 @@ export const notificationsRepo = {
 
   listForUser(userId: string): Notification[] {
     const rows = getDb()
-      .prepare(
-        "SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC",
-      )
+      .prepare("SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC")
       .all(userId) as NotificationRow[];
     return rows.map(toNotification);
   },
 
   findById(id: string): Notification | null {
-    const row = getDb()
-      .prepare("SELECT * FROM notifications WHERE id = ?")
-      .get(id) as NotificationRow | undefined;
+    const row = getDb().prepare("SELECT * FROM notifications WHERE id = ?").get(id) as NotificationRow | undefined;
     return row ? toNotification(row) : null;
   },
 
@@ -74,9 +70,7 @@ export const notificationsRepo = {
   },
 
   remove(id: string): boolean {
-    const res = getDb()
-      .prepare("DELETE FROM notifications WHERE id = ?")
-      .run(id);
+    const res = getDb().prepare("DELETE FROM notifications WHERE id = ?").run(id);
     return res.changes > 0;
   },
 };

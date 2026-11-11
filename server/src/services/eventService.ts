@@ -1,8 +1,4 @@
-import type {
-  CreateEventInput,
-  UpdateEventInput,
-  EventDetail,
-} from "@socialevents/shared";
+import type { CreateEventInput, UpdateEventInput, EventDetail } from "@socialevents/shared";
 import { eventsRepo } from "../dal/events.js";
 import { departmentsRepo } from "../dal/departments.js";
 import { usersRepo } from "../dal/users.js";
@@ -16,30 +12,18 @@ interface Actor {
 }
 
 /** Expand explicit user ids + department member ids into a unique set. */
-function resolveAttendees(
-  userIds: string[],
-  departmentIds: string[],
-): string[] {
+function resolveAttendees(userIds: string[], departmentIds: string[]): string[] {
   const fromDepts = departmentsRepo.memberIds(departmentIds);
   return [...new Set([...userIds, ...fromDepts])];
 }
 
-export async function createEvent(
-  actor: Actor,
-  input: CreateEventInput,
-): Promise<EventDetail> {
-  const dup = eventsRepo.findDuplicate(
-    actor.id,
-    input.name,
-    input.startsAt,
-    input.location.label,
-  );
+export async function createEvent(actor: Actor, input: CreateEventInput): Promise<EventDetail> {
+  const dup = eventsRepo.findDuplicate(actor.id, input.name, input.startsAt, input.location.label);
   if (dup) throw conflict("an identical event already exists");
 
-  const attendeeIds = resolveAttendees(
-    input.attendeeUserIds,
-    input.attendeeDepartmentIds,
-  ).filter((id) => id !== actor.id); // host isn't an attendee of their own event
+  const attendeeIds = resolveAttendees(input.attendeeUserIds, input.attendeeDepartmentIds).filter(
+    (id) => id !== actor.id,
+  ); // host isn't an attendee of their own event
 
   const event = eventsRepo.create({
     name: input.name,
@@ -53,10 +37,7 @@ export async function createEvent(
 
   // In-app notifications + email invites (fire-and-forget for email).
   if (attendeeIds.length > 0) {
-    notificationsRepo.createMany(
-      attendeeIds,
-      `You were invited to "${event.name}"`,
-    );
+    notificationsRepo.createMany(attendeeIds, `You were invited to "${event.name}"`);
     for (const uid of attendeeIds) {
       const u = usersRepo.findById(uid);
       if (!u) continue;
@@ -84,11 +65,7 @@ function assertCanMutate(actor: Actor, hostId: string): void {
   if (actor.role !== "admin" && actor.id !== hostId) throw forbidden();
 }
 
-export function updateEvent(
-  actor: Actor,
-  eventId: string,
-  input: UpdateEventInput,
-): EventDetail {
+export function updateEvent(actor: Actor, eventId: string, input: UpdateEventInput): EventDetail {
   const existing = eventsRepo.findSummaryById(eventId);
   if (!existing) throw notFound("event not found");
   assertCanMutate(actor, existing.hostId);
@@ -103,10 +80,9 @@ export function updateEvent(
   if (!updated) throw notFound("event not found");
 
   if (input.attendeeUserIds !== undefined || input.attendeeDepartmentIds !== undefined) {
-    const ids = resolveAttendees(
-      input.attendeeUserIds ?? [],
-      input.attendeeDepartmentIds ?? [],
-    ).filter((id) => id !== existing.hostId);
+    const ids = resolveAttendees(input.attendeeUserIds ?? [], input.attendeeDepartmentIds ?? []).filter(
+      (id) => id !== existing.hostId,
+    );
     eventsRepo.setAttendees(eventId, ids);
   }
 

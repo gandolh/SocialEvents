@@ -11,19 +11,10 @@ interface FieldProps {
   error?: string;
 }
 
-export function Input({
-  label,
-  error,
-  className,
-  ...rest
-}: FieldProps & InputHTMLAttributes<HTMLInputElement>) {
+export function Input({ label, error, className, ...rest }: FieldProps & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <label className="block">
-      {label && (
-        <span className="mb-1 block text-sm font-medium text-on-surface-variant">
-          {label}
-        </span>
-      )}
+      {label && <span className="mb-1 block text-sm font-medium text-on-surface-variant">{label}</span>}
       <input className={cn(base, error && "border-error", className)} {...rest} />
       {error && <span className="mt-1 block text-xs text-error">{error}</span>}
     </label>
@@ -38,15 +29,8 @@ export function Textarea({
 }: FieldProps & TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <label className="block">
-      {label && (
-        <span className="mb-1 block text-sm font-medium text-on-surface-variant">
-          {label}
-        </span>
-      )}
-      <textarea
-        className={cn(base, "min-h-[80px] resize-y", error && "border-error", className)}
-        {...rest}
-      />
+      {label && <span className="mb-1 block text-sm font-medium text-on-surface-variant">{label}</span>}
+      <textarea className={cn(base, "min-h-[80px] resize-y", error && "border-error", className)} {...rest} />
       {error && <span className="mt-1 block text-xs text-error">{error}</span>}
     </label>
   );
@@ -61,11 +45,7 @@ export function Select({
 }: FieldProps & React.SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <label className="block">
-      {label && (
-        <span className="mb-1 block text-sm font-medium text-on-surface-variant">
-          {label}
-        </span>
-      )}
+      {label && <span className="mb-1 block text-sm font-medium text-on-surface-variant">{label}</span>}
       <select className={cn(base, className)} {...rest}>
         {children}
       </select>

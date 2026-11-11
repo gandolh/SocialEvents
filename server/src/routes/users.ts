@@ -1,10 +1,5 @@
 import type { FastifyInstance } from "fastify";
-import {
-  updateProfileSchema,
-  changePasswordSchema,
-  assignDepartmentSchema,
-  idSchema,
-} from "@socialevents/shared";
+import { updateProfileSchema, changePasswordSchema, assignDepartmentSchema, idSchema } from "@socialevents/shared";
 import { z } from "zod";
 import { requireAuth, requireAdmin, currentUser } from "../auth/guards.js";
 import { usersRepo } from "../dal/users.js";

@@ -82,14 +82,22 @@ describe("events repo", () => {
     const host = mkUser("Host");
     const att = mkUser("Att");
     eventsRepo.create({
-      name: "Game", hostId: host.id, startsAt: "2026-07-01T18:00:00+00:00",
-      description: "", category: "Game night",
-      location: { label: "X", lat: null, lng: null }, attendeeUserIds: [att.id],
+      name: "Game",
+      hostId: host.id,
+      startsAt: "2026-07-01T18:00:00+00:00",
+      description: "",
+      category: "Game night",
+      location: { label: "X", lat: null, lng: null },
+      attendeeUserIds: [att.id],
     });
     eventsRepo.create({
-      name: "Holiday", hostId: host.id, startsAt: "2026-07-02T18:00:00+00:00",
-      description: "", category: "Holiday",
-      location: { label: "Y", lat: null, lng: null }, attendeeUserIds: [],
+      name: "Holiday",
+      hostId: host.id,
+      startsAt: "2026-07-02T18:00:00+00:00",
+      description: "",
+      category: "Holiday",
+      location: { label: "Y", lat: null, lng: null },
+      attendeeUserIds: [],
     });
     expect(eventsRepo.list({ category: "Game night" })).toHaveLength(1);
     expect(eventsRepo.list({ attendeeId: att.id })).toHaveLength(1);
@@ -99,25 +107,29 @@ describe("events repo", () => {
   it("detects duplicates by host+name+time+location", () => {
     const host = mkUser("Host");
     eventsRepo.create({
-      name: "Dup", hostId: host.id, startsAt: "2026-07-01T18:00:00+00:00",
-      description: "", category: "Other",
-      location: { label: "HQ", lat: null, lng: null }, attendeeUserIds: [],
+      name: "Dup",
+      hostId: host.id,
+      startsAt: "2026-07-01T18:00:00+00:00",
+      description: "",
+      category: "Other",
+      location: { label: "HQ", lat: null, lng: null },
+      attendeeUserIds: [],
     });
-    expect(
-      eventsRepo.findDuplicate(host.id, "Dup", "2026-07-01T18:00:00+00:00", "HQ"),
-    ).not.toBeNull();
-    expect(
-      eventsRepo.findDuplicate(host.id, "Dup", "2026-07-01T18:00:00+00:00", "Other"),
-    ).toBeNull();
+    expect(eventsRepo.findDuplicate(host.id, "Dup", "2026-07-01T18:00:00+00:00", "HQ")).not.toBeNull();
+    expect(eventsRepo.findDuplicate(host.id, "Dup", "2026-07-01T18:00:00+00:00", "Other")).toBeNull();
   });
 
   it("cascades attendees/ratings on event delete", () => {
     const host = mkUser("Host");
     const att = mkUser("Att");
     const ev = eventsRepo.create({
-      name: "E", hostId: host.id, startsAt: "2026-07-01T18:00:00+00:00",
-      description: "", category: "Other",
-      location: { label: "HQ", lat: null, lng: null }, attendeeUserIds: [att.id],
+      name: "E",
+      hostId: host.id,
+      startsAt: "2026-07-01T18:00:00+00:00",
+      description: "",
+      category: "Other",
+      location: { label: "HQ", lat: null, lng: null },
+      attendeeUserIds: [att.id],
     });
     eventRatingsRepo.set(ev.id, att.id, 5);
     eventsRepo.remove(ev.id);
@@ -129,9 +141,13 @@ describe("events repo", () => {
     const host = mkUser("Host");
     const att = mkUser("Att");
     const ev = eventsRepo.create({
-      name: "E", hostId: host.id, startsAt: "2026-07-01T18:00:00+00:00",
-      description: "", category: "Other",
-      location: { label: "HQ", lat: null, lng: null }, attendeeUserIds: [att.id],
+      name: "E",
+      hostId: host.id,
+      startsAt: "2026-07-01T18:00:00+00:00",
+      description: "",
+      category: "Other",
+      location: { label: "HQ", lat: null, lng: null },
+      attendeeUserIds: [att.id],
     });
     expect(eventsRepo.setRsvp(ev.id, att.id, "accepted")).toBe(true);
     expect(eventsRepo.attendees(ev.id)[0]?.status).toBe("accepted");
@@ -145,9 +161,13 @@ describe("ratings aggregation", () => {
     const r1 = mkUser("R1");
     const r2 = mkUser("R2");
     const ev = eventsRepo.create({
-      name: "E", hostId: host.id, startsAt: "2026-07-01T18:00:00+00:00",
-      description: "", category: "Other",
-      location: { label: "HQ", lat: null, lng: null }, attendeeUserIds: [],
+      name: "E",
+      hostId: host.id,
+      startsAt: "2026-07-01T18:00:00+00:00",
+      description: "",
+      category: "Other",
+      location: { label: "HQ", lat: null, lng: null },
+      attendeeUserIds: [],
     });
     eventRatingsRepo.set(ev.id, r1.id, 4);
     const res = eventRatingsRepo.set(ev.id, r2.id, 2);

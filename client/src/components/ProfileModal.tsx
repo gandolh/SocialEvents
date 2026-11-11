@@ -44,11 +44,7 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
         <section className="space-y-3">
           <h3 className="text-sm font-semibold text-on-surface">Profile</h3>
           <Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
-          <Input
-            label="Job title"
-            value={jobTitle}
-            onChange={(e) => setJobTitle(e.target.value)}
-          />
+          <Input label="Job title" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} />
           <Button size="sm" onClick={saveProfile} disabled={updateProfile.isPending}>
             Save profile
           </Button>

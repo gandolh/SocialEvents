@@ -44,7 +44,9 @@ describe("auth & authorization", () => {
   it("blocks non-admin from admin routes (403)", async () => {
     const { cookie } = await registerUser("Alice", "alice@x.com");
     const res = await app.inject({
-      method: "POST", url: "/api/departments", headers: { cookie },
+      method: "POST",
+      url: "/api/departments",
+      headers: { cookie },
       payload: { name: "Eng" },
     });
     expect(res.statusCode).toBe(403);
@@ -53,7 +55,8 @@ describe("auth & authorization", () => {
   it("rejects duplicate registration (409)", async () => {
     await registerUser("Alice", "alice@x.com");
     const res = await app.inject({
-      method: "POST", url: "/api/auth/register",
+      method: "POST",
+      url: "/api/auth/register",
       payload: { name: "A2", email: "alice@x.com", password: "password123" },
     });
     expect(res.statusCode).toBe(409);
@@ -62,7 +65,8 @@ describe("auth & authorization", () => {
   it("rejects bad login generically (401)", async () => {
     await registerUser("Alice", "alice@x.com");
     const res = await app.inject({
-      method: "POST", url: "/api/auth/login",
+      method: "POST",
+      url: "/api/auth/login",
       payload: { email: "alice@x.com", password: "nope" },
     });
     expect(res.statusCode).toBe(401);
@@ -70,7 +74,8 @@ describe("auth & authorization", () => {
 
   it("validation error returns 400", async () => {
     const res = await app.inject({
-      method: "POST", url: "/api/auth/register",
+      method: "POST",
+      url: "/api/auth/register",
       payload: { name: "", email: "bad", password: "short" },
     });
     expect(res.statusCode).toBe(400);
@@ -83,11 +88,17 @@ describe("event ownership", () => {
     const other = await registerUser("Other", "other@x.com");
 
     const created = await app.inject({
-      method: "POST", url: "/api/events", headers: { cookie: host.cookie },
+      method: "POST",
+      url: "/api/events",
+      headers: { cookie: host.cookie },
       payload: {
-        name: "Party", startsAt: "2026-07-01T18:00:00+00:00", description: "",
-        category: "Other", location: { label: "HQ", lat: 1, lng: 2 },
-        attendeeUserIds: [], attendeeDepartmentIds: [],
+        name: "Party",
+        startsAt: "2026-07-01T18:00:00+00:00",
+        description: "",
+        category: "Other",
+        location: { label: "HQ", lat: 1, lng: 2 },
+        attendeeUserIds: [],
+        attendeeDepartmentIds: [],
       },
     });
     expect(created.statusCode).toBe(201);
@@ -95,13 +106,17 @@ describe("event ownership", () => {
 
     // other user cannot delete
     const forbidden = await app.inject({
-      method: "DELETE", url: `/api/events/${eventId}`, headers: { cookie: other.cookie },
+      method: "DELETE",
+      url: `/api/events/${eventId}`,
+      headers: { cookie: other.cookie },
     });
     expect(forbidden.statusCode).toBe(403);
 
     // host can delete
     const ok = await app.inject({
-      method: "DELETE", url: `/api/events/${eventId}`, headers: { cookie: host.cookie },
+      method: "DELETE",
+      url: `/api/events/${eventId}`,
+      headers: { cookie: host.cookie },
     });
     expect(ok.statusCode).toBe(204);
   });
@@ -112,23 +127,32 @@ describe("event ownership", () => {
     // promote to admin directly in the DB, then re-login to refresh the JWT role.
     getDb().prepare("UPDATE users SET role = 'admin' WHERE email = ?").run("admin@x.com");
     const relog = await app.inject({
-      method: "POST", url: "/api/auth/login",
+      method: "POST",
+      url: "/api/auth/login",
       payload: { email: "admin@x.com", password: "password123" },
     });
     const adminCookie = cookieFrom(relog);
 
     const created = await app.inject({
-      method: "POST", url: "/api/events", headers: { cookie: host.cookie },
+      method: "POST",
+      url: "/api/events",
+      headers: { cookie: host.cookie },
       payload: {
-        name: "P", startsAt: "2026-07-01T18:00:00+00:00", description: "",
-        category: "Other", location: { label: "HQ", lat: 1, lng: 2 },
-        attendeeUserIds: [], attendeeDepartmentIds: [],
+        name: "P",
+        startsAt: "2026-07-01T18:00:00+00:00",
+        description: "",
+        category: "Other",
+        location: { label: "HQ", lat: 1, lng: 2 },
+        attendeeUserIds: [],
+        attendeeDepartmentIds: [],
       },
     });
     const eventId = created.json().event.id;
 
     const ok = await app.inject({
-      method: "DELETE", url: `/api/events/${eventId}`, headers: { cookie: adminCookie },
+      method: "DELETE",
+      url: `/api/events/${eventId}`,
+      headers: { cookie: adminCookie },
     });
     expect(ok.statusCode).toBe(204);
   });

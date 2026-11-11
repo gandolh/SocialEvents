@@ -12,14 +12,10 @@ function build(t: RatingTable) {
     get(subjectId: string, userId: string): RatingResponse {
       const db = getDb();
       const agg = db
-        .prepare(
-          `SELECT AVG(rating) AS avg, COUNT(*) AS count FROM ${t.table} WHERE ${t.subjectCol} = ?`,
-        )
+        .prepare(`SELECT AVG(rating) AS avg, COUNT(*) AS count FROM ${t.table} WHERE ${t.subjectCol} = ?`)
         .get(subjectId) as { avg: number | null; count: number };
       const mine = db
-        .prepare(
-          `SELECT rating FROM ${t.table} WHERE ${t.subjectCol} = ? AND user_id = ?`,
-        )
+        .prepare(`SELECT rating FROM ${t.table} WHERE ${t.subjectCol} = ? AND user_id = ?`)
         .get(subjectId, userId) as { rating: number } | undefined;
       return {
         aggregate: { average: agg.avg ?? 0, count: agg.count },
@@ -40,11 +36,7 @@ function build(t: RatingTable) {
     },
 
     remove(subjectId: string, userId: string): RatingResponse {
-      getDb()
-        .prepare(
-          `DELETE FROM ${t.table} WHERE ${t.subjectCol} = ? AND user_id = ?`,
-        )
-        .run(subjectId, userId);
+      getDb().prepare(`DELETE FROM ${t.table} WHERE ${t.subjectCol} = ? AND user_id = ?`).run(subjectId, userId);
       return this.get(subjectId, userId);
     },
   };
