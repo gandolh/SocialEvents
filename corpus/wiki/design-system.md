@@ -1,6 +1,6 @@
 ---
-summary: The design tokens and screens from the Stitch design, and the Aero theme laid over them
-updated: 2026-06-25
+summary: The design tokens and screens from the Stitch design, and the Aero skin laid over them in a light and a dark theme
+updated: 2026-11-11
 ---
 
 # Design system (Stitch output)
@@ -15,6 +15,24 @@ updated: 2026-06-25
 > surface, etc.) are unchanged so component classes still resolve. Category accent
 > colors are preserved. See [decisions.md](decisions.md) and brief 13. The flat
 > Material-3 palette below is the original Stitch source, kept for reference.
+
+> **Two themes (since 2026-11-11, brief 16).** Aero is the skin of both. The light
+> values sit in the `@theme` block; the dark ones in a `:root[data-theme="dark"]`
+> block in `@layer base`: a night-blue desktop, smoked glass (translucent navy, not
+> black), the same blue primary lifted, the category hues lightened. The glass, gloss,
+> desktop, chip and field values are tokens (`--color-glass-*`, `--color-gloss-*`,
+> `--color-desktop-*`, `--color-chip-*`, `--color-field*`, `--color-scrim`), so a
+> component never writes a colour. A named z scale (`z-overlay` 40, `z-dialog` 50,
+> `z-popup` 60) orders the layers. The picker (Light / Dark / System) is in the profile
+> dialog's Appearance section; `lib/theme.ts` keeps the choice in `localStorage`
+> (`socialevents-theme`), a first visit shows light, and `data-theme` on `<html>` is
+> always `light` or `dark`. `scripts/check-contrast.mjs` reads both blocks and checks the
+> text and focus pairs; seven light pairs that were already short of 4.5:1 are listed
+> in it with a floor (brief 18 lifts them).
+>
+> **Widgets.** Dialog, menu, popover, drawer, tabs, radio group and checkbox are Base UI
+> 1.9.0 wrappers in `client/src/components/ui/`; the deletes use `InlineConfirm`.
+> Selects, text, password and date-time inputs stay native.
 
 
 Source: [sources/stitch_design/](../sources/stitch_design/) — 5 screens (HTML + PNG)

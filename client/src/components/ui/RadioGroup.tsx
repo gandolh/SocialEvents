@@ -41,7 +41,7 @@ export function RadioGroup<Value extends string>({
           key={option.value}
           value={option.value}
           className={cn(
-            "cursor-pointer rounded-md px-3 py-1 text-on-surface-variant outline-none select-none",
+            "cursor-pointer rounded-md px-3 py-1 text-on-surface-variant capitalize outline-none select-none",
             "focus-visible:aero-glow data-checked:bg-primary/10 data-checked:text-primary",
           )}
         >

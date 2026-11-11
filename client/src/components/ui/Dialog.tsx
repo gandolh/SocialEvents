@@ -47,7 +47,7 @@ export function Dialog({ open, onClose, title, children, footer, size = "md", di
             popupRef.current?.querySelector<HTMLElement>("[data-autofocus]") ??
             bodyRef.current?.querySelector<HTMLElement>(FOCUSABLE) ??
             popupRef.current?.querySelector<HTMLElement>("footer button:not(:disabled)") ??
-            true
+            popupRef.current
           }
           className={cn(
             "fixed top-1/2 left-1/2 z-dialog flex max-h-[90vh] w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col rounded-2xl aero-glass-strong outline-none",

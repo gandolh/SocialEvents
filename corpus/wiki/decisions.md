@@ -13,6 +13,16 @@ Settled choices. Don't relitigate without an explicit revisit + a `log.md` note.
   `@theme` tokens + `@utility` glass/gloss/glow classes in
   `client/src/styles/index.css`. Stitch layout/IA preserved; only the skin
   changed. (Brief 13.)
+- **Two themes, Aero in both (2026-11-11, brief 16).** Light, Dark and System, light on a first visit, the choice
+  kept in `localStorage` (the app has no per-user settings). `data-theme` on `<html>` holds `light` or `dark`;
+  System is resolved in JS (`lib/theme.ts`, with a `matchMedia` listener) and by the boot script in `index.html`.
+  The picker is a `RadioGroup`, not a guarded `ToggleGroup`: nothing is saved to the server (base-ui rule 16, Q57).
+- **Base UI 1.9.0 under `components/ui/`, by the conventions (2026-11-11, brief 16).** The phone menu is a `Drawer`;
+  the All / Hosted-by-me filter a `RadioGroup`; the invite switch `Tabs`; the form dialogs (create, profile) ignore
+  an outside press; the detail dialog does not. Deletes ask in place ("Delete? Yes No", `InlineConfirm`), including
+  the event delete, which used to delete on one click. `StarRating` stays buttons: each click saves, and the stars
+  show the average (a `conventions.json` exception). The three native `<select>`s and the text and date inputs stay
+  native (Q16).
 - **Monorepo**, npm workspaces: `client` / `server` / `shared`. `shared` = API contract.
 - **Frontend:** React + Vite + TypeScript + Tailwind + TanStack Query + TanStack Router.
 - **Backend:** Fastify (TypeScript).

@@ -57,8 +57,14 @@ Run from a fresh clone with Node 24 on Linux, during a README refresh.
 ## The harness (2026-11-11)
 `npm run check` (typecheck, ESLint, Prettier, knip + dependency-cruiser + the two convention checkers, tests) passes;
 `npm run check:fast` is the quick subset. The code is formatted at width 120 and linted by the vendored house
-config. `check-base-ui` (7 findings) and `check-structure` (67) run `--warn-only` until the Base UI and server
-briefs. See [decisions.md](decisions.md) and the log entry of that date.
+config. `check-structure` (67) runs `--warn-only` until the server brief. See [decisions.md](decisions.md) and the
+log entry of that date.
+
+## Base UI and the theme (2026-11-11, brief 16)
+The client is on Base UI 1.9.0 (dialog, menu, popover, drawer, tabs, radio group, checkbox) under
+`client/src/components/ui/`, with a Light / Dark / System switch in the profile dialog. `check-base-ui` runs strict
+and reports 0; `scripts/check-contrast.mjs` is in `check:conventions`. `npm run check` passes, with 22 client
+jsdom tests beside the 27 server ones.
 
 ## How to run
 See [README.md](../../README.md). `npm install` → `build:shared` → `migrate` →
@@ -66,7 +72,6 @@ See [README.md](../../README.md). `npm install` → `build:shared` → `migrate`
 The seed prints its sign-in addresses and their shared local password.
 
 ## Possible next work (not started)
-- Aero dark mode (the original Stitch dark-mode plan is superseded by Aero).
 - Live Google Maps interactive markers (currently iframe embed + fallback).
 - Automated E2E tests (Playwright) for the key flows.
 - See [open-questions.md](open-questions.md) for the cover-image decision.
