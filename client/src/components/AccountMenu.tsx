@@ -9,8 +9,8 @@ export function AccountMenu({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="absolute right-0 z-50 mt-2 w-56 rounded-xl border border-outline-variant/60 bg-surface-container-lowest shadow-lg">
+      <div className="fixed inset-0 z-overlay" onClick={onClose} />
+      <div className="absolute right-0 z-popup mt-2 w-56 rounded-xl border border-outline-variant/60 bg-surface-container-lowest shadow-lg">
         <div className="border-b border-outline-variant/60 px-4 py-3">
           <p className="text-sm font-semibold text-on-surface">{me?.name}</p>
           <p className="truncate text-xs text-on-surface-variant">{me?.email}</p>

@@ -9,4 +9,8 @@ describe("cn", () => {
   it("lets a later utility win over an earlier one it conflicts with", () => {
     expect(cn("px-2 px-4")).toBe("px-4");
   });
+
+  it("knows the app's z-index tokens", () => {
+    expect(cn("z-overlay", "z-dialog")).toBe("z-dialog");
+  });
 });

@@ -73,7 +73,7 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
           </Button>
         </section>
 
-        {msg && <p className="text-sm text-[#006d3b]">{msg}</p>}
+        {msg && <p className="text-sm text-success">{msg}</p>}
         {err && <p className="text-sm text-error">{err}</p>}
       </div>
     </Modal>

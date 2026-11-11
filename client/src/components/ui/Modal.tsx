@@ -26,7 +26,7 @@ export function Modal({ open, onClose, title, children, footer, size = "md" }: M
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-inverse-surface/40 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-dialog flex items-center justify-center bg-scrim p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
@@ -35,7 +35,7 @@ export function Modal({ open, onClose, title, children, footer, size = "md" }: M
         role="dialog"
         aria-modal="true"
       >
-        <div className="flex items-center justify-between border-b border-white/50 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-glass-divider px-6 py-4">
           <h2 className="text-lg font-semibold text-on-surface">{title}</h2>
           <button
             onClick={onClose}
@@ -46,7 +46,7 @@ export function Modal({ open, onClose, title, children, footer, size = "md" }: M
           </button>
         </div>
         <div className="flex-1 overflow-auto px-6 py-4">{children}</div>
-        {footer && <div className="flex justify-end gap-2 border-t border-white/50 px-6 py-4">{footer}</div>}
+        {footer && <div className="flex justify-end gap-2 border-t border-glass-divider px-6 py-4">{footer}</div>}
       </div>
     </div>
   );

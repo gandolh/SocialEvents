@@ -73,8 +73,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                 active
-                  ? "border border-white/70 text-primary aero-gloss-light"
-                  : "text-on-surface-variant hover:bg-white/40",
+                  ? "border border-glass-edge text-primary aero-gloss-light"
+                  : "text-on-surface-variant hover:bg-glass-hover",
               )}
             >
               <item.icon size={20} />
@@ -96,11 +96,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
       {/* Mobile drawer (below lg) */}
       {drawerOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div
-            className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm"
-            onClick={() => setDrawerOpen(false)}
-          />
+        <div className="fixed inset-0 z-dialog lg:hidden">
+          <div className="absolute inset-0 bg-scrim backdrop-blur-sm" onClick={() => setDrawerOpen(false)} />
           <aside className="absolute top-0 left-0 flex h-full w-[280px] max-w-[80vw] flex-col rounded-none px-4 py-6 aero-glass-strong">
             <button
               onClick={() => setDrawerOpen(false)}
@@ -168,7 +165,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </header>
 
         <main className="flex-1 overflow-auto p-4 sm:p-6">
-          <div className="mx-auto min-h-full max-w-[1400px] rounded-2xl bg-white/55 p-4 shadow-[0_8px_30px_rgba(13,45,80,0.12)] ring-1 ring-white/60 backdrop-blur-md sm:p-6">
+          <div className="mx-auto min-h-full max-w-[1400px] rounded-2xl bg-glass-panel p-4 shadow-panel ring-1 ring-glass-panel-ring backdrop-blur-md sm:p-6">
             {children}
           </div>
         </main>

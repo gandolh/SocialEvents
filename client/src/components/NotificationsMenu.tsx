@@ -10,8 +10,8 @@ export function NotificationsMenu({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="absolute right-0 z-50 mt-2 w-80 rounded-xl border border-outline-variant/60 bg-surface-container-lowest shadow-lg">
+      <div className="fixed inset-0 z-overlay" onClick={onClose} />
+      <div className="absolute right-0 z-popup mt-2 w-80 rounded-xl border border-outline-variant/60 bg-surface-container-lowest shadow-lg">
         <div className="border-b border-outline-variant/60 px-4 py-3 text-sm font-semibold">Notifications</div>
         <div className="max-h-96 overflow-auto">
           {notifications.length === 0 && (

@@ -17,12 +17,12 @@ export function formatDate(iso: string): string {
 export function categoryChipClasses(category: string): string {
   switch (category) {
     case "Game night":
-      return "bg-[#ece1ff] text-secondary border border-secondary/30";
+      return "bg-chip-game-night text-secondary border border-secondary/30";
     case "Holiday":
-      return "bg-[#ffe2d6] text-tertiary border border-tertiary/30";
+      return "bg-chip-holiday text-tertiary border border-tertiary/30";
     case "Team building":
-      return "bg-[#d7f0e2] text-[#1c7a4a] border border-[#1c7a4a]/30";
+      return "bg-chip-team-building text-cat-team-building border border-cat-team-building/30";
     default:
-      return "bg-white/90 text-on-surface-variant border border-outline/40";
+      return "bg-chip-neutral text-on-surface-variant border border-outline/40";
   }
 }
