@@ -29,7 +29,7 @@ npm run dev:server     # Fastify on :3001, restarts on change
 npm run dev:client     # second terminal: Vite on http://localhost:5173, forwarding /api to :3001
 ```
 
-In development the server makes a throwaway `JWT_SECRET` and warns about it, so sign-ins end when it restarts. The first log line says which integrations are real and which are stand-ins, for example `weather=mock email=mock`.
+In development the server makes a throwaway `JWT_SECRET` and warns about it, so sign-ins end when it restarts. The startup log says which integrations are real and which are stand-ins, for example `weather=mock email=mock`.
 
 ## Settings
 
@@ -41,8 +41,9 @@ In development the server makes a throwaway `JWT_SECRET` and warns about it, so 
 | `DATABASE_PATH` | `./data/socialevents.sqlite` | the SQLite file |
 | `PORT` | `3001` | the API port |
 | `CLIENT_ORIGIN` | `http://localhost:5173` | CORS origin of the Vite page in development |
+| `TRUST_PROXY` | `false` | set to `true` behind a reverse proxy, so the rate limits count each client and not the proxy |
 | `WEATHER_API_KEY` | empty, stand-in | a WeatherStack-compatible key; answers are cached for 24 hours |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | empty, stand-in | mail for invites and welcomes; without them mail goes to the console |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | empty, stand-in | mail for invites and welcomes; without them nothing is sent and the log says so |
 
 `client/.env`:
 

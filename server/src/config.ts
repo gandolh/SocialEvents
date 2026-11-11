@@ -15,10 +15,13 @@ const envSchema = z.object({
   CLIENT_ORIGIN: z.string().optional(),
   JWT_SECRET: z.string().optional(),
   /** `true` when a reverse proxy sits in front, so `request.ip` is the client and not the proxy. */
-  TRUST_PROXY: z
-    .enum(["true", "false"])
-    .default("false")
-    .transform((value) => value === "true"),
+  TRUST_PROXY: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((value) => value === "true"),
+  ),
   WEATHER_API_KEY: z.string().optional(),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().int().positive().default(587),
