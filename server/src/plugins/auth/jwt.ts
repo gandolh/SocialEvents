@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import type { UserRole } from "@socialevents/shared";
-import { config } from "../../config.js";
 
 export interface AuthClaims {
   sub: string;
@@ -11,23 +10,29 @@ export interface AuthClaims {
 
 const EXPIRES_IN = "7d";
 
-export function signToken(claims: AuthClaims): string {
-  return jwt.sign(claims, config.jwtSecret, {
-    expiresIn: EXPIRES_IN,
-    algorithm: "HS256",
-  });
+/** Signs and verifies session tokens with one secret. */
+export function createTokens(secret: string) {
+  return {
+    sign(claims: AuthClaims): string {
+      return jwt.sign(claims, secret, {
+        expiresIn: EXPIRES_IN,
+        algorithm: "HS256",
+      });
+    },
+    verify(token: string): AuthClaims | null {
+      try {
+        const decoded = jwt.verify(token, secret, {
+          algorithms: ["HS256"],
+        });
+        if (typeof decoded === "string") return null;
+        const { sub, role, name, email } = decoded as jwt.JwtPayload & Partial<AuthClaims>;
+        if (!sub || !role || !name || !email) return null;
+        return { sub, role, name, email };
+      } catch {
+        return null;
+      }
+    },
+  };
 }
 
-export function verifyToken(token: string): AuthClaims | null {
-  try {
-    const decoded = jwt.verify(token, config.jwtSecret, {
-      algorithms: ["HS256"],
-    });
-    if (typeof decoded === "string") return null;
-    const { sub, role, name, email } = decoded as jwt.JwtPayload & Partial<AuthClaims>;
-    if (!sub || !role || !name || !email) return null;
-    return { sub, role, name, email };
-  } catch {
-    return null;
-  }
-}
+export type Tokens = ReturnType<typeof createTokens>;

@@ -1,15 +1,12 @@
 import type { Weather } from "@socialevents/shared";
-import { config } from "../../config.js";
+import type { Config } from "../../config.js";
 
-const useReal = Boolean(config.weather.apiKey);
 const TTL_MS = 24 * 60 * 60 * 1000;
 
 interface CacheEntry {
   data: Weather;
   timestamp: number;
 }
-const cache = new Map<string, CacheEntry>();
-
 function cacheKey(lat: number, lng: number): string {
   // Round to ~1km to share cache between nearby points.
   return `${lat.toFixed(2)},${lng.toFixed(2)}`;
@@ -47,34 +44,35 @@ async function fetchReal(apiKey: string, lat: number, lng: number): Promise<Weat
   };
 }
 
-export async function getWeather(lat: number, lng: number): Promise<Weather> {
-  const key = cacheKey(lat, lng);
-  const cached = cache.get(key);
-  if (cached && Date.now() - cached.timestamp < TTL_MS) {
-    return cached.data;
-  }
+/** The weather lookup, with a 24-hour cache. Live with an API key, a deterministic mock without. */
+export function createWeather(settings: Config["weather"]) {
+  const useReal = Boolean(settings.apiKey);
+  const cache = new Map<string, CacheEntry>();
 
-  let data: Weather;
-  const apiKey = config.weather.apiKey;
-  if (useReal && apiKey) {
-    try {
-      data = await fetchReal(apiKey, lat, lng);
-    } catch {
-      data = mockWeather(lat, lng); // graceful fallback on provider error
+  async function get(lat: number, lng: number): Promise<Weather> {
+    const key = cacheKey(lat, lng);
+    const cached = cache.get(key);
+    if (cached && Date.now() - cached.timestamp < TTL_MS) {
+      return cached.data;
     }
-  } else {
-    data = mockWeather(lat, lng);
+
+    let data: Weather;
+    const apiKey = settings.apiKey;
+    if (useReal && apiKey) {
+      try {
+        data = await fetchReal(apiKey, lat, lng);
+      } catch {
+        data = mockWeather(lat, lng); // graceful fallback on provider error
+      }
+    } else {
+      data = mockWeather(lat, lng);
+    }
+
+    cache.set(key, { data, timestamp: Date.now() });
+    return data;
   }
 
-  cache.set(key, { data, timestamp: Date.now() });
-  return data;
+  return { mode: useReal ? ("live" as const) : ("mock" as const), get };
 }
 
-export function weatherMode(): "live" | "mock" {
-  return useReal ? "live" : "mock";
-}
-
-/** Test helper. */
-export function _clearWeatherCache(): void {
-  cache.clear();
-}
+export type WeatherService = ReturnType<typeof createWeather>;

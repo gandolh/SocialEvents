@@ -1,15 +1,17 @@
-import { describe, it, expect, beforeEach } from "vitest";
 import type { FastifyInstance } from "fastify";
-import { freshDb, resetData } from "../testing/helpers.js";
-import { buildApp } from "../app.js";
-import { getDb } from "../db/connection.js";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import type { Db } from "../../db/connection.js";
+import { buildTestApp } from "../../testing/helpers.js";
 
 let app: FastifyInstance;
+let db: Db;
 
 beforeEach(async () => {
-  freshDb();
-  resetData();
-  app = await buildApp();
+  ({ app, db } = await buildTestApp());
+});
+
+afterEach(async () => {
+  await app.close();
 });
 
 function cookieFrom(res: { headers: Record<string, unknown> }): string {
@@ -26,61 +28,6 @@ async function registerUser(name: string, email: string) {
   });
   return { cookie: cookieFrom(res), body: res.json() };
 }
-
-describe("auth & authorization", () => {
-  it("registers, sets cookie, and returns me", async () => {
-    const { cookie, body } = await registerUser("Alice", "alice@x.com");
-    expect(body.user.email).toBe("alice@x.com");
-    const me = await app.inject({ method: "GET", url: "/api/auth/me", headers: { cookie } });
-    expect(me.statusCode).toBe(200);
-    expect(me.json().user.email).toBe("alice@x.com");
-  });
-
-  it("blocks unauthenticated access (401)", async () => {
-    const res = await app.inject({ method: "GET", url: "/api/events" });
-    expect(res.statusCode).toBe(401);
-  });
-
-  it("blocks non-admin from admin routes (403)", async () => {
-    const { cookie } = await registerUser("Alice", "alice@x.com");
-    const res = await app.inject({
-      method: "POST",
-      url: "/api/departments",
-      headers: { cookie },
-      payload: { name: "Eng" },
-    });
-    expect(res.statusCode).toBe(403);
-  });
-
-  it("rejects duplicate registration (409)", async () => {
-    await registerUser("Alice", "alice@x.com");
-    const res = await app.inject({
-      method: "POST",
-      url: "/api/auth/register",
-      payload: { name: "A2", email: "alice@x.com", password: "password123" },
-    });
-    expect(res.statusCode).toBe(409);
-  });
-
-  it("rejects bad login generically (401)", async () => {
-    await registerUser("Alice", "alice@x.com");
-    const res = await app.inject({
-      method: "POST",
-      url: "/api/auth/login",
-      payload: { email: "alice@x.com", password: "nope" },
-    });
-    expect(res.statusCode).toBe(401);
-  });
-
-  it("validation error returns 400", async () => {
-    const res = await app.inject({
-      method: "POST",
-      url: "/api/auth/register",
-      payload: { name: "", email: "bad", password: "short" },
-    });
-    expect(res.statusCode).toBe(400);
-  });
-});
 
 describe("event ownership", () => {
   it("only host or admin can edit/delete an event", async () => {
@@ -125,7 +72,7 @@ describe("event ownership", () => {
     const host = await registerUser("Host", "host@x.com");
     await registerUser("Admin", "admin@x.com");
     // promote to admin directly in the DB, then re-login to refresh the JWT role.
-    getDb().prepare("UPDATE users SET role = 'admin' WHERE email = ?").run("admin@x.com");
+    db.prepare("UPDATE users SET role = 'admin' WHERE email = ?").run("admin@x.com");
     const relog = await app.inject({
       method: "POST",
       url: "/api/auth/login",

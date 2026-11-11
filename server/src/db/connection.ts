@@ -1,37 +1,20 @@
 import Database from "better-sqlite3";
 import fs from "node:fs";
 import path from "node:path";
-import { config } from "../config.js";
 
-let db: Database.Database | null = null;
+/** The connection every store is built on. */
+export type Db = Database.Database;
 
-/** Open (once) and return the SQLite connection.
- *  `:memory:` is supported for tests. */
-export function getDb(): Database.Database {
-  if (db) return db;
-
-  const dbPath = config.databasePath;
+/** Opens the SQLite file at `dbPath`, creating its folder. `:memory:` is for tests. */
+export function openDb(dbPath: string): Db {
   if (dbPath !== ":memory:") {
     const dir = path.dirname(dbPath);
     if (dir && !fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
   }
-
-  db = new Database(dbPath);
+  const db = new Database(dbPath);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
   return db;
-}
-
-/** Replace the connection (used by tests to inject an in-memory db). */
-export function setDb(instance: Database.Database): void {
-  instance.pragma("foreign_keys = ON");
-  db = instance;
-}
-
-/** Close the connection, if one was opened. */
-export function closeDb(): void {
-  db?.close();
-  db = null;
 }

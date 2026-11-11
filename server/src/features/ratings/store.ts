@@ -1,5 +1,5 @@
 import type { RatingResponse } from "@socialevents/shared";
-import { getDb } from "../../db/connection.js";
+import type { Db } from "../../db/connection.js";
 import { now } from "../../db/util.js";
 
 interface RatingTable {
@@ -7,10 +7,9 @@ interface RatingTable {
   subjectCol: "event_id" | "host_id";
 }
 
-function build(t: RatingTable) {
-  return {
+function build(db: Db, t: RatingTable) {
+  const store = {
     get(subjectId: string, userId: string): RatingResponse {
-      const db = getDb();
       const agg = db
         .prepare(`SELECT AVG(rating) AS avg, COUNT(*) AS count FROM ${t.table} WHERE ${t.subjectCol} = ?`)
         .get(subjectId) as { avg: number | null; count: number };
@@ -24,30 +23,29 @@ function build(t: RatingTable) {
     },
 
     set(subjectId: string, userId: string, rating: number): RatingResponse {
-      getDb()
-        .prepare(
-          `INSERT INTO ${t.table} (${t.subjectCol}, user_id, rating, updated_at)
+      db.prepare(
+        `INSERT INTO ${t.table} (${t.subjectCol}, user_id, rating, updated_at)
            VALUES (?, ?, ?, ?)
            ON CONFLICT(${t.subjectCol}, user_id)
            DO UPDATE SET rating = excluded.rating, updated_at = excluded.updated_at`,
-        )
-        .run(subjectId, userId, rating, now());
-      return this.get(subjectId, userId);
+      ).run(subjectId, userId, rating, now());
+      return store.get(subjectId, userId);
     },
 
     remove(subjectId: string, userId: string): RatingResponse {
-      getDb().prepare(`DELETE FROM ${t.table} WHERE ${t.subjectCol} = ? AND user_id = ?`).run(subjectId, userId);
-      return this.get(subjectId, userId);
+      db.prepare(`DELETE FROM ${t.table} WHERE ${t.subjectCol} = ? AND user_id = ?`).run(subjectId, userId);
+      return store.get(subjectId, userId);
     },
+  };
+  return store;
+}
+
+/** The two rating tables, each with the same four operations. */
+export function createRatingsStore(db: Db) {
+  return {
+    event: build(db, { table: "event_ratings", subjectCol: "event_id" }),
+    host: build(db, { table: "host_ratings", subjectCol: "host_id" }),
   };
 }
 
-export const eventRatingsRepo = build({
-  table: "event_ratings",
-  subjectCol: "event_id",
-});
-
-export const hostRatingsRepo = build({
-  table: "host_ratings",
-  subjectCol: "host_id",
-});
+export type RatingsStore = ReturnType<typeof createRatingsStore>;

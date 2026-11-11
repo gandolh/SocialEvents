@@ -1,14 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import type Database from "better-sqlite3";
-import { getDb } from "./connection.js";
+import { loadConfig, loadEnvFile } from "../config.js";
+import { openDb, type Db } from "./connection.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MIGRATIONS_DIR = path.join(__dirname, "migrations");
 
 /** Apply all pending migrations (forward-only) in filename order. */
-export function runMigrations(db: Database.Database = getDb()): string[] {
+export function runMigrations(db: Db): string[] {
   db.exec(
     `CREATE TABLE IF NOT EXISTS schema_migrations (
        name        TEXT PRIMARY KEY,
@@ -44,7 +44,10 @@ export function runMigrations(db: Database.Database = getDb()): string[] {
 // CLI entry: `tsx src/db/migrate.ts`
 const isMain = process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
 if (isMain) {
-  const applied = runMigrations();
+  loadEnvFile();
+  const db = openDb(loadConfig().databasePath);
+  const applied = runMigrations(db);
+  db.close();
   if (applied.length === 0) {
     console.log("[migrate] up to date, nothing to apply");
   } else {

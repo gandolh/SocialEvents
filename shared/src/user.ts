@@ -29,3 +29,7 @@ export const assignDepartmentSchema = z.object({
   departmentId: idSchema.nullable(),
 });
 export type AssignDepartmentInput = z.infer<typeof assignDepartmentSchema>;
+
+/** `GET /api/users`. */
+export const userListResponseSchema = z.object({ users: z.array(userSchema) });
+export type UserListResponse = z.infer<typeof userListResponseSchema>;

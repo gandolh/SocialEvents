@@ -1,17 +1,24 @@
+import { loadConfig, loadEnvFile } from "../config.js";
+import { openDb } from "../db/connection.js";
 import { runMigrations } from "../db/migrate.js";
-import { getDb } from "../db/connection.js";
-import { usersRepo } from "../features/users/store.js";
-import { departmentsRepo } from "../features/departments/store.js";
-import { eventsRepo } from "../features/events/store.js";
-import { eventRatingsRepo, hostRatingsRepo } from "../features/ratings/store.js";
-import { notificationsRepo } from "../features/notifications/store.js";
-import { hashPassword } from "../plugins/auth/password.js";
+import { createDepartmentsStore } from "../features/departments/index.js";
+import { createEventsStore } from "../features/events/index.js";
+import { createNotificationsStore } from "../features/notifications/index.js";
+import { createRatingsStore } from "../features/ratings/index.js";
+import { createUsersStore } from "../features/users/index.js";
+import { hashPassword } from "../plugins/auth/index.js";
 
 const PASSWORD = "password123";
 
 async function seed(): Promise<void> {
-  runMigrations();
-  const db = getDb();
+  loadEnvFile();
+  const db = openDb(loadConfig().databasePath);
+  runMigrations(db);
+  const usersRepo = createUsersStore(db);
+  const departmentsRepo = createDepartmentsStore(db);
+  const eventsRepo = createEventsStore(db);
+  const notificationsRepo = createNotificationsStore(db);
+  const ratings = createRatingsStore(db);
 
   const userCount = db.prepare("SELECT COUNT(*) AS n FROM users").get() as {
     n: number;
@@ -114,11 +121,11 @@ async function seed(): Promise<void> {
   // A couple of ratings.
   const allEvents = eventsRepo.list();
   if (allEvents[0]) {
-    eventRatingsRepo.set(allEvents[0].id, dana.id, 5);
-    eventRatingsRepo.set(allEvents[0].id, max.id, 4);
+    ratings.event.set(allEvents[0].id, dana.id, 5);
+    ratings.event.set(allEvents[0].id, max.id, 4);
   }
-  hostRatingsRepo.set(alex.id, dana.id, 5);
-  hostRatingsRepo.set(admin.id, alex.id, 4);
+  ratings.host.set(alex.id, dana.id, 5);
+  ratings.host.set(admin.id, alex.id, 4);
 
   console.log(
     `[seed] created 3 departments, 5 users, ${events.length} events.\n` +

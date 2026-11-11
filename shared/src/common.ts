@@ -24,3 +24,11 @@ export const errorResponseSchema = z.object({
   message: z.string().optional(),
 });
 export type ErrorResponse = z.infer<typeof errorResponseSchema>;
+
+/** A path with one `:id` parameter. */
+export const idParamsSchema = z.object({ id: idSchema });
+export type IdParams = z.infer<typeof idParamsSchema>;
+
+/** `GET /api/health`. */
+export const healthSchema = z.object({ status: z.literal("ok") });
+export type Health = z.infer<typeof healthSchema>;

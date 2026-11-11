@@ -84,3 +84,11 @@ export const rsvpSchema = z.object({
   status: attendeeStatusSchema,
 });
 export type RsvpInput = z.infer<typeof rsvpSchema>;
+
+/** `GET /api/events`. */
+export const eventListResponseSchema = z.object({ events: z.array(eventSummarySchema) });
+export type EventListResponse = z.infer<typeof eventListResponseSchema>;
+
+/** `GET`, `POST` and `PATCH` on one event. */
+export const eventResponseSchema = z.object({ event: eventDetailSchema });
+export type EventResponse = z.infer<typeof eventResponseSchema>;

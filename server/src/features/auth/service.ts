@@ -1,44 +1,48 @@
 import type { RegisterInput, LoginInput, User } from "@socialevents/shared";
-import { usersRepo } from "../users/store.js";
-import { hashPassword, verifyPassword } from "../../plugins/auth/password.js";
+import { hashPassword, verifyPassword } from "../../plugins/auth/index.js";
 import { conflict, unauthorized } from "../../lib/http-error.js";
-import { sendMail } from "../notifications/email.js";
+import type { Mailer } from "../notifications/index.js";
+import type { UsersStore } from "../users/index.js";
 
-export async function register(input: RegisterInput): Promise<User> {
-  const existing = usersRepo.findByEmailWithHash(input.email);
-  if (existing) throw conflict("email already registered");
+/** Registering and signing in. Neither knows about HTTP: the routes start the session. */
+export function createAuthService({ users, mailer }: { users: UsersStore; mailer: Mailer }) {
+  return {
+    async register(input: RegisterInput): Promise<User> {
+      const existing = users.findByEmailWithHash(input.email);
+      if (existing) throw conflict("email already registered");
 
-  const passwordHash = await hashPassword(input.password);
-  const user = usersRepo.create({
-    name: input.name,
-    email: input.email,
-    passwordHash,
-  });
+      const passwordHash = await hashPassword(input.password);
+      const user = users.create({
+        name: input.name,
+        email: input.email,
+        passwordHash,
+      });
 
-  void sendMail({
-    to: user.email,
-    subject: "Welcome to SocialEvents",
-    html:
-      `<p>Hi ${user.name},</p>` +
-      `<p>Your SocialEvents account has been created. You can sign in with ${user.email}.</p>` +
-      `<p>See you around,<br/>The SocialEvents team</p>`,
-  });
+      void mailer.send({
+        to: user.email,
+        subject: "Welcome to SocialEvents",
+        html:
+          `<p>Hi ${user.name},</p>` +
+          `<p>Your SocialEvents account has been created. You can sign in with ${user.email}.</p>` +
+          `<p>See you around,<br/>The SocialEvents team</p>`,
+      });
 
-  return user;
-}
+      return user;
+    },
 
-export async function login(input: LoginInput): Promise<User> {
-  const record = usersRepo.findByEmailWithHash(input.email);
-  // Generic error on both branches — don't reveal whether the email exists.
-  if (!record) {
-    // Run a hash comparison anyway to limit timing differences.
-    await verifyPassword(input.password, "$2b$12$" + "x".repeat(53));
-    throw unauthorized();
-  }
-  const ok = await verifyPassword(input.password, record.passwordHash);
-  if (!ok) throw unauthorized();
-
-  const { passwordHash: _ignored, ...user } = record;
-  void _ignored;
-  return user;
+    async login(input: LoginInput): Promise<User> {
+      const record = users.findByEmailWithHash(input.email);
+      // Generic error on both branches — don't reveal whether the email exists.
+      if (!record) {
+        // Run a hash comparison anyway to limit timing differences.
+        await verifyPassword(input.password, "$2b$12$" + "x".repeat(53));
+        throw unauthorized();
+      }
+      const ok = await verifyPassword(input.password, record.passwordHash);
+      if (!ok) throw unauthorized();
+      const { passwordHash: _ignored, ...user } = record;
+      void _ignored;
+      return user;
+    },
+  };
 }

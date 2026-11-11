@@ -1,33 +1,57 @@
-import Fastify, { type FastifyInstance, type FastifyServerOptions } from "fastify";
 import cookie from "@fastify/cookie";
-import helmet from "@fastify/helmet";
 import cors from "@fastify/cors";
+import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
-import { config } from "./config.js";
+import { serializerCompiler, validatorCompiler } from "@fastify/type-provider-zod";
+import Fastify, { type FastifyInstance, type FastifyServerOptions } from "fastify";
+import type { Config } from "./config.js";
+import { openDb, type Db } from "./db/connection.js";
+import { runMigrations } from "./db/migrate.js";
+import { authRoutes } from "./features/auth/index.js";
+import { createDepartmentsStore, departmentRoutes } from "./features/departments/index.js";
+import { createEventsStore, eventRoutes } from "./features/events/index.js";
+import { healthRoutes } from "./features/health/index.js";
+import { createWeather, integrationRoutes } from "./features/integrations/index.js";
+import { createMailer, createNotificationsStore, notificationRoutes } from "./features/notifications/index.js";
+import { createRatingsStore, ratingRoutes } from "./features/ratings/index.js";
+import { createUsersStore, userRoutes } from "./features/users/index.js";
+import { createAuth } from "./plugins/auth/index.js";
 import { clientStatic } from "./plugins/client-static.js";
 import { errors, jsonNotFound, setRateLimitedNotFound } from "./plugins/errors.js";
-import { authRoutes } from "./features/auth/routes.js";
-import { userRoutes } from "./features/users/routes.js";
-import { hostRatingRoutes } from "./features/ratings/routes.js";
-import { departmentRoutes } from "./features/departments/routes.js";
-import { eventRoutes } from "./features/events/routes.js";
-import { notificationRoutes } from "./features/notifications/routes.js";
-import { integrationRoutes } from "./features/integrations/routes.js";
 
 /** Fastify's options that belong to the process: `server.ts` sets them, a test leaves them out. */
-export type ServerOptions = Pick<FastifyServerOptions, "logger" | "trustProxy" | "connectionTimeout" | "requestTimeout">;
+type ServerOptions = Pick<FastifyServerOptions, "logger" | "trustProxy" | "connectionTimeout" | "requestTimeout">;
 
 export interface BuildAppOptions {
   server?: ServerOptions;
   /** The built client's folder: given, the app serves it and answers an unknown non-API path with `index.html`. */
   clientDist?: string;
+  /** An open, migrated database to use instead of opening `config.databasePath`. The app closes it. */
+  db?: Db;
 }
 
-export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyInstance> {
+/**
+ * The app, ready to listen and not listening. Registration order is the architecture: the error handler, the
+ * external plugins, then the features, each handed what it needs as plugin options. Closing the app closes the
+ * database.
+ */
+export async function buildApp(config: Config, options: BuildAppOptions = {}): Promise<FastifyInstance> {
   const app = Fastify(options.server);
+  // Zod checks every request and encodes every reply, in every plugin registered below.
+  app.setValidatorCompiler(validatorCompiler);
+  app.setSerializerCompiler(serializerCompiler);
+
+  const db = options.db ?? openDb(config.databasePath);
+  const applied = runMigrations(db);
+  if (applied.length) app.log.info(`[migrate] applied: ${applied.join(", ")}`);
+  app.addHook("onClose", async () => {
+    db.close();
+  });
 
   // The error handler goes first, so every route and plugin below answers through it.
   await app.register(errors);
+
+  // External plugins.
   await app.register(helmet, { contentSecurityPolicy: false });
   await app.register(cookie);
   if (config.clientOrigin) {
@@ -38,27 +62,39 @@ export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyIn
   }
   await app.register(rateLimit, { global: false });
 
-  // Stricter rate limit on auth endpoints.
-  await app.register(
-    async (authApp) => {
-      await authApp.register(rateLimit, {
-        max: 20,
-        timeWindow: "1 minute",
-      });
-      await authApp.register(authRoutes);
-    },
-    { prefix: "/api/auth" },
-  );
+  // What the features are handed, built once. Stores take the database; nothing else reaches for it.
+  const users = createUsersStore(db);
+  const departments = createDepartmentsStore(db);
+  const events = createEventsStore(db);
+  const ratings = createRatingsStore(db);
+  const notifications = createNotificationsStore(db);
+  const mailer = createMailer(config.smtp, app.log);
+  const weather = createWeather(config.weather);
+  const auth = createAuth(config);
+  const context = {
+    users,
+    departments,
+    events,
+    ratings,
+    notifications,
+    mailer,
+    weather,
+    auth,
+    eventExists: (id: string) => events.findSummaryById(id) !== null,
+    userExists: (id: string) => users.findById(id) !== null,
+  };
 
-  await app.register(userRoutes, { prefix: "/api/users" });
-  await app.register(hostRatingRoutes, { prefix: "/api/users" });
-  await app.register(departmentRoutes, { prefix: "/api/departments" });
-  await app.register(eventRoutes, { prefix: "/api/events" });
-  await app.register(notificationRoutes, { prefix: "/api/notifications" });
-  await app.register(integrationRoutes, { prefix: "/api" });
+  // The features, each encapsulated: its hooks stay inside it.
+  await app.register(healthRoutes);
+  await app.register(authRoutes, context);
+  await app.register(userRoutes, context);
+  await app.register(departmentRoutes, context);
+  await app.register(eventRoutes, context);
+  await app.register(ratingRoutes, context);
+  await app.register(notificationRoutes, context);
+  await app.register(integrationRoutes, context);
 
-  app.get("/api/health", async () => ({ status: "ok" }));
-
+  // Last: the client's files when a build is present, and the one 404 handler either way.
   if (options.clientDist) await app.register(clientStatic, { root: options.clientDist });
   else setRateLimitedNotFound(app, jsonNotFound);
 

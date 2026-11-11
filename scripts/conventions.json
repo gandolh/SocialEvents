@@ -11,6 +11,13 @@
       "path": "client/src/components/ui/misc.tsx",
       "match": "StarRating",
       "reason": "StarRating stays five buttons, not a RadioGroup or ToggleGroup. Each click saves the user's rating to the server, and the stars show the event's average, not the user's own choice, so a checked or pressed state would announce something false. The row has role=\"group\" and an aria-label."
+    },
+    {
+      "check": "structure",
+      "rule": 3,
+      "path": "server/src/config.ts",
+      "match": "reads NODE_ENV: the app is configured by its own variables, never by NODE_ENV",
+      "reason": "The settings module is the only reader, and it reads NODE_ENV for three things: the production check that makes JWT_SECRET required, the Secure flag on the session cookie, and the test run's silent logger and in-memory database (vitest sets it). Replacing it with variables of the app's own is a change to a deploy contract the app does not have yet, because SocialEvents is not deployed; it goes with the first deploy brief."
     }
   ]
 }

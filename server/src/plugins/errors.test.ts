@@ -2,12 +2,13 @@ import type { FastifyInstance } from "fastify";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { buildApp } from "../app.js";
 import { forbidden } from "../lib/http-error.js";
+import { freshDb, testConfig } from "../testing/helpers.js";
 
 describe("the error handler", () => {
   let app: FastifyInstance;
 
   beforeEach(async () => {
-    app = await buildApp();
+    app = await buildApp(testConfig(), { db: freshDb() });
     app.get("/boom", () => {
       throw new Error("secret detail: /home/someone/.env");
     });

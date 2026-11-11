@@ -4,6 +4,7 @@ import path from "node:path";
 import type { FastifyInstance } from "fastify";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { buildApp } from "../app.js";
+import { freshDb, testConfig } from "../testing/helpers.js";
 
 describe("the client static plugin", () => {
   let app: FastifyInstance;
@@ -12,7 +13,7 @@ describe("the client static plugin", () => {
   beforeEach(async () => {
     root = fs.mkdtempSync(path.join(os.tmpdir(), "se-client-"));
     fs.writeFileSync(path.join(root, "index.html"), "<!doctype html><title>client</title>");
-    app = await buildApp({ clientDist: root });
+    app = await buildApp(testConfig(), { db: freshDb(), clientDist: root });
   });
   afterEach(async () => {
     await app.close();

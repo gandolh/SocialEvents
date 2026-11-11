@@ -14,3 +14,7 @@ export const markNotificationSchema = z.object({
   read: z.boolean(),
 });
 export type MarkNotificationInput = z.infer<typeof markNotificationSchema>;
+
+/** `GET /api/notifications`. */
+export const notificationListResponseSchema = z.object({ notifications: z.array(notificationSchema) });
+export type NotificationListResponse = z.infer<typeof notificationListResponseSchema>;

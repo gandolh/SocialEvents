@@ -10,8 +10,8 @@ export default [
     root: import.meta.dirname,
     web: "client/src",
     server: "server/src",
-    // Allowed to print: the server entry and the migrate and seed CLIs talk to the person running
-    // them, and the config module runs before any logger exists.
+    // Allowed to print: the server entry (a bad setting exits before any logger exists), the migrate and
+    // seed CLIs (they talk to the person running them) and the config module (it runs before any logger).
     console: ["server/src/server.ts", "server/src/db/migrate.ts", "server/src/seed/seed.ts", "server/src/config.ts"],
     // The one reader of the environment.
     env: ["server/src/config.ts"],
@@ -19,11 +19,4 @@ export default [
     // data/ is the local database.
     ignores: ["data/**", "client/dist-types/**"],
   }),
-  {
-    // A warning for now (2026-11-11): the mailer still prints through console. When it takes the
-    // Fastify logger, this block goes and the rule is an error again.
-    name: "socialevents/email-console-warns",
-    files: ["server/src/integrations/email/index.ts"],
-    rules: { "no-console": "warn" },
-  },
 ];

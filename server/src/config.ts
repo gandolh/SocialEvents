@@ -85,7 +85,3 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     },
   };
 }
-
-// Until step 6 of brief 17 hands the settings to each module, they import this one value.
-loadEnvFile();
-export const config = loadConfig();

@@ -1,6 +1,6 @@
 import type { FastifyInstance, FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
 import fp from "fastify-plugin";
-import { ZodError } from "zod";
+import { hasZodFastifySchemaValidationErrors, ResponseSerializationError } from "@fastify/type-provider-zod";
 import { HttpError } from "../lib/http-error.js";
 
 /** The `error` code for a 4xx that Fastify or a plugin raised, by status. */
@@ -29,14 +29,14 @@ function statusOf(error: unknown): number | undefined {
  * The one error handler. The body stays the repo's flat `{ error, message? }`.
  *
  * - `HttpError` answers its status and code.
- * - A request that fails its schema answers 400 `validation_error`, with the first issue's message.
+ * - A request that fails its route schema answers 400 `validation_error`, with the first issue's message.
  * - A 4xx that Fastify or a plugin raised (bad JSON, a body too large, a rate limit) keeps its status.
  * - Anything else is a 500 `internal_error`, logged with the request. A thrown message never reaches the client.
  */
 const errorHandling: FastifyPluginAsync = async (app) => {
   app.setErrorHandler((error: unknown, request, reply) => {
-    if (error instanceof ZodError) {
-      return reply.code(400).send({ error: "validation_error", message: error.issues[0]?.message });
+    if (hasZodFastifySchemaValidationErrors(error)) {
+      return reply.code(400).send({ error: "validation_error", message: error.validation[0]?.message });
     }
     if (error instanceof HttpError) {
       return reply.code(error.statusCode).send({ error: error.errorCode, message: error.message });
@@ -47,7 +47,13 @@ const errorHandling: FastifyPluginAsync = async (app) => {
       const message = error instanceof Error ? error.message : undefined;
       return reply.code(status).send({ error: clientErrorCode(status), message });
     }
-    request.log.error({ err: error }, `${request.method} ${request.url}: unhandled error`);
+    if (error instanceof ResponseSerializationError) {
+      // A handler sent what its response schema doesn't allow: a bug to fix, never the client's fault. The reply
+      // holds people's data, so the log names the route and not the zod issues.
+      request.log.error(`${request.method} ${request.url}: the reply does not match its response schema`);
+    } else {
+      request.log.error({ err: error }, `${request.method} ${request.url}: unhandled error`);
+    }
     return reply.code(500).send({ error: "internal_error" });
   });
 };
@@ -58,7 +64,10 @@ export const errors = fp(errorHandling, { name: "errors" });
  * Sets the 404 handler, rate-limited: a scanner walking unknown paths gets 429s, not a free 404 per guess.
  * Needs `@fastify/rate-limit` registered first. Exactly one place in the app calls this.
  */
-export function setRateLimitedNotFound(app: FastifyInstance, handler: (request: FastifyRequest, reply: FastifyReply) => unknown): void {
+export function setRateLimitedNotFound(
+  app: FastifyInstance,
+  handler: (request: FastifyRequest, reply: FastifyReply) => unknown,
+): void {
   app.setNotFoundHandler({ preHandler: app.rateLimit({ max: 60, timeWindow: "1 minute" }) }, handler);
 }
 
