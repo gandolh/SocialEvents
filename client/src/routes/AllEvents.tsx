@@ -4,11 +4,16 @@ import { EVENT_CATEGORY_NAMES } from "@socialevents/shared";
 import { useEvents, useMe } from "../api/hooks.js";
 import { EventDetailModal } from "../components/EventDetailModal.js";
 import { Card, CategoryChip, Avatar, Spinner, EmptyState, Select } from "../components/ui/index.js";
-import { cn } from "../lib/cn.js";
+import { RadioGroup } from "../components/ui/RadioGroup.js";
 import { formatDateTime } from "../lib/utils.js";
 
 type Sort = "date" | "name";
 type Scope = "all" | "mine";
+
+const SCOPES = [
+  { value: "all", label: "All Events" },
+  { value: "mine", label: "Hosted by me" },
+] as const;
 
 export function AllEvents() {
   const { data: me } = useMe();
@@ -44,20 +49,7 @@ export function AllEvents() {
             className="w-full rounded-lg border border-outline-variant/60 bg-surface-container-lowest py-2 pr-3 pl-9 text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
         </div>
-        <div className="flex rounded-lg border border-outline-variant/60 p-0.5 text-sm">
-          {(["all", "mine"] as const).map((s) => (
-            <button
-              key={s}
-              onClick={() => setScope(s)}
-              className={cn(
-                "rounded-md px-3 py-1 capitalize",
-                scope === s ? "bg-primary/10 text-primary" : "text-on-surface-variant",
-              )}
-            >
-              {s === "all" ? "All Events" : "Hosted by me"}
-            </button>
-          ))}
-        </div>
+        <RadioGroup label="Show" options={SCOPES} value={scope} onValueChange={setScope} />
         <div className="w-40">
           <Select value={category} onChange={(e) => setCategory(e.target.value)}>
             <option value="">All categories</option>
