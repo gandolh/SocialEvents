@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import type { FastifyInstance } from "fastify";
-import { freshDb, resetData } from "../test/helpers.js";
+import { freshDb, resetData } from "../testing/helpers.js";
 import { buildApp } from "../app.js";
 import { getDb } from "../db/connection.js";
 

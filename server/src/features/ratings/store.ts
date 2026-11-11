@@ -1,6 +1,6 @@
 import type { RatingResponse } from "@socialevents/shared";
-import { getDb } from "../db/connection.js";
-import { now } from "../db/util.js";
+import { getDb } from "../../db/connection.js";
+import { now } from "../../db/util.js";
 
 interface RatingTable {
   table: "event_ratings" | "host_ratings";

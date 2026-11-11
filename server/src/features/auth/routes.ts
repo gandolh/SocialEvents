@@ -1,11 +1,11 @@
 import type { FastifyInstance } from "fastify";
 import { registerSchema, loginSchema } from "@socialevents/shared";
-import { register, login } from "../services/authService.js";
-import { signToken } from "../auth/jwt.js";
-import { setSessionCookie, clearSessionCookie } from "../auth/cookie.js";
-import { requireAuth, currentUser } from "../auth/guards.js";
-import { usersRepo } from "../dal/users.js";
-import { notFound } from "../lib/http-error.js";
+import { register, login } from "./service.js";
+import { signToken } from "../../plugins/auth/jwt.js";
+import { setSessionCookie, clearSessionCookie } from "../../plugins/auth/cookie.js";
+import { requireAuth, currentUser } from "../../plugins/auth/guards.js";
+import { usersRepo } from "../users/store.js";
+import { notFound } from "../../lib/http-error.js";
 
 export async function authRoutes(app: FastifyInstance): Promise<void> {
   app.post("/register", async (request, reply) => {

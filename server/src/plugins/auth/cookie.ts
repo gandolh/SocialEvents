@@ -1,5 +1,5 @@
 import type { FastifyReply } from "fastify";
-import { config } from "../config.js";
+import { config } from "../../config.js";
 
 export const SESSION_COOKIE = "se_session";
 

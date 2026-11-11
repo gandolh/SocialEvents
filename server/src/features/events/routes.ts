@@ -8,11 +8,11 @@ import {
   idSchema,
 } from "@socialevents/shared";
 import { z } from "zod";
-import { requireAuth, currentUser } from "../auth/guards.js";
-import { eventsRepo } from "../dal/events.js";
-import { eventRatingsRepo } from "../dal/ratings.js";
-import { createEvent, updateEvent, deleteEvent } from "../services/eventService.js";
-import { notFound } from "../lib/http-error.js";
+import { requireAuth, currentUser } from "../../plugins/auth/guards.js";
+import { eventsRepo } from "./store.js";
+import { eventRatingsRepo } from "../ratings/store.js";
+import { createEvent, updateEvent, deleteEvent } from "./service.js";
+import { notFound } from "../../lib/http-error.js";
 
 const idParamsSchema = z.object({ id: idSchema });
 

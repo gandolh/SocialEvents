@@ -1,11 +1,11 @@
 import { runMigrations } from "../db/migrate.js";
 import { getDb } from "../db/connection.js";
-import { usersRepo } from "../dal/users.js";
-import { departmentsRepo } from "../dal/departments.js";
-import { eventsRepo } from "../dal/events.js";
-import { eventRatingsRepo, hostRatingsRepo } from "../dal/ratings.js";
-import { notificationsRepo } from "../dal/notifications.js";
-import { hashPassword } from "../auth/password.js";
+import { usersRepo } from "../features/users/store.js";
+import { departmentsRepo } from "../features/departments/store.js";
+import { eventsRepo } from "../features/events/store.js";
+import { eventRatingsRepo, hostRatingsRepo } from "../features/ratings/store.js";
+import { notificationsRepo } from "../features/notifications/store.js";
+import { hashPassword } from "../plugins/auth/password.js";
 
 const PASSWORD = "password123";
 

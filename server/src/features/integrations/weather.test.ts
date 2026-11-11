@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { getWeather, weatherMode, _clearWeatherCache } from "./index.js";
+import { getWeather, weatherMode, _clearWeatherCache } from "./weather.js";
 
 beforeEach(() => {
   _clearWeatherCache();

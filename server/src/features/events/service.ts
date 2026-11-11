@@ -1,10 +1,10 @@
 import type { CreateEventInput, UpdateEventInput, EventDetail } from "@socialevents/shared";
-import { eventsRepo } from "../dal/events.js";
-import { departmentsRepo } from "../dal/departments.js";
-import { usersRepo } from "../dal/users.js";
-import { notificationsRepo } from "../dal/notifications.js";
-import { sendMail } from "../integrations/email/index.js";
-import { conflict, forbidden, notFound } from "../lib/http-error.js";
+import { eventsRepo } from "./store.js";
+import { departmentsRepo } from "../departments/store.js";
+import { usersRepo } from "../users/store.js";
+import { notificationsRepo } from "../notifications/store.js";
+import { sendMail } from "../notifications/email.js";
+import { conflict, forbidden, notFound } from "../../lib/http-error.js";
 
 interface Actor {
   id: string;

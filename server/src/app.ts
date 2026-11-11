@@ -6,13 +6,13 @@ import rateLimit from "@fastify/rate-limit";
 import { config } from "./config.js";
 import { clientStatic } from "./plugins/client-static.js";
 import { errors, jsonNotFound, setRateLimitedNotFound } from "./plugins/errors.js";
-import { authRoutes } from "./routes/auth.js";
-import { userRoutes } from "./routes/users.js";
-import { hostRatingRoutes } from "./routes/ratings.js";
-import { departmentRoutes } from "./routes/departments.js";
-import { eventRoutes } from "./routes/events.js";
-import { notificationRoutes } from "./routes/notifications.js";
-import { integrationRoutes } from "./routes/integrations.js";
+import { authRoutes } from "./features/auth/routes.js";
+import { userRoutes } from "./features/users/routes.js";
+import { hostRatingRoutes } from "./features/ratings/routes.js";
+import { departmentRoutes } from "./features/departments/routes.js";
+import { eventRoutes } from "./features/events/routes.js";
+import { notificationRoutes } from "./features/notifications/routes.js";
+import { integrationRoutes } from "./features/integrations/routes.js";
 
 /** Fastify's options that belong to the process: `server.ts` sets them, a test leaves them out. */
 export type ServerOptions = Pick<FastifyServerOptions, "logger" | "trustProxy" | "connectionTimeout" | "requestTimeout">;

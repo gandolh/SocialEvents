@@ -1,8 +1,8 @@
 import type { FastifyInstance } from "fastify";
 import { weatherQuerySchema } from "@socialevents/shared";
-import { requireAuth } from "../auth/guards.js";
-import { getWeather } from "../integrations/weather/index.js";
-import { getMapsConfig } from "../integrations/maps/index.js";
+import { requireAuth } from "../../plugins/auth/guards.js";
+import { getWeather } from "./weather.js";
+import { getMapsConfig } from "./maps.js";
 
 export async function integrationRoutes(app: FastifyInstance): Promise<void> {
   app.addHook("preHandler", requireAuth);

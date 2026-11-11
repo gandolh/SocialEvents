@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { freshDb, resetData } from "../test/helpers.js";
-import { usersRepo } from "./users.js";
-import { departmentsRepo } from "./departments.js";
-import { eventsRepo } from "./events.js";
-import { eventRatingsRepo, hostRatingsRepo } from "./ratings.js";
-import { notificationsRepo } from "./notifications.js";
+import { freshDb, resetData } from "../testing/helpers.js";
+import { usersRepo } from "../features/users/store.js";
+import { departmentsRepo } from "../features/departments/store.js";
+import { eventsRepo } from "../features/events/store.js";
+import { eventRatingsRepo, hostRatingsRepo } from "../features/ratings/store.js";
+import { notificationsRepo } from "../features/notifications/store.js";
 
 beforeEach(() => {
   freshDb();

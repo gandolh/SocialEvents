@@ -6,8 +6,8 @@ import { buildApp } from "./app.js";
 import { config, loadEnvFile } from "./config.js";
 import { closeDb } from "./db/connection.js";
 import { runMigrations } from "./db/migrate.js";
-import { weatherMode } from "./integrations/weather/index.js";
-import { emailMode } from "./integrations/email/index.js";
+import { weatherMode } from "./features/integrations/weather.js";
+import { emailMode } from "./features/notifications/email.js";
 
 // The process: settings, migrations, the app, shutdown, listen. Nothing else in the server listens.
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

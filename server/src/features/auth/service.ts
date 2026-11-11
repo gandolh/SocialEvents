@@ -1,8 +1,8 @@
 import type { RegisterInput, LoginInput, User } from "@socialevents/shared";
-import { usersRepo } from "../dal/users.js";
-import { hashPassword, verifyPassword } from "../auth/password.js";
-import { conflict, unauthorized } from "../lib/http-error.js";
-import { sendMail } from "../integrations/email/index.js";
+import { usersRepo } from "../users/store.js";
+import { hashPassword, verifyPassword } from "../../plugins/auth/password.js";
+import { conflict, unauthorized } from "../../lib/http-error.js";
+import { sendMail } from "../notifications/email.js";
 
 export async function register(input: RegisterInput): Promise<User> {
   const existing = usersRepo.findByEmailWithHash(input.email);

@@ -6,8 +6,8 @@ import type {
   EventLocation,
   AttendeeStatus,
 } from "@socialevents/shared";
-import { getDb } from "../db/connection.js";
-import { newId, now } from "../db/util.js";
+import { getDb } from "../../db/connection.js";
+import { newId, now } from "../../db/util.js";
 
 interface EventRow {
   id: string;
