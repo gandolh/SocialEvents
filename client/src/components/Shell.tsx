@@ -6,7 +6,6 @@ import {
   IoMapOutline,
   IoShieldCheckmarkOutline,
   IoAdd,
-  IoNotificationsOutline,
   IoMenu,
   IoClose,
 } from "react-icons/io5";
@@ -35,7 +34,6 @@ const views = [
 export function Shell({ children }: { children: React.ReactNode }) {
   const { data: me } = useMe();
   const [createOpen, setCreateOpen] = useState(false);
-  const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
@@ -146,16 +144,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <div className="relative">
-              <button
-                onClick={() => setNotifOpen((o) => !o)}
-                className="rounded-full p-2 text-on-surface-variant hover:bg-surface-container"
-                aria-label="Notifications"
-              >
-                <IoNotificationsOutline size={20} />
-              </button>
-              {notifOpen && <NotificationsMenu onClose={() => setNotifOpen(false)} />}
-            </div>
+            <NotificationsMenu />
             <AccountMenu onOpenProfile={() => setProfileOpen(true)} />
           </div>
         </header>
