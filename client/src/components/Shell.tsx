@@ -11,10 +11,11 @@ import {
   IoClose,
 } from "react-icons/io5";
 import { useMe } from "../api/hooks.js";
-import { Avatar, Button } from "./ui/index.js";
+import { Button } from "./ui/index.js";
 import { NotificationsMenu } from "./NotificationsMenu.js";
 import { AccountMenu } from "./AccountMenu.js";
 import { CreateEventModal } from "./CreateEventModal.js";
+import { ProfileModal } from "./ProfileModal.js";
 import { cn } from "../lib/cn.js";
 
 const nav = [
@@ -35,7 +36,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const { data: me } = useMe();
   const [createOpen, setCreateOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
-  const [accountOpen, setAccountOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
 
@@ -155,12 +156,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
               </button>
               {notifOpen && <NotificationsMenu onClose={() => setNotifOpen(false)} />}
             </div>
-            <div className="relative">
-              <button onClick={() => setAccountOpen((o) => !o)} aria-label="Account">
-                <Avatar name={me?.name ?? "?"} />
-              </button>
-              {accountOpen && <AccountMenu onClose={() => setAccountOpen(false)} />}
-            </div>
+            <AccountMenu onOpenProfile={() => setProfileOpen(true)} />
           </div>
         </header>
 
@@ -171,6 +167,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </main>
       </div>
 
+      {profileOpen && <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />}
       {createOpen && <CreateEventModal open={createOpen} onClose={() => setCreateOpen(false)} />}
     </div>
   );

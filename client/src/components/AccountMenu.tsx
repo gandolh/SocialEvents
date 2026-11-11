@@ -1,44 +1,29 @@
-import { useState } from "react";
 import { useMe, useLogout } from "../api/hooks.js";
-import { ProfileModal } from "./ProfileModal.js";
+import { Avatar } from "./ui/index.js";
+import { Menu, MenuItem } from "./ui/Menu.js";
 
-export function AccountMenu({ onClose }: { onClose: () => void }) {
+/** The avatar button and its menu. "Profile & settings" is the caller's dialog, so it outlives the menu. */
+export function AccountMenu({ onOpenProfile }: { onOpenProfile: () => void }) {
   const { data: me } = useMe();
   const logout = useLogout();
-  const [profileOpen, setProfileOpen] = useState(false);
 
   return (
-    <>
-      <div className="fixed inset-0 z-overlay" onClick={onClose} />
-      <div className="absolute right-0 z-popup mt-2 w-56 rounded-xl border border-outline-variant/60 bg-surface-container-lowest shadow-lg">
-        <div className="border-b border-outline-variant/60 px-4 py-3">
-          <p className="text-sm font-semibold text-on-surface">{me?.name}</p>
-          <p className="truncate text-xs text-on-surface-variant">{me?.email}</p>
-        </div>
-        <button
-          className="block w-full px-4 py-2 text-left text-sm hover:bg-surface-container"
-          onClick={() => {
-            setProfileOpen(true);
-          }}
-        >
-          Profile & settings
+    <Menu
+      className="w-56"
+      trigger={
+        <button aria-label="Account" className="rounded-full outline-none focus-visible:aero-glow">
+          <Avatar name={me?.name ?? "?"} />
         </button>
-        <button
-          className="block w-full px-4 py-2 text-left text-sm text-error hover:bg-surface-container"
-          onClick={() => logout.mutate()}
-        >
-          Sign out
-        </button>
+      }
+    >
+      <div className="border-b border-outline-variant/60 px-4 py-3">
+        <p className="text-sm font-semibold text-on-surface">{me?.name}</p>
+        <p className="truncate text-xs text-on-surface-variant">{me?.email}</p>
       </div>
-      {profileOpen && (
-        <ProfileModal
-          open={profileOpen}
-          onClose={() => {
-            setProfileOpen(false);
-            onClose();
-          }}
-        />
-      )}
-    </>
+      <MenuItem onClick={onOpenProfile}>Profile & settings</MenuItem>
+      <MenuItem danger onClick={() => logout.mutate()}>
+        Sign out
+      </MenuItem>
+    </Menu>
   );
 }
