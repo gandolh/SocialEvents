@@ -9,6 +9,7 @@ import {
   useRsvp,
   useDeleteEvent,
 } from "../api/hooks.js";
+import { InlineConfirm } from "./ui/InlineConfirm.js";
 import { Dialog, Button, CategoryChip, StarRating, Spinner } from "./ui/index.js";
 import { MapView } from "./MapView.js";
 import { formatDateTime } from "../lib/utils.js";
@@ -36,14 +37,16 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
       size="lg"
       footer={
         canManage ? (
-          <Button
-            variant="danger"
-            onClick={() => {
-              void deleteEvent.mutateAsync(eventId).then(() => onClose());
-            }}
-          >
-            Delete event
-          </Button>
+          <InlineConfirm
+            question="Delete event?"
+            yesLabel={`Yes, delete "${event?.name}" and its attendee list`}
+            onConfirm={() => deleteEvent.mutateAsync(eventId).then(() => onClose())}
+            trigger={(ask) => (
+              <Button variant="danger" onClick={ask}>
+                Delete event
+              </Button>
+            )}
+          />
         ) : myAttendance ? (
           <div className="flex gap-2">
             <Button

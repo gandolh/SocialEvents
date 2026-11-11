@@ -9,6 +9,7 @@ import {
   useMe,
 } from "../api/hooks.js";
 import { Button, Input, Spinner, EmptyState } from "../components/ui/index.js";
+import { InlineConfirm } from "../components/ui/InlineConfirm.js";
 import { cn } from "../lib/cn.js";
 
 export function AdminPage() {
@@ -51,18 +52,23 @@ export function AdminPage() {
               <button className="flex-1 text-left" onClick={() => setSelectedId(d.id)}>
                 {d.name}
               </button>
-              <button
-                onClick={() => {
-                  if (confirm(`Delete department "${d.name}"? Members become unassigned.`)) {
-                    deleteDept.mutate(d.id);
-                    if (selectedId === d.id) setSelectedId(null);
-                  }
+              <InlineConfirm
+                question="Delete?"
+                yesLabel={`Yes, delete department "${d.name}"; its members become unassigned`}
+                onConfirm={async () => {
+                  await deleteDept.mutateAsync(d.id);
+                  if (selectedId === d.id) setSelectedId(null);
                 }}
-                className="text-on-surface-variant hover:text-error"
-                aria-label="Delete department"
-              >
-                <IoTrashOutline size={16} />
-              </button>
+                trigger={(ask) => (
+                  <button
+                    onClick={ask}
+                    className="text-on-surface-variant hover:text-error"
+                    aria-label="Delete department"
+                  >
+                    <IoTrashOutline size={16} />
+                  </button>
+                )}
+              />
             </div>
           ))}
         </div>
