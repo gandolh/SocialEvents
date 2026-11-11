@@ -15,7 +15,7 @@ export function Checkbox({ label, className, ...props }: CheckboxProps) {
       <BaseCheckbox.Root
         {...props}
         className={cn(
-          "flex size-3.5 shrink-0 items-center justify-center rounded-sm border border-outline bg-surface-container-lowest text-on-primary outline-none",
+          "flex size-3.25 shrink-0 items-center justify-center rounded-sm border border-outline bg-surface-container-lowest text-on-primary outline-none",
           "focus-visible:aero-glow data-checked:border-primary data-checked:bg-primary",
         )}
       >

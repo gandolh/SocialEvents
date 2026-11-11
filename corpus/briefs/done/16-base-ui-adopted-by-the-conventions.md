@@ -145,3 +145,24 @@ One commit per numbered step. After each, `npm run check` passes, with `check-ba
 
 - Brief 15 supplies the gate, `web.md` and the formatter. This brief changes `Shell.tsx`, which that brief already touched, so run it after.
 - Brief 18's redesign is built as a token change first, over the two themes this brief makes. The theme switch must survive it in both.
+
+## Outcome (2026-11-11)
+
+**Built.** Base UI 1.9.0 (exact pin, subpath imports, only under `client/src/components/ui/`) now carries the dialog, the account menu, the notifications popover, the phone drawer, the All / Hosted-by-me filter, the invite tabs and the invite checkboxes; `window.confirm` is gone. The Light / Dark / System switch is in the profile dialog. `check-base-ui` ran 7 findings before (rule 6 x6, rule 11 x1) and 0 after; `check:conventions` runs it strict. `npm run check` passes: 27 server tests and 22 client jsdom tests (the theme store, the dialog's dismissal rules and Escape guard, the drawer's close paths, `InlineConfirm`, `cn`).
+
+**Commits:** `8b98ade` (cn, test run), `13f9293` (tokens), `00c90ea` (Dialog), `86e53de` (theme, contrast check), `268aa12` (Menu), `44d1a5c` (Popover), `22724d3` (Drawer), `b3f0cd2` (RadioGroup), `88284ab` (Tabs), `08f7a94` (Checkbox), `d1dff1b` (InlineConfirm), `ebcc156` (StarRating exception), `d9e94a6` (strict gate), `2ba44ae` and `b998ea5` (fixes from the screenshot pass).
+
+**Deviations:**
+
+- **The theme picker is a `RadioGroup`, not a guarded `ToggleGroup`.** The choice lives in `localStorage` and saves nothing to the server, so the base-ui skill's rule 16 (Q57) makes it a filter-like control. The brief's decision 5 and its wrapper table said `ToggleGroup`; no `ToggleGroup.tsx` was written. `RadioGroup.tsx` came in the theme commit, ahead of the filter's own step 9.
+- **`data-theme` is always `light` or `dark`.** `lib/theme.ts` resolves System in JS (with a `matchMedia` listener) and the boot script resolves it before the first paint, so the stylesheet needs one dark block, not a copy under a media query. The tokens are plain values overridden in `:root[data-theme="dark"]`, not `light-dark()`. The storage key is `socialevents-theme`.
+- **The focus ring is darker in the light theme.** `aero-glow` drew a 2 px ring in `#7fc3ff` at 55 % (about 1.7:1 on the page). The ring is now the new `--color-focus-ring` (`#1d6fc7` light, `#8cc4ff` dark) with the same blue bloom, to meet the 3:1 the contrast script asks for. It shows only on keyboard focus, so no screenshot carries it.
+- **`scripts/check-contrast.mjs` carries a floor for seven light pairs** that were short of 4.5:1 before this brief (muted text on the sidebar, top bar and content panel at 4.2 to 4.4, primary text on a card 4.0, error text 4.49, the Team building chip 4.44, avatar initials 3.7, a chosen radio's text 3.5). The brief said the light theme must not change, so each pair keeps its measured ratio as a floor and prints as `known`; brief 18 lifts them. All dark pairs pass at 4.5 or better. The check composites the glass over the desktop's middle colour, an approximation of the backdrop blur.
+- **The detail dialog is no longer clipped to the content panel.** The old modal sat inside the main column's `backdrop-blur` box, which became the containing block of its `fixed` backdrop, so it covered and centred on the main column only, and left the sidebar sharp. The portalled dialog covers the viewport and centres on it. This is the one visible light-theme difference besides the native checkbox becoming a drawn one; the other 20 light shots differ by at most 2 levels per channel.
+- **`@base-ui/react` is pinned in the Dialog commit, not the first one**, so knip stays clean at every step.
+- **No `vendor` or `legacy` layer** in the stylesheet: the app has no third-party CSS and no leftover plain CSS, so only the base rules moved into `@layer base`.
+- **The event delete asks first** (owner decision 1, the default). The department delete's old message, "Members become unassigned", is in the Yes button's accessible name, not drawn, because the row is narrow.
+- **The `Popover` and `Menu` wrappers take a `className`** for the panel width, and a shared `looks.ts` holds the panel look.
+- The commit trailer names Sonnet 5.5, the model that built it, not the Opus line in the builder instructions.
+
+**Owner steps:** none. SocialEvents has no deploy.
