@@ -2,7 +2,7 @@ import { useState } from "react";
 import { EVENT_CATEGORY_NAMES } from "@socialevents/shared";
 import { useCreateEvent, useDepartments, useUsers, useMe } from "../api/hooks.js";
 import { Dialog, Input, Textarea, Select, Button } from "./ui/index.js";
-import { cn } from "../lib/cn.js";
+import { Tab, TabPanel, Tabs, TabsList } from "./ui/Tabs.js";
 
 export function CreateEventModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const create = useCreateEvent();
@@ -105,23 +105,13 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
         {/* Attendees */}
         <div>
           <span className="mb-1 block text-sm font-medium text-on-surface-variant">Invite</span>
-          <div className="mb-2 flex gap-1 text-sm">
-            {(["people", "departments"] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={cn(
-                  "rounded-md px-3 py-1 capitalize",
-                  tab === t ? "bg-primary/10 text-primary" : "text-on-surface-variant hover:bg-surface-container",
-                )}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-          <div className="max-h-40 overflow-auto rounded-lg border border-outline-variant/60 p-2">
-            {tab === "people" &&
-              users
+          <Tabs value={tab} onValueChange={setTab}>
+            <TabsList>
+              <Tab value="people">People</Tab>
+              <Tab value="departments">Departments</Tab>
+            </TabsList>
+            <TabPanel className="max-h-40 overflow-auto rounded-lg border border-outline-variant/60 p-2" value="people">
+              {users
                 .filter((u) => u.id !== me?.id)
                 .map((u) => (
                   <label key={u.id} className="flex items-center gap-2 px-1 py-1 text-sm">
@@ -133,8 +123,12 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
                     {u.name} <span className="text-xs text-on-surface-variant">{u.email}</span>
                   </label>
                 ))}
-            {tab === "departments" &&
-              departments.map((d) => (
+            </TabPanel>
+            <TabPanel
+              className="max-h-40 overflow-auto rounded-lg border border-outline-variant/60 p-2"
+              value="departments"
+            >
+              {departments.map((d) => (
                 <label key={d.id} className="flex items-center gap-2 px-1 py-1 text-sm">
                   <input
                     type="checkbox"
@@ -144,7 +138,8 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
                   {d.name}
                 </label>
               ))}
-          </div>
+            </TabPanel>
+          </Tabs>
         </div>
 
         {err && <p className="text-sm text-error">{err}</p>}
