@@ -57,7 +57,7 @@ Run from a fresh clone with Node 24 on Linux, during a README refresh.
 ## The harness (2026-11-11)
 `npm run check` (typecheck, ESLint, Prettier, knip + dependency-cruiser + the two convention checkers, tests) passes;
 `npm run check:fast` is the quick subset. The code is formatted at width 120 and linted by the vendored house
-config. `check-structure` (67) runs `--warn-only` until the server brief. See [decisions.md](decisions.md) and the
+config. `check-structure` ran `--warn-only` until the server brief (brief 17, below). See [decisions.md](decisions.md) and the
 log entry of that date.
 
 ## Base UI and the theme (2026-11-11, brief 16)
@@ -65,6 +65,12 @@ The client is on Base UI 1.9.0 (dialog, menu, popover, drawer, tabs, radio group
 `client/src/components/ui/`, with a Light / Dark / System switch in the profile dialog. `check-base-ui` runs strict
 and reports 0; `scripts/check-contrast.mjs` is in `check:conventions`. `npm run check` passes, with 22 client
 jsdom tests beside the 27 server ones.
+
+## The server in the house structure (2026-11-11, brief 17)
+The server is grouped by feature with typed plugin options, a schema and a response schema on every route (30), one
+error plugin and `close-with-grace`; Fastify is 5.12.8. `check-structure` runs strict (0 errors, 5 excepted for
+`NODE_ENV` in `config.ts`) and dependency-cruiser guards the feature indexes. 42 server tests and 22 client tests pass.
+See [architecture.md](architecture.md) and [decisions.md](decisions.md).
 
 ## How to run
 See [README.md](../../README.md). `npm install` → `build:shared` → `migrate` →

@@ -25,13 +25,13 @@ Settled choices. Don't relitigate without an explicit revisit + a `log.md` note.
   native (Q16).
 - **Monorepo**, npm workspaces: `client` / `server` / `shared`. `shared` = API contract.
 - **Frontend:** React + Vite + TypeScript + Tailwind + TanStack Query + TanStack Router.
-- **Backend:** Fastify (TypeScript).
-- **DB:** SQLite via `better-sqlite3`. **Hand-written DAL, NO ORM.** Parameterized SQL only.
+- **Backend:** Fastify (TypeScript), grouped by feature (`server/src/features/<name>/`), not by layer. See "The server structure" below.
+- **DB:** SQLite via `better-sqlite3`. **Hand-written SQL stores (`createXStore(db)`), NO ORM.** Parameterized SQL only.
 - **Migrations:** forward-only `.sql` files + tiny hand-written runner (`schema_migrations` table).
 - **Validation:** Zod everywhere, schemas shared via `shared/`.
 - **Auth:** self-made. bcrypt + self-signed JWT (HS256) in httpOnly+SameSite=Lax+Secure cookie. Email/password only (no OAuth/Google). See [auth.md](auth.md).
 - **Authorization:** roles `user`/`admin` + host-or-admin ownership on event mutate. Enforced server-side on every protected route.
-- **Tests:** Vitest on core logic (DAL, auth, guards, dept→attendee expansion, rating aggregation, weather cache).
+- **Tests:** Vitest on core logic (stores, auth, guards, dept→attendee expansion, rating aggregation, weather cache).
 - **TS strict** everywhere. ESLint.
 - **API style:** REST, proper verbs/status codes (old app's POST-for-reads is banned).
 - **Integrations:** optional keys; **mock fallback** when key absent — app runs with zero keys. See [integrations.md](integrations.md).
@@ -105,7 +105,7 @@ versions in every `package.json`. When bumping, bump deliberately and update her
   no Node built-ins.
 - **bcrypt v6** is native (node-gyp). If native build is a problem in the target
   env, `bcryptjs` is the documented fallback (revisit + log if switched).
-- **better-sqlite3 v12** — synchronous; matches the no-ORM, prepared-statement DAL.
+- **better-sqlite3 v12** — synchronous; matches the no-ORM, prepared-statement stores.
 
 ## Maps key note
 Google Maps JS needs a **browser** key (public). It's the one intentionally-public
@@ -125,8 +125,31 @@ stay server-side. Absent → non-interactive fallback. See [integrations.md](int
   `tsx` and `tsc`, and `NodeNext` would force `.js` rules on the client for no gain.
 - **ESLint:** the six typed rules through `projectService` (12.8 s on the repo against 11.6 s for `project: true`,
   so no change), `!` an error in source and a warning in tests, no enums, no `TODO` comments, no `console` outside the
-  CLIs, no default exports outside `*.config.*`, `process.env` only in `server/src/config/env.ts`.
+  CLIs, no default exports outside `*.config.*`, `process.env` only in `server/src/config.ts`.
 - **Gate:** `check` and `check:fast` (typecheck, then ESLint on the changed files, from `scripts/check-fast.mjs`).
   `pretest` builds `shared`, so a fresh clone tests.
 - **Rejected:** a `NodeNext` move (above); Prettier over Markdown; running the convention checkers strict now (they
   report 7 and 67 findings, which the Base UI and server briefs fix).
+
+## The server structure (2026-11-11, brief 17)
+- **Shape:** the owner's code-structure skill. `server.ts` listens, `app.ts` builds, `config.ts` alone reads the
+  environment, `features/<name>/` holds routes, store and service behind an `index.ts`, `plugins/` the cross-cutting
+  parts, `lib/` the Fastify-free `HttpError`. Dependencies are passed as typed plugin options built once in `buildApp`.
+- **Schemas:** the zod type provider on every route, a response schema on every route (no route streams, so no
+  exemption). A schema the client also imports lives in `shared/` (`idParamsSchema`, `healthSchema`, the list and
+  wrapper response schemas). `FastifyPluginAsyncZod` types each feature plugin.
+- **Errors:** one error plugin, registered first, keeping the repo's flat `{ error, message? }`. Fastify's own 4xx pass
+  through with their status; everything else is a fixed 500. The 404 handler is rate-limited.
+- **Guards run in `preValidation`,** not `preHandler`, so the order of replies is unchanged (401 before 400). The
+  brief's text assumed the session check ran before validation by being a `preHandler`; it does not, so the hook moved.
+- **Singleton or factories:** factories (`createUsersStore(db)` and the rest), as the brief's default. `getDb`, `setDb`
+  and `resetData` are gone.
+- **Event ratings** moved to the ratings feature (same URLs); it takes `eventExists` and `userExists` as plain
+  functions, so it imports neither the events nor the users feature.
+- **`NODE_ENV`:** `check-structure` rule 3 reports `config.ts`'s reads (production secret check, the Secure cookie flag,
+  the silent test logger). Accepted in `scripts/conventions.json` until a deploy brief replaces them with variables of
+  the app's own.
+- **`TRUST_PROXY`:** a new optional setting, false by default; unused until the app is deployed.
+- **Rejected:** keeping the layer split (`routes/ services/ dal/`: it spreads one feature over three folders and lets
+  any route import any store); filesystem autoload (an implicit registration order, hard to read and to test); keeping
+  the module singleton as a recorded exception (it hid every dependency and made tests swap a global).

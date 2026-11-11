@@ -203,3 +203,19 @@ Follow `migrating-a-server.md`. One commit per step; after each, `npm run check`
 - Update 2026-11-11: brief 15 already added `.dependency-cruiser.cjs` and put dependency-cruiser in `check:conventions`, with no findings. This brief keeps the rest: the cross-feature check on the new feature folders. The harness configs are `eslint.config.mjs`, `knip.config.js` and `prettier.config.mjs` (the root has no `"type": "module"`). The `n/no-process-env` allow-list for `server/src/config/env.ts` is a block in `eslint.config.mjs`; it goes when the module becomes `config.ts`.
 - Brief 15's `no-console` exception for the email adapter ends here, and its `n/no-process-env` allow-list is `config.ts`.
 - Brief 16 and this brief are independent in code. The client's `api/client.ts` reads `data.error` and `data.message`, which this brief keeps.
+
+## Outcome (2026-11-11)
+
+Built in six code commits. The server is on Fastify 5.12.8, grouped by feature, with every one of the 30 routes on the zod type provider with its params, query, body and a response schema, one error plugin, factory stores over a typed context and `close-with-grace`. `check-structure` runs strict.
+
+- **`check-structure` counts:** before, 0 errors and 66 warnings (rule 1: 1, rule 3: 5, rule 6: 60); after, 0 errors and 0 warnings, 5 excepted (rule 3, `NODE_ENV` in `config.ts`, with the reason in `scripts/conventions.json`).
+- **Acceptance greps:** the hand-parse grep and the `getDb|setDb` grep print nothing; the `process.env` grep prints only `config.ts` (the `loadConfig(env = process.env)` default). dependency-cruiser fails a deliberate `ratings` to `events/store.js` import and passes clean.
+- **Checks:** `npm run check` exit 0 (42 server and 22 client tests, knip, dependency-cruiser, both convention checkers). A built server from a scratch folder with no `.env`, every setting pinned: `GET /api/health` 200, a signed-out `GET /api/events` 401, an unknown `/api` path a JSON 404, SIGTERM exits 0.
+- **Replies compared:** 116 replies (every route and each error status, signed in as the seeded admin and a user, with an event holding attendees, ratings and a notification) captured before and after. 100 are byte for byte the same. The 16 that differ are all intended, and the client reads only `error` and `message`, so none breaks it:
+  - Fastify's own 4xx, 500 before: malformed JSON 400 `bad_request`, an unsupported content type 415, an empty JSON body 400.
+  - The unknown route, a wrong method and `OPTIONS` without CORS: 404 `{ "error": "not_found" }`, was Fastify's default body.
+  - A missing body reads "received null", was "received undefined" (8 routes).
+  - Validation now runs before a route's own lookups: a bad body on `PUT /api/events/:id/rating` for a missing event is 400, was 404; a bad body on `PATCH /api/notifications/:id` for another user's notification is 400, was 403.
+  - No field disappeared from any reply, so no leak was found. Removing `hostName` from `eventSummarySchema` once changed 7 replies, which proves the response schemas are live; it was put back.
+
+Deviations: steps 6 and 7 are one commit (the stores, the context and the schemas each rewrote the same route files); the guards are `preValidation` hooks (the brief's `preHandler` would have turned a 401 into a 400 on a signed-out bad request); the migrations run inside `buildApp` (so a test app has its schema), and the entry no longer runs them; `server/.env.example` and `docs/getting-started.md` gained `TRUST_PROXY` and lost "mail goes to the console".

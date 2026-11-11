@@ -1,6 +1,6 @@
 ---
 summary: The REST endpoints under /api, who may call each one, and what they return
-updated: 2026-06-25
+updated: 2026-11-11
 ---
 
 # API contract
@@ -50,3 +50,13 @@ status codes. Full table: [sources/SPEC.md](../sources/SPEC.md) §5. Authorizati
 - `GET /api/maps/config` (user) — maps enabled? + public config
 
 See [integrations.md](integrations.md).
+
+## Errors
+One flat body, `{ error, message? }` (`shared/src/common.ts`). Every route declares params, query, body and a response schema; a reply that does not match its schema is a 500 `internal_error` (logged, never shown).
+- `400 validation_error` — the request failed its route schema (the first issue's message). A missing body reads "received null".
+- `400 bad_request`, `413 payload_too_large`, `415 unsupported_media_type`, `429 rate_limited` — Fastify's and its plugins' own 4xx keep their status (before brief 17 they were 500s).
+- `401 unauthorized`, `403 forbidden`, `404 not_found`, `409 conflict` — from the guards and `HttpError`.
+- `404 not_found` for a path no route answers (rate-limited: 60 a minute); with a built client present, a non-`/api` path gets `index.html`.
+- `500 internal_error` — anything else, with no detail. Validation runs before a route's own checks, so a malformed body on a route that also looks something up is a 400 before it is a 404 or 403.
+
+The event-rating routes (`/api/events/:id/rating`) live in the ratings feature beside the host-rating routes (`/api/users/:id/rating`); the URLs did not change.
