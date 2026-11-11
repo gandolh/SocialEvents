@@ -60,18 +60,21 @@ export function StarRating({
   onRate,
   readOnly,
   size = 18,
+  label = "Rating",
 }: {
   value: number;
   count?: number;
   onRate?: (rating: number) => void;
   readOnly?: boolean;
   size?: number;
+  /** Names the row of stars for a screen reader. */
+  label?: string;
 }) {
   const [hover, setHover] = useState(0);
   const display = hover || value;
   return (
     <span className="inline-flex items-center gap-1">
-      <span className="inline-flex">
+      <span role="group" aria-label={label} className="inline-flex">
         {[1, 2, 3, 4, 5].map((n) => {
           const filled = n <= Math.round(display);
           const Icon = filled ? IoStar : IoStarOutline;

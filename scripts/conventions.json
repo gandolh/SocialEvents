@@ -3,5 +3,14 @@
   "web": ["client/src"],
   "server": ["server/src"],
   "shared": ["shared/src"],
-  "env": ["server/src/config/env.ts"]
+  "env": ["server/src/config/env.ts"],
+  "exceptions": [
+    {
+      "check": "base-ui",
+      "rule": 16,
+      "path": "client/src/components/ui/misc.tsx",
+      "match": "StarRating",
+      "reason": "StarRating stays five buttons, not a RadioGroup or ToggleGroup. Each click saves the user's rating to the server, and the stars show the event's average, not the user's own choice, so a checked or pressed state would announce something false. The row has role=\"group\" and an aria-label."
+    }
+  ]
 }

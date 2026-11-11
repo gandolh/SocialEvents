@@ -69,6 +69,7 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
           <div className="flex items-center justify-between">
             <CategoryChip category={event.category} />
             <StarRating
+              label="Event rating"
               value={event.rating.average}
               count={event.rating.count}
               onRate={(rating) => setEventRating.mutate({ id: eventId, rating })}
@@ -92,6 +93,7 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
             <dd className="flex items-center gap-2">
               {event.hostName}
               <StarRating
+                label="Host rating"
                 value={hostRating.data?.aggregate.average ?? 0}
                 count={hostRating.data?.aggregate.count}
                 size={14}
