@@ -74,7 +74,7 @@ Inside those decisions, a redesign may change the tokens, the type, the density 
 
 - [ ] The owner's approval on the board is recorded in [log.md](../../log.md) with its date.
 - [ ] Hallmark's Floor checks pass, as commands or tests:
-  - `node scripts/check-contrast.mjs` passes for text and for the focus ring, in both themes;
+  - `node scripts/check-contrast.mjs` passes for text and for the focus ring, in both themes, with the `KNOWN_LIGHT` floors that brief 16 kept for seven light pairs deleted (every pair at its minimum);
   - a visible focus ring on every interactive element, checked by a Playwright test that tabs through the shell, the directory and one dialog;
   - a `prefers-reduced-motion` path: `grep -rn "motion-safe\|motion-reduce" client/src` shows every transition and animation guarded, and a Playwright run with reduced motion shows no animation on the dialogs and the drawer;
   - no invented facts or numbers: every figure on a screen comes from the seed or the API;
