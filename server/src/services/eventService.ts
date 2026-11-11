@@ -4,7 +4,7 @@ import { departmentsRepo } from "../dal/departments.js";
 import { usersRepo } from "../dal/users.js";
 import { notificationsRepo } from "../dal/notifications.js";
 import { sendMail } from "../integrations/email/index.js";
-import { conflict, forbidden, notFound } from "../http/errors.js";
+import { conflict, forbidden, notFound } from "../lib/http-error.js";
 
 interface Actor {
   id: string;

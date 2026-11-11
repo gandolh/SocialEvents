@@ -3,7 +3,7 @@ import { createDepartmentSchema, idSchema } from "@socialevents/shared";
 import { z } from "zod";
 import { requireAuth, requireAdmin } from "../auth/guards.js";
 import { departmentsRepo } from "../dal/departments.js";
-import { conflict, notFound } from "../http/errors.js";
+import { conflict, notFound } from "../lib/http-error.js";
 
 const idParamsSchema = z.object({ id: idSchema });
 

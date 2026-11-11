@@ -4,7 +4,7 @@ import { z } from "zod";
 import { requireAuth, currentUser } from "../auth/guards.js";
 import { hostRatingsRepo } from "../dal/ratings.js";
 import { usersRepo } from "../dal/users.js";
-import { notFound } from "../http/errors.js";
+import { notFound } from "../lib/http-error.js";
 
 const idParamsSchema = z.object({ id: idSchema });
 

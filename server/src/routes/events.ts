@@ -12,7 +12,7 @@ import { requireAuth, currentUser } from "../auth/guards.js";
 import { eventsRepo } from "../dal/events.js";
 import { eventRatingsRepo } from "../dal/ratings.js";
 import { createEvent, updateEvent, deleteEvent } from "../services/eventService.js";
-import { notFound } from "../http/errors.js";
+import { notFound } from "../lib/http-error.js";
 
 const idParamsSchema = z.object({ id: idSchema });
 

@@ -3,10 +3,9 @@ import cookie from "@fastify/cookie";
 import helmet from "@fastify/helmet";
 import cors from "@fastify/cors";
 import rateLimit from "@fastify/rate-limit";
-import { ZodError } from "zod";
 import { config } from "./config.js";
 import { clientStatic } from "./plugins/client-static.js";
-import { HttpError } from "./http/errors.js";
+import { errors, jsonNotFound, setRateLimitedNotFound } from "./plugins/errors.js";
 import { authRoutes } from "./routes/auth.js";
 import { userRoutes } from "./routes/users.js";
 import { hostRatingRoutes } from "./routes/ratings.js";
@@ -27,6 +26,8 @@ export interface BuildAppOptions {
 export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyInstance> {
   const app = Fastify(options.server);
 
+  // The error handler goes first, so every route and plugin below answers through it.
+  await app.register(errors);
   await app.register(helmet, { contentSecurityPolicy: false });
   await app.register(cookie);
   if (config.clientOrigin) {
@@ -36,20 +37,6 @@ export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyIn
     });
   }
   await app.register(rateLimit, { global: false });
-
-  app.setErrorHandler((error, _request, reply) => {
-    if (error instanceof ZodError) {
-      return reply.code(400).send({ error: "validation_error", message: error.issues[0]?.message });
-    }
-    if (error instanceof HttpError) {
-      return reply.code(error.statusCode).send({ error: error.errorCode, message: error.message });
-    }
-    if ((error as { statusCode?: number }).statusCode === 429) {
-      return reply.code(429).send({ error: "rate_limited" });
-    }
-    app.log.error(error);
-    return reply.code(500).send({ error: "internal_error" });
-  });
 
   // Stricter rate limit on auth endpoints.
   await app.register(
@@ -73,6 +60,7 @@ export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyIn
   app.get("/api/health", async () => ({ status: "ok" }));
 
   if (options.clientDist) await app.register(clientStatic, { root: options.clientDist });
+  else setRateLimitedNotFound(app, jsonNotFound);
 
   return app;
 }

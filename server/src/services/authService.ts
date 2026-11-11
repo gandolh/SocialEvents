@@ -1,7 +1,7 @@
 import type { RegisterInput, LoginInput, User } from "@socialevents/shared";
 import { usersRepo } from "../dal/users.js";
 import { hashPassword, verifyPassword } from "../auth/password.js";
-import { conflict, unauthorized } from "../http/errors.js";
+import { conflict, unauthorized } from "../lib/http-error.js";
 import { sendMail } from "../integrations/email/index.js";
 
 export async function register(input: RegisterInput): Promise<User> {

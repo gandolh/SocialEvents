@@ -4,7 +4,7 @@ import { z } from "zod";
 import { requireAuth, requireAdmin, currentUser } from "../auth/guards.js";
 import { usersRepo } from "../dal/users.js";
 import { hashPassword, verifyPassword } from "../auth/password.js";
-import { notFound, unauthorized } from "../http/errors.js";
+import { notFound, unauthorized } from "../lib/http-error.js";
 
 const listQuerySchema = z.object({ departmentId: idSchema.optional() });
 const idParamsSchema = z.object({ id: idSchema });

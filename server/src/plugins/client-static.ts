@@ -1,5 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 import fastifyStatic from "@fastify/static";
+import { jsonNotFound, setRateLimitedNotFound } from "./errors.js";
 
 export interface ClientStaticOptions {
   /** The built client's folder. */
@@ -12,10 +13,8 @@ export interface ClientStaticOptions {
  */
 export const clientStatic: FastifyPluginAsync<ClientStaticOptions> = async (app, { root }) => {
   await app.register(fastifyStatic, { root });
-  app.setNotFoundHandler((request, reply) => {
-    if (request.url.startsWith("/api")) {
-      return reply.code(404).send({ error: "not_found" });
-    }
+  setRateLimitedNotFound(app, (request, reply) => {
+    if (request.url.startsWith("/api")) return jsonNotFound(request, reply);
     return reply.sendFile("index.html");
   });
 };

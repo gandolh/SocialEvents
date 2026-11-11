@@ -3,7 +3,7 @@ import { markNotificationSchema, idSchema } from "@socialevents/shared";
 import { z } from "zod";
 import { requireAuth, currentUser } from "../auth/guards.js";
 import { notificationsRepo } from "../dal/notifications.js";
-import { forbidden, notFound } from "../http/errors.js";
+import { forbidden, notFound } from "../lib/http-error.js";
 
 const idParamsSchema = z.object({ id: idSchema });
 
