@@ -2,6 +2,7 @@ import { useState } from "react";
 import { EVENT_CATEGORY_NAMES } from "@socialevents/shared";
 import { useCreateEvent, useDepartments, useUsers, useMe } from "../api/hooks.js";
 import { Dialog, Input, Textarea, Select, Button } from "./ui/index.js";
+import { Checkbox } from "./ui/Checkbox.js";
 import { Tab, TabPanel, Tabs, TabsList } from "./ui/Tabs.js";
 
 export function CreateEventModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -114,14 +115,16 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
               {users
                 .filter((u) => u.id !== me?.id)
                 .map((u) => (
-                  <label key={u.id} className="flex items-center gap-2 px-1 py-1 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.has(u.id)}
-                      onChange={() => toggle(selectedUsers, u.id, setSelectedUsers)}
-                    />
-                    {u.name} <span className="text-xs text-on-surface-variant">{u.email}</span>
-                  </label>
+                  <Checkbox
+                    key={u.id}
+                    checked={selectedUsers.has(u.id)}
+                    onCheckedChange={() => toggle(selectedUsers, u.id, setSelectedUsers)}
+                    label={
+                      <>
+                        {u.name} <span className="text-xs text-on-surface-variant">{u.email}</span>
+                      </>
+                    }
+                  />
                 ))}
             </TabPanel>
             <TabPanel
@@ -129,14 +132,12 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
               value="departments"
             >
               {departments.map((d) => (
-                <label key={d.id} className="flex items-center gap-2 px-1 py-1 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={selectedDepts.has(d.id)}
-                    onChange={() => toggle(selectedDepts, d.id, setSelectedDepts)}
-                  />
-                  {d.name}
-                </label>
+                <Checkbox
+                  key={d.id}
+                  checked={selectedDepts.has(d.id)}
+                  onCheckedChange={() => toggle(selectedDepts, d.id, setSelectedDepts)}
+                  label={d.name}
+                />
               ))}
             </TabPanel>
           </Tabs>
