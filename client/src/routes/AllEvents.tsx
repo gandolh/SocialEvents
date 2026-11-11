@@ -34,13 +34,13 @@ export function AllEvents() {
       </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[220px]">
-          <IoSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" />
+        <div className="relative min-w-[220px] flex-1">
+          <IoSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-on-surface-variant" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search events, hosts, or locations…"
-            className="w-full rounded-lg border border-outline-variant/60 bg-surface-container-lowest py-2 pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-lg border border-outline-variant/60 bg-surface-container-lowest py-2 pr-3 pl-9 text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
         </div>
         <div className="flex rounded-lg border border-outline-variant/60 p-0.5 text-sm">

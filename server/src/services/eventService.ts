@@ -86,7 +86,9 @@ export function updateEvent(actor: Actor, eventId: string, input: UpdateEventInp
     eventsRepo.setAttendees(eventId, ids);
   }
 
-  return eventsRepo.findDetailById(eventId)!;
+  const detail = eventsRepo.findDetailById(eventId);
+  if (!detail) throw notFound("event not found");
+  return detail;
 }
 
 export function deleteEvent(actor: Actor, eventId: string): void {

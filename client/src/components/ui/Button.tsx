@@ -34,7 +34,7 @@ export function Button({ variant = "primary", size = "md", className, children, 
       className={cn(
         "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-150",
         "focus:outline-none focus-visible:aero-glow active:translate-y-px",
-        "disabled:opacity-50 disabled:pointer-events-none",
+        "disabled:pointer-events-none disabled:opacity-50",
         variants[variant],
         sizes[size],
         className,

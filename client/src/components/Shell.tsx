@@ -39,11 +39,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
 
-  // Close the mobile drawer on navigation.
-  useEffect(() => {
-    setDrawerOpen(false);
-  }, [path]);
-
   // Close the drawer on Escape.
   useEffect(() => {
     if (!drawerOpen) return;
@@ -73,10 +68,12 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <Link
               key={item.to}
               to={item.to}
+              // Close the mobile drawer on navigation.
+              onClick={() => setDrawerOpen(false)}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                 active
-                  ? "aero-gloss-light text-primary border border-white/70"
+                  ? "border border-white/70 text-primary aero-gloss-light"
                   : "text-on-surface-variant hover:bg-white/40",
               )}
             >
@@ -92,7 +89,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen overflow-hidden bg-background text-on-surface">
       {/* Sidebar — fixed on desktop (lg+) */}
-      <aside className="aero-glass hidden w-[280px] shrink-0 flex-col rounded-none border-y-0 border-l-0 px-4 py-6 lg:flex">
+      <aside className="hidden w-[280px] shrink-0 flex-col rounded-none border-y-0 border-l-0 px-4 py-6 aero-glass lg:flex">
         {sidebarContent}
         <div className="mt-auto" />
       </aside>
@@ -104,11 +101,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
             className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm"
             onClick={() => setDrawerOpen(false)}
           />
-          <aside className="aero-glass-strong absolute left-0 top-0 flex h-full w-[280px] max-w-[80vw] flex-col rounded-none px-4 py-6">
+          <aside className="absolute top-0 left-0 flex h-full w-[280px] max-w-[80vw] flex-col rounded-none px-4 py-6 aero-glass-strong">
             <button
               onClick={() => setDrawerOpen(false)}
               aria-label="Close menu"
-              className="absolute right-3 top-3 rounded-full p-1 text-on-surface-variant hover:bg-surface-container"
+              className="absolute top-3 right-3 rounded-full p-1 text-on-surface-variant hover:bg-surface-container"
             >
               <IoClose size={20} />
             </button>
@@ -120,7 +117,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       {/* Main column */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="aero-glass flex h-16 shrink-0 items-center justify-between gap-2 rounded-none border-x-0 border-t-0 px-3 sm:px-6">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 rounded-none border-x-0 border-t-0 px-3 aero-glass sm:px-6">
           <div className="flex min-w-0 items-center gap-1">
             <button
               onClick={() => setDrawerOpen(true)}
@@ -139,7 +136,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                     className={cn(
                       "shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                       active
-                        ? "text-primary underline underline-offset-8 decoration-2"
+                        ? "text-primary underline decoration-2 underline-offset-8"
                         : "text-on-surface-variant hover:text-on-surface",
                     )}
                   >

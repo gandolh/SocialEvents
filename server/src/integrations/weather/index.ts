@@ -25,12 +25,14 @@ function mockWeather(lat: number, lng: number): Weather {
   ];
   // Deterministic pick from coordinates so the same place is stable.
   const idx = Math.abs(Math.round(lat + lng)) % conditions.length;
-  return { ...conditions[idx]!, mock: true };
+  const pick = conditions[idx];
+  if (!pick) throw new Error("no weather conditions");
+  return { ...pick, mock: true };
 }
 
-async function fetchReal(lat: number, lng: number): Promise<Weather> {
+async function fetchReal(apiKey: string, lat: number, lng: number): Promise<Weather> {
   const params = new URLSearchParams({
-    access_key: config.weather.apiKey!,
+    access_key: apiKey,
     query: `${lat},${lng}`,
   });
   const res = await fetch(`http://api.weatherstack.com/current?${params}`);
@@ -53,9 +55,10 @@ export async function getWeather(lat: number, lng: number): Promise<Weather> {
   }
 
   let data: Weather;
-  if (useReal) {
+  const apiKey = config.weather.apiKey;
+  if (useReal && apiKey) {
     try {
-      data = await fetchReal(lat, lng);
+      data = await fetchReal(apiKey, lat, lng);
     } catch {
       data = mockWeather(lat, lng); // graceful fallback on provider error
     }

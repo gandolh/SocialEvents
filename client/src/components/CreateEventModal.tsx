@@ -24,7 +24,8 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
 
   const toggle = (set: Set<string>, id: string, setter: (s: Set<string>) => void) => {
     const next = new Set(set);
-    next.has(id) ? next.delete(id) : next.add(id);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
     setter(next);
   };
 
@@ -39,7 +40,7 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
         name,
         startsAt: new Date(startsAt).toISOString(),
         description,
-        category: category as (typeof EVENT_CATEGORY_NAMES)[number],
+        category,
         location: {
           label: locLabel,
           lat: lat ? Number(lat) : null,
@@ -65,7 +66,7 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={submit} disabled={create.isPending}>
+          <Button onClick={() => void submit()} disabled={create.isPending}>
             Create
           </Button>
         </>

@@ -9,7 +9,7 @@ export function Card({
   ...rest
 }: { children: ReactNode; className?: string } & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("aero-glass rounded-lg", className)} {...rest}>
+    <div className={cn("rounded-lg aero-glass", className)} {...rest}>
       {children}
     </div>
   );

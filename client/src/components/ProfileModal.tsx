@@ -45,7 +45,7 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
           <h3 className="text-sm font-semibold text-on-surface">Profile</h3>
           <Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
           <Input label="Job title" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} />
-          <Button size="sm" onClick={saveProfile} disabled={updateProfile.isPending}>
+          <Button size="sm" onClick={() => void saveProfile()} disabled={updateProfile.isPending}>
             Save profile
           </Button>
         </section>
@@ -66,7 +66,7 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
           />
           <Button
             size="sm"
-            onClick={savePassword}
+            onClick={() => void savePassword()}
             disabled={changePassword.isPending || !currentPassword || newPassword.length < 8}
           >
             Change password

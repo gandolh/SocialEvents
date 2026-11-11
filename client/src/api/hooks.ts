@@ -88,8 +88,8 @@ export function useDeleteDepartment() {
   return useMutation({
     mutationFn: (id: string) => api.del(`/departments/${id}`),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["departments"] });
-      qc.invalidateQueries({ queryKey: ["users"] });
+      void qc.invalidateQueries({ queryKey: ["departments"] });
+      void qc.invalidateQueries({ queryKey: ["users"] });
     },
   });
 }
@@ -159,8 +159,8 @@ export function useUpdateEvent() {
     mutationFn: (vars: { id: string; input: UpdateEventInput }) =>
       api.patch<{ event: EventDetail }>(`/events/${vars.id}`, vars.input),
     onSuccess: (_d, vars) => {
-      qc.invalidateQueries({ queryKey: ["events"] });
-      qc.invalidateQueries({ queryKey: ["event", vars.id] });
+      void qc.invalidateQueries({ queryKey: ["events"] });
+      void qc.invalidateQueries({ queryKey: ["event", vars.id] });
     },
   });
 }

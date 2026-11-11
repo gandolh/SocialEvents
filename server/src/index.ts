@@ -13,7 +13,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 async function main(): Promise<void> {
   const applied = runMigrations();
   if (applied.length) {
-    // eslint-disable-next-line no-console
     console.log(`[migrate] applied: ${applied.join(", ")}`);
   }
 
@@ -33,12 +32,10 @@ async function main(): Promise<void> {
 
   await app.listen({ port: config.port, host: "0.0.0.0" });
 
-  // eslint-disable-next-line no-console
   console.log(`[server] listening on :${config.port} | weather=${weatherMode()} email=${emailMode()}`);
 }
 
 main().catch((err) => {
-  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });

@@ -46,10 +46,8 @@ const isMain = process.argv[1] && fileURLToPath(import.meta.url) === path.resolv
 if (isMain) {
   const applied = runMigrations();
   if (applied.length === 0) {
-    // eslint-disable-next-line no-console
     console.log("[migrate] up to date, nothing to apply");
   } else {
-    // eslint-disable-next-line no-console
     console.log(`[migrate] applied: ${applied.join(", ")}`);
   }
 }

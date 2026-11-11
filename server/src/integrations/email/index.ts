@@ -12,9 +12,10 @@ const useReal = Boolean(config.smtp.host);
 
 function getTransporter(): Transporter {
   if (transporter) return transporter;
-  if (useReal) {
+  const host = config.smtp.host;
+  if (useReal && host) {
     transporter = nodemailer.createTransport({
-      host: config.smtp.host!,
+      host,
       port: config.smtp.port,
       secure: config.smtp.port === 465,
       auth: config.smtp.user && config.smtp.pass ? { user: config.smtp.user, pass: config.smtp.pass } : undefined,
@@ -37,12 +38,10 @@ export async function sendMail(msg: MailMessage): Promise<void> {
       html: msg.html,
     });
     if (!useReal) {
-      // eslint-disable-next-line no-console
       console.log(`[email:mock] → ${msg.to} | ${msg.subject}`);
       void info;
     }
   } catch (err) {
-    // eslint-disable-next-line no-console
     console.error("[email] send failed:", (err as Error).message);
   }
 }

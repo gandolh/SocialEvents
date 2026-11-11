@@ -17,7 +17,6 @@ async function seed(): Promise<void> {
     n: number;
   };
   if (userCount.n > 0) {
-    // eslint-disable-next-line no-console
     console.log("[seed] users already exist — skipping to avoid duplicates");
     return;
   }
@@ -121,7 +120,6 @@ async function seed(): Promise<void> {
   hostRatingsRepo.set(alex.id, dana.id, 5);
   hostRatingsRepo.set(admin.id, alex.id, 4);
 
-  // eslint-disable-next-line no-console
   console.log(
     `[seed] created 3 departments, 5 users, ${events.length} events.\n` +
       `[seed] login with any of: admin@/alex@/dana@/max@/sam@socialevents.local  (password: ${PASSWORD})`,
@@ -131,7 +129,6 @@ async function seed(): Promise<void> {
 seed()
   .then(() => process.exit(0))
   .catch((err) => {
-    // eslint-disable-next-line no-console
     console.error(err);
     process.exit(1);
   });

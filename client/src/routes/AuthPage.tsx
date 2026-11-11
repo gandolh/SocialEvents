@@ -36,13 +36,13 @@ export function AuthPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
-      <div className="aero-glass-strong w-full max-w-sm rounded-2xl p-8">
+      <div className="w-full max-w-sm rounded-2xl p-8 aero-glass-strong">
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-bold text-primary">SocialEvents</h1>
           <p className="text-sm text-on-surface-variant">Internal Coordination</p>
         </div>
 
-        <form onSubmit={submit} className="space-y-4">
+        <form onSubmit={(e) => void submit(e)} className="space-y-4">
           {mode === "register" && (
             <Input label="Name" value={name} onChange={(e) => setName(e.target.value)} required />
           )}

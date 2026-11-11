@@ -17,8 +17,9 @@ export function CalendarMonth() {
   const byDay = new Map<string, typeof events>();
   for (const e of events) {
     const key = localIsoDate(e.startsAt);
-    if (!byDay.has(key)) byDay.set(key, []);
-    byDay.get(key)!.push(e);
+    const list = byDay.get(key) ?? [];
+    list.push(e);
+    byDay.set(key, list);
   }
 
   const shift = (delta: number) => setRef(new Date(ref.getFullYear(), ref.getMonth() + delta, 1));
@@ -66,7 +67,7 @@ export function CalendarMonth() {
                 <div
                   key={cell.iso}
                   className={cn(
-                    "min-h-[110px] border-b border-r border-outline-variant/40 p-1.5",
+                    "min-h-[110px] border-r border-b border-outline-variant/40 p-1.5",
                     !cell.inMonth && "bg-surface-container-low/40 text-on-surface-variant/50",
                   )}
                 >

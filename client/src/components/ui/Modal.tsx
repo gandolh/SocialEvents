@@ -30,7 +30,7 @@ export function Modal({ open, onClose, title, children, footer, size = "md" }: M
       onClick={onClose}
     >
       <div
-        className={cn("aero-glass-strong flex max-h-[90vh] w-full flex-col rounded-2xl", sizes[size])}
+        className={cn("flex max-h-[90vh] w-full flex-col rounded-2xl aero-glass-strong", sizes[size])}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"

@@ -40,7 +40,7 @@ function toSummary(row: EventRow): EventSummary {
     hostId: row.host_id,
     hostName: row.host_name,
     startsAt: row.starts_at,
-    category: row.category as EventCategory,
+    category: row.category,
     description: row.description,
     location: {
       label: row.location_label,

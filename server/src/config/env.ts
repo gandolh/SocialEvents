@@ -28,7 +28,6 @@ function resolveJwtSecret(): string {
     throw new Error("JWT_SECRET is required in production (min 16 chars). Set it in the environment.");
   }
   const ephemeral = crypto.randomBytes(32).toString("hex");
-  // eslint-disable-next-line no-console
   console.warn(
     "[config] JWT_SECRET not set — using an ephemeral dev secret. " +
       "Sessions will not survive a restart. Set JWT_SECRET to persist them.",

@@ -38,9 +38,8 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
         canManage ? (
           <Button
             variant="danger"
-            onClick={async () => {
-              await deleteEvent.mutateAsync(eventId);
-              onClose();
+            onClick={() => {
+              void deleteEvent.mutateAsync(eventId).then(() => onClose());
             }}
           >
             Delete event
