@@ -5,7 +5,6 @@ import type {
   EventSummary,
   EventDetail,
   CreateEventInput,
-  UpdateEventInput,
   EventQuery,
   Notification,
   RatingResponse,
@@ -150,18 +149,6 @@ export function useCreateEvent() {
   return useMutation({
     mutationFn: (input: CreateEventInput) => api.post<{ event: EventDetail }>("/events", input),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["events"] }),
-  });
-}
-
-export function useUpdateEvent() {
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: (vars: { id: string; input: UpdateEventInput }) =>
-      api.patch<{ event: EventDetail }>(`/events/${vars.id}`, vars.input),
-    onSuccess: (_d, vars) => {
-      void qc.invalidateQueries({ queryKey: ["events"] });
-      void qc.invalidateQueries({ queryKey: ["event", vars.id] });
-    },
   });
 }
 

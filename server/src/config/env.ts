@@ -54,5 +54,3 @@ export const config = {
     from: parsed.SMTP_FROM,
   },
 } as const;
-
-export type AppConfig = typeof config;

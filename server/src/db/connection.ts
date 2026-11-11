@@ -29,10 +29,3 @@ export function setDb(instance: Database.Database): void {
   instance.pragma("foreign_keys = ON");
   db = instance;
 }
-
-export function closeDb(): void {
-  if (db) {
-    db.close();
-    db = null;
-  }
-}

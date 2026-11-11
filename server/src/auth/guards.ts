@@ -9,7 +9,7 @@ declare module "fastify" {
 }
 
 /** Attach request.user from the session cookie, if valid. Never throws. */
-export function loadUser(request: FastifyRequest): void {
+function loadUser(request: FastifyRequest): void {
   const token = request.cookies?.[SESSION_COOKIE];
   if (!token) return;
   const claims = verifyToken(token);
