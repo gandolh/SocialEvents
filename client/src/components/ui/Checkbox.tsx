@@ -15,12 +15,12 @@ export function Checkbox({ label, className, ...props }: CheckboxProps) {
       <BaseCheckbox.Root
         {...props}
         className={cn(
-          "flex size-4 shrink-0 items-center justify-center rounded-sm border border-outline bg-surface-container-lowest text-on-primary outline-none",
+          "flex size-3.5 shrink-0 items-center justify-center rounded-sm border border-outline bg-surface-container-lowest text-on-primary outline-none",
           "focus-visible:aero-glow data-checked:border-primary data-checked:bg-primary",
         )}
       >
         <BaseCheckbox.Indicator className="flex items-center justify-center">
-          <IoCheckmark size={12} />
+          <IoCheckmark size={10} />
         </BaseCheckbox.Indicator>
       </BaseCheckbox.Root>
       {label}
