@@ -150,7 +150,7 @@ One commit per numbered step. After each, `npm run check` passes, with `check-ba
 
 **Built.** Base UI 1.9.0 (exact pin, subpath imports, only under `client/src/components/ui/`) now carries the dialog, the account menu, the notifications popover, the phone drawer, the All / Hosted-by-me filter, the invite tabs and the invite checkboxes; `window.confirm` is gone. The Light / Dark / System switch is in the profile dialog. `check-base-ui` ran 7 findings before (rule 6 x6, rule 11 x1) and 0 after; `check:conventions` runs it strict. `npm run check` passes: 27 server tests and 22 client jsdom tests (the theme store, the dialog's dismissal rules and Escape guard, the drawer's close paths, `InlineConfirm`, `cn`).
 
-**Commits:** `8b98ade` (cn, test run), `13f9293` (tokens), `00c90ea` (Dialog), `86e53de` (theme, contrast check), `268aa12` (Menu), `44d1a5c` (Popover), `22724d3` (Drawer), `b3f0cd2` (RadioGroup), `88284ab` (Tabs), `08f7a94` (Checkbox), `d1dff1b` (InlineConfirm), `ebcc156` (StarRating exception), `d9e94a6` (strict gate), `2ba44ae` and `b998ea5` (fixes from the screenshot pass).
+**Commits:** `8b98ade` (cn, test run), `13f9293` (tokens), `00c90ea` (Dialog), `86e53de` (theme, contrast check), `268aa12` (Menu), `44d1a5c` (Popover), `22724d3` (Drawer), `b3f0cd2` (RadioGroup), `88284ab` (Tabs), `08f7a94` (Checkbox), `d1dff1b` (InlineConfirm), `ebcc156` (StarRating exception), `d9e94a6` (strict gate), `2ba44ae`, `b998ea5` and `429be02` (fixes from the screenshot pass).
 
 **Deviations:**
 
