@@ -3,7 +3,7 @@
   "web": ["client/src"],
   "server": ["server/src"],
   "shared": ["shared/src"],
-  "env": ["server/src/config/env.ts"],
+  "env": ["server/src/config.ts"],
   "exceptions": [
     {
       "check": "base-ui",

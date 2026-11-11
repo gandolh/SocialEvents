@@ -12,9 +12,9 @@ export default [
     server: "server/src",
     // Allowed to print: the server entry and the migrate and seed CLIs talk to the person running
     // them, and the config module runs before any logger exists.
-    console: ["server/src/index.ts", "server/src/db/migrate.ts", "server/src/seed/seed.ts", "server/src/config/env.ts"],
+    console: ["server/src/server.ts", "server/src/db/migrate.ts", "server/src/seed/seed.ts", "server/src/config.ts"],
     // The one reader of the environment.
-    env: ["server/src/config/env.ts"],
+    env: ["server/src/config.ts"],
     tailwind: { css: "client/src/styles/index.css", order: true },
     // data/ is the local database.
     ignores: ["data/**", "client/dist-types/**"],

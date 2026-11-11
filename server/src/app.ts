@@ -1,10 +1,11 @@
-import Fastify, { type FastifyInstance } from "fastify";
+import Fastify, { type FastifyInstance, type FastifyServerOptions } from "fastify";
 import cookie from "@fastify/cookie";
 import helmet from "@fastify/helmet";
 import cors from "@fastify/cors";
 import rateLimit from "@fastify/rate-limit";
 import { ZodError } from "zod";
-import { config } from "./config/env.js";
+import { config } from "./config.js";
+import { clientStatic } from "./plugins/client-static.js";
 import { HttpError } from "./http/errors.js";
 import { authRoutes } from "./routes/auth.js";
 import { userRoutes } from "./routes/users.js";
@@ -14,10 +15,17 @@ import { eventRoutes } from "./routes/events.js";
 import { notificationRoutes } from "./routes/notifications.js";
 import { integrationRoutes } from "./routes/integrations.js";
 
-export async function buildApp(): Promise<FastifyInstance> {
-  const app = Fastify({
-    logger: config.isTest ? false : { transport: undefined, level: config.isProd ? "info" : "debug" },
-  });
+/** Fastify's options that belong to the process: `server.ts` sets them, a test leaves them out. */
+export type ServerOptions = Pick<FastifyServerOptions, "logger" | "trustProxy" | "connectionTimeout" | "requestTimeout">;
+
+export interface BuildAppOptions {
+  server?: ServerOptions;
+  /** The built client's folder: given, the app serves it and answers an unknown non-API path with `index.html`. */
+  clientDist?: string;
+}
+
+export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyInstance> {
+  const app = Fastify(options.server);
 
   await app.register(helmet, { contentSecurityPolicy: false });
   await app.register(cookie);
@@ -63,6 +71,8 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(integrationRoutes, { prefix: "/api" });
 
   app.get("/api/health", async () => ({ status: "ok" }));
+
+  if (options.clientDist) await app.register(clientStatic, { root: options.clientDist });
 
   return app;
 }

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import type { UserRole } from "@socialevents/shared";
-import { config } from "../config/env.js";
+import { config } from "../config.js";
 
 export interface AuthClaims {
   sub: string;

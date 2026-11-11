@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
 import fs from "node:fs";
 import path from "node:path";
-import { config } from "../config/env.js";
+import { config } from "../config.js";
 
 let db: Database.Database | null = null;
 
@@ -28,4 +28,10 @@ export function getDb(): Database.Database {
 export function setDb(instance: Database.Database): void {
   instance.pragma("foreign_keys = ON");
   db = instance;
+}
+
+/** Close the connection, if one was opened. */
+export function closeDb(): void {
+  db?.close();
+  db = null;
 }

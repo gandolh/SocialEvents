@@ -26,7 +26,7 @@ npm run build --workspace client          # builds client/dist (served by the se
 DATABASE_PATH=./data/pwtest.sqlite JWT_SECRET=pwtest-secret-pwtest-secret-1234 PORT=3009 \
   npx tsx server/src/seed/seed.ts
 DATABASE_PATH=./data/pwtest.sqlite JWT_SECRET=pwtest-secret-pwtest-secret-1234 PORT=3009 \
-  npx tsx server/src/index.ts      # run in background
+  npx tsx server/src/server.ts      # run in background
 
 # base URL
 #   http://localhost:3009

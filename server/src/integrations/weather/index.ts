@@ -1,5 +1,5 @@
 import type { Weather } from "@socialevents/shared";
-import { config } from "../../config/env.js";
+import { config } from "../../config.js";
 
 const useReal = Boolean(config.weather.apiKey);
 const TTL_MS = 24 * 60 * 60 * 1000;

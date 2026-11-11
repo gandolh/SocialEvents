@@ -1,5 +1,5 @@
 import nodemailer, { type Transporter } from "nodemailer";
-import { config } from "../../config/env.js";
+import { config } from "../../config.js";
 
 export interface MailMessage {
   to: string;

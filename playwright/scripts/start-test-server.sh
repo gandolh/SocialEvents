@@ -22,4 +22,4 @@ npx tsx server/src/seed/seed.ts
 
 echo "[pwtest] starting server on :$PORT (Ctrl-C to stop)"
 echo "[pwtest] open http://localhost:$PORT  | logins: *@socialevents.local / password123"
-npx tsx server/src/index.ts
+npx tsx server/src/server.ts
