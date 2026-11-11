@@ -1,0 +1,15 @@
+# Markdown stays out of Prettier (decided 2026-11-10).
+*.md
+
+# Generated or vendored copies.
+vendor/house-style/
+
+# Lockfile, build output, local data and captures.
+package-lock.json
+dist/
+dist-types/
+data/
+coverage/
+corpus/sources/
+docs/images/
+playwright/screenshots/
