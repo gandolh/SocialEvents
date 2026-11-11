@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { IoClose } from "react-icons/io5";
-import { cn } from "../../lib/utils.js";
+import { cn } from "../../lib/cn.js";
 
 interface ModalProps {
   open: boolean;

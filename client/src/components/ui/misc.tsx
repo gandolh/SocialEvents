@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { IoStar, IoStarOutline } from "react-icons/io5";
-import { cn, categoryChipClasses } from "../../lib/utils.js";
+import { cn } from "../../lib/cn.js";
+import { categoryChipClasses } from "../../lib/utils.js";
 
 export function Card({
   children,

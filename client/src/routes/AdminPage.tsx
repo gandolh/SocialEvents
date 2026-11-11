@@ -9,7 +9,7 @@ import {
   useMe,
 } from "../api/hooks.js";
 import { Button, Input, Spinner, EmptyState } from "../components/ui/index.js";
-import { cn } from "../lib/utils.js";
+import { cn } from "../lib/cn.js";
 
 export function AdminPage() {
   const { data: me } = useMe();

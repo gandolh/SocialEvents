@@ -15,7 +15,7 @@ import { Avatar, Button } from "./ui/index.js";
 import { NotificationsMenu } from "./NotificationsMenu.js";
 import { AccountMenu } from "./AccountMenu.js";
 import { CreateEventModal } from "./CreateEventModal.js";
-import { cn } from "../lib/utils.js";
+import { cn } from "../lib/cn.js";
 
 const nav = [
   { to: "/calendar", label: "Calendar", icon: IoCalendarOutline },

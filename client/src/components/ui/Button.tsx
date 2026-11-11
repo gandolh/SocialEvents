@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
-import { cn } from "../../lib/utils.js";
+import { cn } from "../../lib/cn.js";
 
 type Variant = "primary" | "secondary" | "ghost" | "danger" | "social";
 type Size = "sm" | "md";

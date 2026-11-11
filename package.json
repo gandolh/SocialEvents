@@ -14,7 +14,7 @@
     "dev:client": "npm run dev --workspace client",
     "build": "npm run build --workspace shared && npm run build --workspace server && npm run build --workspace client",
     "typecheck": "tsc -b",
-    "test": "npm run test --workspace server",
+    "test": "npm run test --workspace server && npm run test --workspace client",
     "migrate": "npm run migrate --workspace server",
     "seed": "npm run seed --workspace server",
     "lint": "eslint .",

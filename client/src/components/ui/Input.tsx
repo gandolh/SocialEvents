@@ -1,5 +1,5 @@
 import type { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
-import { cn } from "../../lib/utils.js";
+import { cn } from "../../lib/cn.js";
 
 const base =
   "w-full rounded-lg border border-white/70 bg-white/70 px-3 py-2 text-sm text-on-surface " +

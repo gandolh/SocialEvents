@@ -4,7 +4,8 @@ import { useEvents } from "../api/hooks.js";
 import { EventDetailModal } from "../components/EventDetailModal.js";
 import { Spinner } from "../components/ui/index.js";
 import { monthGrid, monthRange, localIsoDate, MONTH_NAMES, WEEKDAYS } from "../lib/calendar.js";
-import { categoryChipClasses, cn } from "../lib/utils.js";
+import { cn } from "../lib/cn.js";
+import { categoryChipClasses } from "../lib/utils.js";
 
 export function CalendarMonth() {
   const [ref, setRef] = useState(new Date());

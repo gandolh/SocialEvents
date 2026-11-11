@@ -1,5 +1,6 @@
 import { useNotifications, useMarkNotification, useDeleteNotification } from "../api/hooks.js";
-import { formatDateTime, cn } from "../lib/utils.js";
+import { cn } from "../lib/cn.js";
+import { formatDateTime } from "../lib/utils.js";
 import { IoTrashOutline } from "react-icons/io5";
 
 export function NotificationsMenu({ onClose }: { onClose: () => void }) {

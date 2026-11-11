@@ -2,7 +2,7 @@ import { useState } from "react";
 import { EVENT_CATEGORY_NAMES } from "@socialevents/shared";
 import { useCreateEvent, useDepartments, useUsers, useMe } from "../api/hooks.js";
 import { Modal, Input, Textarea, Select, Button } from "./ui/index.js";
-import { cn } from "../lib/utils.js";
+import { cn } from "../lib/cn.js";
 
 export function CreateEventModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const create = useCreateEvent();

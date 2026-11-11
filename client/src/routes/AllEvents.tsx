@@ -4,7 +4,8 @@ import { EVENT_CATEGORY_NAMES } from "@socialevents/shared";
 import { useEvents, useMe } from "../api/hooks.js";
 import { EventDetailModal } from "../components/EventDetailModal.js";
 import { Card, CategoryChip, Avatar, Spinner, EmptyState, Select } from "../components/ui/index.js";
-import { formatDateTime, cn } from "../lib/utils.js";
+import { cn } from "../lib/cn.js";
+import { formatDateTime } from "../lib/utils.js";
 
 type Sort = "date" | "name";
 type Scope = "all" | "mine";
