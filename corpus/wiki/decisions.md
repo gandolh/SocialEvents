@@ -53,7 +53,7 @@ versions in every `package.json`. When bumping, bump deliberately and update her
 ### shared
 | package | version |
 |---|---|
-| zod | 4.4.3 |
+| zod | 4.6.7 |
 
 ### server
 | package | version |
@@ -63,17 +63,16 @@ versions in every `package.json`. When bumping, bump deliberately and update her
 | @fastify/cors | 11.2.0 |
 | @fastify/helmet | 13.0.2 |
 | @fastify/rate-limit | 11.0.0 |
-| @fastify/static | 9.1.3 |
+| @fastify/static | 10.1.10 |
 | better-sqlite3 | 12.11.1 |
 | bcrypt | 6.0.0 |
 | jsonwebtoken | 9.0.3 |
-| nodemailer | 9.0.1 |
-| zod | 4.4.3 |
+| nodemailer | 10.5.0 |
+| zod | 4.6.7 |
 | @types/node | 26.0.1 |
 | @types/better-sqlite3 | 7.6.13 |
 | @types/bcrypt | 6.0.0 |
 | @types/jsonwebtoken | 9.0.10 |
-| @types/nodemailer | 8.0.1 |
 
 ### client
 | package | version |
@@ -90,7 +89,7 @@ versions in every `package.json`. When bumping, bump deliberately and update her
 | @fontsource/geist-sans | 5.2.5 |
 | @types/react | 19.2.17 |
 | @types/react-dom | 19.2.3 |
-| zod | 4.4.3 |
+| zod | 4.6.7 |
 
 ## Notable version implications (load-bearing)
 - **Tailwind v4** is CSS-first: configure via `@import "tailwindcss"` + `@theme`
