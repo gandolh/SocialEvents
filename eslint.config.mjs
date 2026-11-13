@@ -17,6 +17,6 @@ export default [
     env: ["server/src/config.ts"],
     tailwind: { css: "client/src/styles/index.css", order: true },
     // data/ is the local database.
-    ignores: ["data/**", "client/dist-types/**"],
+    ignores: ["data/**", "client/dist-types/**", "playwright/.output/**"],
   }),
 ];

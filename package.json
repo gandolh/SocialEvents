@@ -19,6 +19,7 @@
     "seed": "npm run seed --workspace server",
     "lint": "eslint .",
     "house-style:sync": "node vendor/house-style/bin/sync.mjs",
+    "e2e": "playwright test -c playwright/playwright.config.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "pretest": "npm run build:shared",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
     "@vitest/eslint-plugin": "1.6.28",
     "dependency-cruiser": "18.7.2",
     "eslint": "10.9.1",

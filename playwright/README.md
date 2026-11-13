@@ -12,6 +12,7 @@ playwright/
   README.md          ← you are here (how to run, fixtures, conventions)
   screenshots/       ← captured PNGs (gitignored; .gitkeep retained)
   scripts/           ← reusable helper scripts (e.g. start a seeded test server)
+  playwright.config.ts, global-setup.ts, fixtures.ts, tests/   ← the specs (see "Specs" below)
 ```
 
 ## Bring up a test server
@@ -70,3 +71,19 @@ view or page the calendar forward to see events.
 - Each run is independent; re-seed for a clean state. The seed is idempotent (skips
   if users exist) — delete the DB file to truly reset.
 - Console: a benign favicon 404 may appear; ignore it.
+
+## Specs
+`@playwright/test` is pinned at 1.63.0 in the root `package.json`. The specs in `tests/` run headless Chromium
+against a running, seeded test server (the section above) whose address is `SOCIALEVENTS_URL` (3009 when unset):
+
+```bash
+SOCIALEVENTS_URL=http://localhost:3009 npm run e2e                  # all specs, two workers
+SOCIALEVENTS_URL=http://localhost:3009 npm run e2e -- tests/focus   # one spec
+```
+- `global-setup.ts` signs the five seed users in (cookies in `.output/`, gitignored) and adds the fixture month,
+  seven events for November 2026 hosted and invited through the API. A second run adds nothing.
+- `fixtures.ts` freezes the clock at Thursday 12 November 2026, 10:00 UTC (the config sets UTC and `en-US`) and sets
+  the saved theme before the first paint. Specs sign in as Alex, who is invited to the Pub Quiz Night.
+- Build the client with `VITE_MAPS_BROWSER_KEY=` empty and start the server with `WEATHER_API_KEY=` empty, so the
+  weather and the map use their stand-ins and nothing calls out.
+- Two workers at most (the config sets it); other work shares the machine.

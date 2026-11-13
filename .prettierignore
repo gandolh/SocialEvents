@@ -13,3 +13,4 @@ coverage/
 corpus/sources/
 docs/images/
 playwright/screenshots/
+playwright/.output/
