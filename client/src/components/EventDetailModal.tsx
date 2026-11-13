@@ -81,7 +81,7 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
             />
           </div>
 
-          <dl className="grid grid-cols-[96px_minmax(0,1fr)] items-baseline gap-x-4 gap-y-2.5 max-md:grid-cols-[80px_minmax(0,1fr)] max-md:gap-x-3 max-md:gap-y-2 max-narrow:grid-cols-[72px_minmax(0,1fr)]">
+          <dl className="grid grid-cols-[96px_minmax(0,1fr)] items-baseline gap-x-4 gap-y-2.5 max-md:grid-cols-[80px_minmax(0,1fr)] max-md:gap-x-3 max-md:gap-y-2">
             <dt className="font-medium text-on-surface-variant">When</dt>
             <dd>{formatDateTime(event.startsAt)}</dd>
 

@@ -21,7 +21,7 @@ export function ViewSwitch({ day, className }: { day: boolean; className?: strin
             to={v.to}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "flex h-[46px] min-w-14 items-center justify-center rounded-sm border px-2.5 text-body font-semibold outline-none focus-visible:aero-focus md:h-9 md:min-w-18 md:px-4",
+              "flex h-[46px] min-w-14 items-center justify-center rounded-sm border px-2.5 text-body font-semibold outline-none focus-visible:aero-focus max-narrow:min-w-12 max-narrow:px-2 md:h-9 md:min-w-18 md:px-4",
               active
                 ? "border-outline bg-surface-bright text-primary"
                 : "border-transparent text-on-surface-variant hover:text-on-surface",

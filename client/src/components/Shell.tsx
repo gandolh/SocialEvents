@@ -81,7 +81,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col gap-2.5 px-3 pt-3 pb-4 md:gap-3 md:px-4 min-[75rem]:px-8">
+      <main className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col gap-2.5 px-3 pt-3 pb-4 md:gap-3 md:px-4 md:pt-4 min-[75rem]:px-8">
         {children}
       </main>
 
@@ -106,7 +106,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
         <Button
-          className="mt-2 mr-3 ml-1 h-12 shrink-0 self-start px-3.5 max-narrow:px-2.5 max-narrow:text-label"
+          className="mt-2 mr-3 ml-1 h-12 shrink-0 self-start px-3.5 max-narrow:px-2.5 max-narrow:text-small"
           onClick={() => setCreateOpen(true)}
         >
           <IoAdd size={18} aria-hidden="true" className="max-narrow:hidden" />

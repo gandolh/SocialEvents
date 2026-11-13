@@ -32,5 +32,5 @@ export function Tab({ className, ...props }: WithClass<ComponentProps<typeof Bas
 }
 
 export function TabPanel({ className, ...props }: WithClass<ComponentProps<typeof BaseTabs.Panel>>) {
-  return <BaseTabs.Panel {...props} className={cn("outline-none", className)} />;
+  return <BaseTabs.Panel {...props} className={cn("rounded-md outline-none focus-visible:aero-focus", className)} />;
 }

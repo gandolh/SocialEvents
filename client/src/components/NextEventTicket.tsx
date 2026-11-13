@@ -48,7 +48,7 @@ export function NextEventTicket({ onOpen }: { onOpen: (id: string) => void }) {
   return (
     <section
       aria-label={today ? "Tonight" : "Next event"}
-      className="flex items-center gap-5 rounded-lg border border-outline-variant bg-surface-bright py-2.5 pr-5 pl-3 shadow-panel max-md:flex-col max-md:items-stretch max-md:gap-2.5 max-md:pr-3 md:min-h-17"
+      className="flex items-center gap-5 rounded-lg border border-outline-variant bg-surface-bright py-2.5 pr-5 pl-3 shadow-panel max-md:flex-col max-md:items-stretch max-md:gap-2.5 max-md:pr-3 max-md:pb-3 md:min-h-17"
     >
       <div className="flex min-w-0 flex-1 items-center gap-4 max-md:gap-3">
         <DateTile iso={next.startsAt} className="h-12 w-13" />
@@ -56,7 +56,7 @@ export function NextEventTicket({ onOpen }: { onOpen: (id: string) => void }) {
           <button
             type="button"
             onClick={() => onOpen(next.id)}
-            className="cursor-pointer rounded-sm text-left font-display text-title font-medium text-on-surface outline-none focus-visible:aero-focus max-md:col-start-1 max-md:row-start-2 max-md:-my-2 max-md:py-2 max-narrow:col-span-2"
+            className="cursor-pointer rounded-sm text-left font-display text-title font-medium text-on-surface outline-none focus-visible:aero-focus max-md:col-start-1 max-md:row-start-2 max-md:-my-2.25 max-md:py-2.25 max-md:leading-6.5 max-narrow:col-span-2"
           >
             {next.name}
           </button>

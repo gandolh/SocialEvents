@@ -110,7 +110,7 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
         </div>
         <Textarea
           label="Description"
-          rows={2}
+          rows={3}
           className="min-h-14"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
