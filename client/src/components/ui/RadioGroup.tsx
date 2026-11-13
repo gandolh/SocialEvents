@@ -34,15 +34,15 @@ export function RadioGroup<Value extends string>({
       aria-label={label}
       value={value}
       onValueChange={onValueChange}
-      className={cn("flex w-fit rounded-lg border border-outline-variant/60 p-0.5 text-sm", className)}
+      className={cn("flex w-fit gap-0.5 rounded-md border border-outline bg-surface-container-high p-[3px]", className)}
     >
       {options.map((option) => (
         <Radio.Root
           key={option.value}
           value={option.value}
           className={cn(
-            "cursor-pointer rounded-md px-3 py-1 text-on-surface-variant capitalize outline-none select-none",
-            "focus-visible:aero-focus data-checked:bg-primary/10 data-checked:text-primary",
+            "flex h-11 cursor-pointer items-center justify-center rounded-sm border border-transparent px-4 text-body font-semibold text-on-surface-variant outline-none select-none md:h-9",
+            "hover:text-on-surface focus-visible:aero-focus data-checked:border-outline data-checked:bg-surface-bright data-checked:text-primary",
           )}
         >
           {option.label}
