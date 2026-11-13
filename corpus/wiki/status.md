@@ -43,6 +43,7 @@ run against the seeded test server. See [design-system.md](design-system.md).
 | 16 | Base UI and the theme switch | done |
 | 17 | the server in the house structure | done |
 | 18 | the redesign, "The open invitation" | done (README images not retaken: retakes are blocked) |
+| 19 | escape the mail HTML, bound the weather call (HTTP kept: free plan) | done |
 
 ## Verification (2026-06-25)
 - `npm install` clean, **0 vulnerabilities**.

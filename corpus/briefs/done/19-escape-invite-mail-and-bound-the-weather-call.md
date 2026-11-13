@@ -34,3 +34,7 @@ Everything else: `client/`, `shared/`, `vendor/`, configs, other features, lockf
 - Every interpolated value in outgoing mail HTML goes through `escapeHtml`; the subject has no CR/LF; the tests above pass.
 - The weather call aborts after the timeout and the route still returns the mock; the HTTP choice and its reason are in this brief's outcome note and the wiki.
 - `npm run check` and `bash corpus/lint.sh` exit 0.
+
+## Outcome (2026-11-13)
+
+Built as written. `escapeHtml` and `singleLine` live in `server/src/lib/html.ts`; both the invite mail and the welcome mail escape every user value, and the invite subject is one line. The weather fetch aborts after 5000 ms (`createWeather` takes `{ timeoutMs }` for tests) and falls back to the mock. **Plain HTTP stays**: Weatherstack's free plan has no HTTPS, so the URL is unchanged and the reason is in a comment, in `wiki/integrations.md` and here; only a paid plan would change it. Tests: 8 across `html.test.ts`, `events/service.test.ts` (hostile event name, description, place, host and invitee name; CRLF in the name) and `weather.test.ts` (a hung `fetch` stub, aborted, mock result in under a second). `npm run check` exit 0. Both todos are marked `status: promoted` with a pointer to this brief.
