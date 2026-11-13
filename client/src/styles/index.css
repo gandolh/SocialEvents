@@ -142,6 +142,9 @@
   --radius-lg: 1rem;
   --radius-xl: 1.25rem;
 
+  /* Below 380 px the phone layout tightens (a 360 px phone). Tailwind sorts a named max-* variant after max-md. */
+  --breakpoint-narrow: 23.75rem;
+
   /* The z scale. A popup opens from inside a dialog, so it sits above one. */
   --z-index-sticky: 20;
   --z-index-overlay: 40;

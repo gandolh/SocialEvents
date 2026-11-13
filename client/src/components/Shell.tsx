@@ -34,9 +34,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-dvh flex-col bg-background text-on-surface">
-      <header className="sticky top-0 z-sticky flex h-14 shrink-0 items-center gap-2 border-b border-outline px-3 aero-bar max-[379px]:px-2 md:h-topbar md:gap-7 md:px-6">
+      <header className="sticky top-0 z-sticky flex h-14 shrink-0 items-center gap-2 border-b border-outline px-3 aero-bar max-narrow:px-2 md:h-topbar md:gap-7 md:px-6">
         <div className="flex min-w-0 flex-col justify-center">
-          <span className="font-display text-[18px]/6 font-semibold text-primary max-[379px]:text-base md:text-title">
+          <span className="font-display text-[18px]/6 font-semibold text-primary max-narrow:text-base md:text-title">
             SocialEvents
           </span>
           <span className="hidden text-label text-on-surface-variant md:block">Internal Coordination</span>
@@ -81,7 +81,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col gap-2.5 px-3 pt-3 pb-4 min-[1200px]:px-8 md:gap-3 md:px-4">
+      <main className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col gap-2.5 px-3 pt-3 pb-4 md:gap-3 md:px-4 min-[75rem]:px-8">
         {children}
       </main>
 
@@ -106,10 +106,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
         <Button
-          className="mt-2 mr-3 ml-1 h-12 shrink-0 self-start px-3.5 max-[379px]:px-2.5 max-[379px]:text-label"
+          className="mt-2 mr-3 ml-1 h-12 shrink-0 self-start px-3.5 max-narrow:px-2.5 max-narrow:text-label"
           onClick={() => setCreateOpen(true)}
         >
-          <IoAdd size={18} aria-hidden="true" className="max-[379px]:hidden" />
+          <IoAdd size={18} aria-hidden="true" className="max-narrow:hidden" />
           Create Event
         </Button>
       </div>

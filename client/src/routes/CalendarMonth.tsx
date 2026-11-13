@@ -209,11 +209,11 @@ export function CalendarMonth() {
             )}
             <ul
               aria-label="Categories"
-              className="flex flex-wrap justify-center gap-x-3 gap-y-1 px-3 pt-1.5 pb-2 text-label text-on-surface-variant max-[379px]:flex-nowrap max-[379px]:gap-x-2.5 max-[379px]:px-2 md:hidden"
+              className="flex flex-wrap justify-center gap-x-3 gap-y-1 px-3 pt-1.5 pb-2 text-label text-on-surface-variant max-narrow:flex-nowrap max-narrow:gap-x-2.5 max-narrow:px-2 md:hidden"
             >
               {EVENT_CATEGORY_NAMES.map((name) => (
-                <li key={name} className="inline-flex items-center gap-1.5 max-[379px]:gap-1">
-                  <i aria-hidden="true" className={cn("block h-1 w-4 rounded-[2px] max-[379px]:w-3", barClass(name))} />
+                <li key={name} className="inline-flex items-center gap-1.5 max-narrow:gap-1">
+                  <i aria-hidden="true" className={cn("block h-1 w-4 rounded-[2px] max-narrow:w-3", barClass(name))} />
                   {name}
                 </li>
               ))}
@@ -227,7 +227,7 @@ export function CalendarMonth() {
           aria-label={`In ${monthName}`}
           className="rounded-lg border border-outline-variant bg-surface-bright shadow-panel md:hidden"
         >
-          <h2 className="px-4 pt-1.5 pb-0.5 font-display text-title font-medium max-[379px]:text-[17px]/6">
+          <h2 className="px-4 pt-1.5 pb-0.5 font-display text-title font-medium max-narrow:text-[17px]/6">
             In {monthName}
           </h2>
           <ul className="px-2 pb-1.5">
@@ -236,17 +236,17 @@ export function CalendarMonth() {
                 <button
                   type="button"
                   onClick={() => setSelected(e.id)}
-                  className="flex min-h-14 w-full cursor-pointer items-center gap-3 rounded-md px-2 py-1.5 text-left outline-none focus-visible:aero-focus max-[379px]:grid max-[379px]:grid-cols-[48px_minmax(0,1fr)_auto] max-[379px]:gap-y-0 max-[379px]:py-1"
+                  className="flex min-h-14 w-full cursor-pointer items-center gap-3 rounded-md px-2 py-1.5 text-left outline-none focus-visible:aero-focus max-narrow:grid max-narrow:grid-cols-[48px_minmax(0,1fr)_auto] max-narrow:gap-y-0 max-narrow:py-1"
                 >
                   <DateTile
                     iso={e.startsAt}
-                    className="h-11 w-12 rounded-md max-[379px]:col-start-1 max-[379px]:row-span-2 max-[379px]:row-start-1"
+                    className="h-11 w-12 rounded-md max-narrow:col-start-1 max-narrow:row-span-2 max-narrow:row-start-1"
                   />
-                  <span className="flex min-w-0 flex-1 flex-col max-[379px]:contents">
-                    <span className="text-list font-semibold text-on-surface max-[379px]:col-start-2 max-[379px]:row-start-1 max-[379px]:self-end">
+                  <span className="flex min-w-0 flex-1 flex-col max-narrow:contents">
+                    <span className="text-list font-semibold text-on-surface max-narrow:col-start-2 max-narrow:row-start-1 max-narrow:self-end">
                       {e.name}
                     </span>
-                    <span className="flex flex-wrap gap-x-2.5 text-small text-on-surface-variant max-[379px]:col-span-2 max-[379px]:col-start-2 max-[379px]:row-start-2 max-[379px]:self-start">
+                    <span className="flex flex-wrap gap-x-2.5 text-small text-on-surface-variant max-narrow:col-span-2 max-narrow:col-start-2 max-narrow:row-start-2 max-narrow:self-start">
                       {formatTime(e.startsAt)}
                       <span className="inline-flex items-center gap-1.5">
                         <IoLocationOutline size={16} aria-hidden="true" />
@@ -256,7 +256,7 @@ export function CalendarMonth() {
                   </span>
                   <CategoryChip
                     category={e.category}
-                    className="max-[379px]:col-start-3 max-[379px]:row-start-1 max-[379px]:self-end"
+                    className="max-narrow:col-start-3 max-narrow:row-start-1 max-narrow:self-end"
                   />
                 </button>
               </li>
