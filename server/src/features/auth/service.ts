@@ -1,5 +1,6 @@
 import type { RegisterInput, LoginInput, User } from "@socialevents/shared";
 import { hashPassword, verifyPassword } from "../../plugins/auth/index.js";
+import { escapeHtml } from "../../lib/html.js";
 import { conflict, unauthorized } from "../../lib/http-error.js";
 import type { Mailer } from "../notifications/index.js";
 import type { UsersStore } from "../users/index.js";
@@ -22,8 +23,8 @@ export function createAuthService({ users, mailer }: { users: UsersStore; mailer
         to: user.email,
         subject: "Welcome to SocialEvents",
         html:
-          `<p>Hi ${user.name},</p>` +
-          `<p>Your SocialEvents account has been created. You can sign in with ${user.email}.</p>` +
+          `<p>Hi ${escapeHtml(user.name)},</p>` +
+          `<p>Your SocialEvents account has been created. You can sign in with ${escapeHtml(user.email)}.</p>` +
           `<p>See you around,<br/>The SocialEvents team</p>`,
       });
 

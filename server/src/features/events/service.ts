@@ -1,4 +1,5 @@
 import type { CreateEventInput, UpdateEventInput, EventDetail } from "@socialevents/shared";
+import { escapeHtml, singleLine } from "../../lib/html.js";
 import { conflict, forbidden, notFound } from "../../lib/http-error.js";
 import type { DepartmentsStore } from "../departments/index.js";
 import type { Mailer, NotificationsStore } from "../notifications/index.js";
@@ -57,15 +58,15 @@ export function createEventService({ events, departments, users, notifications, 
           if (!u) continue;
           void mailer.send({
             to: u.email,
-            subject: `SocialEvents — invite: ${event.name}`,
+            subject: singleLine(`SocialEvents — invite: ${event.name}`),
             html:
-              `<p>Hi ${u.name},</p>` +
-              `<p>You've been invited to <strong>${event.name}</strong>.</p>` +
+              `<p>Hi ${escapeHtml(u.name)},</p>` +
+              `<p>You've been invited to <strong>${escapeHtml(event.name)}</strong>.</p>` +
               `<ul>` +
-              `<li>When: ${event.startsAt}</li>` +
-              `<li>Where: ${event.location.label}</li>` +
-              `<li>Host: ${event.hostName}</li>` +
-              (event.description ? `<li>Details: ${event.description}</li>` : "") +
+              `<li>When: ${escapeHtml(event.startsAt)}</li>` +
+              `<li>Where: ${escapeHtml(event.location.label)}</li>` +
+              `<li>Host: ${escapeHtml(event.hostName)}</li>` +
+              (event.description ? `<li>Details: ${escapeHtml(event.description)}</li>` : "") +
               `</ul>` +
               `<p>Hope to see you there,<br/>The SocialEvents team</p>`,
           });
