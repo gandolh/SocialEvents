@@ -33,7 +33,7 @@ export function MenuItem({ danger, ...props }: ItemProps) {
     <BaseMenu.Item
       {...props}
       className={cn(
-        "block w-full cursor-default px-4 py-2 text-left text-sm outline-none select-none data-highlighted:bg-surface-container",
+        "block min-h-11 w-full cursor-default px-4 py-2.5 text-left text-body outline-none select-none data-highlighted:bg-surface-container-high data-highlighted:shadow-[inset_0_0_0_2px_var(--color-focus-ring)]",
         danger && "text-error",
       )}
     />

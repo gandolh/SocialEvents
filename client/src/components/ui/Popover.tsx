@@ -20,7 +20,7 @@ export function Popover({ trigger, title, children, className }: PopoverProps) {
       <BasePopover.Portal>
         <BasePopover.Positioner align="end" sideOffset={8} collisionPadding={8} className="z-popup">
           <BasePopover.Popup className={cn(panel, "max-w-(--available-width)", className)}>
-            <BasePopover.Title className="border-b border-outline-variant/60 px-4 py-3 text-sm font-semibold">
+            <BasePopover.Title className="rounded-t-lg border-b border-outline-variant bg-surface-container-high px-4 py-3 text-body font-semibold">
               {title}
             </BasePopover.Title>
             {children}

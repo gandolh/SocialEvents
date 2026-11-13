@@ -43,16 +43,16 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
     <Dialog open={open} onClose={onClose} title="Profile & settings" dismissOnBackdrop={false}>
       <div className="space-y-6">
         <section className="space-y-3">
-          <h3 className="text-sm font-semibold text-on-surface">Profile</h3>
+          <h3 className="text-list font-semibold text-on-surface">Profile</h3>
           <Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
           <Input label="Job title" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} />
-          <Button size="sm" onClick={() => void saveProfile()} disabled={updateProfile.isPending}>
+          <Button variant="secondary" onClick={() => void saveProfile()} disabled={updateProfile.isPending}>
             Save profile
           </Button>
         </section>
 
-        <section className="space-y-3 border-t border-outline-variant/60 pt-4">
-          <h3 className="text-sm font-semibold text-on-surface">Change password</h3>
+        <section className="space-y-3 border-t border-outline-variant pt-4">
+          <h3 className="text-list font-semibold text-on-surface">Change password</h3>
           <Input
             label="Current password"
             type="password"
@@ -66,7 +66,7 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
             onChange={(e) => setNewPassword(e.target.value)}
           />
           <Button
-            size="sm"
+            variant="secondary"
             onClick={() => void savePassword()}
             disabled={changePassword.isPending || !currentPassword || newPassword.length < 8}
           >
@@ -74,13 +74,21 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
           </Button>
         </section>
 
-        <section className="space-y-3 border-t border-outline-variant/60 pt-4">
-          <h3 className="text-sm font-semibold text-on-surface">Appearance</h3>
+        <section className="space-y-3 border-t border-outline-variant pt-4">
+          <h3 className="text-list font-semibold text-on-surface">Appearance</h3>
           <ThemeSwitch />
         </section>
 
-        {msg && <p className="text-sm text-success">{msg}</p>}
-        {err && <p className="text-sm text-error">{err}</p>}
+        {msg && (
+          <p role="status" className="text-body font-semibold text-success">
+            {msg}
+          </p>
+        )}
+        {err && (
+          <p role="alert" className="text-body font-semibold text-error">
+            {err}
+          </p>
+        )}
       </div>
     </Dialog>
   );
