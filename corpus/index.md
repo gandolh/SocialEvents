@@ -13,12 +13,12 @@ The front door. What lives where.
 - [architecture](wiki/architecture.md): How the client, server and shared contract fit together, and how a request flows through them
 - [auth](wiki/auth.md): The self-made sign-in: bcrypt passwords, a JWT in a cookie, and the user, owner and admin checks
 - [data-model](wiki/data-model.md): The SQLite schema: departments, users, events, attendees, ratings and notifications, and how they relate
-- [decisions](wiki/decisions.md): The locked tech and design choices, including the pinned versions, with the reason for each
-- [design-system](wiki/design-system.md): The design tokens and screens from the Stitch design, and the Aero theme laid over them
+- [decisions](wiki/decisions.md): The locked tech and design choices, including the pinned versions, with the reason for each; the visual decisions reopened and changed on 2026-11-13 (brief 18) keep their old lines as history
+- [design-system](wiki/design-system.md): The applied design, "The open invitation" (the ticket over the month, glass only on the bars, Lexend and Figtree, a light and a dark theme), with the Stitch source it replaced kept below
 - [integrations](wiki/integrations.md): Weather, maps and email: the real service each one uses with a key, and its stand-in without one
 - [open-questions](wiki/open-questions.md): The design questions that are still open, such as event cover images
 - [overview](wiki/overview.md): What SocialEvents is, who uses it, where it came from and the top-level layout
-- [status](wiki/status.md): A dated snapshot of where the project stands, what was checked, and what could come next
+- [status](wiki/status.md): A dated snapshot of where the project stands: v1 built, then Base UI, the server structure and (2026-11-13) the "open invitation" redesign; what was checked and what could come next
 <!-- catalog:end -->
 
 ## Work

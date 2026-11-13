@@ -27,7 +27,7 @@ updated: 2026-11-13
 >   `gloss-edge` for the one gloss button per screen region; `on-surface-faint` for other months' dates;
 >   `focus-ring` + `focus-halo` make the two-tone focus ring (`aero-focus`). Category hues are the old ones, tuned for
 >   contrast: Game night `#5a2cc4`, Holiday `#9c3410`, Team building `#14663e`, Other `#3c5871`, each with an opaque
->   `chip-*` fill; the stars use the Game night colour. `scripts/check-contrast.mjs` checks 36 pairs in both
+>   `chip-*` fill; the stars use the Game night colour. `scripts/check-contrast.mjs` checks 37 pairs in both
 >   themes, a gradient at both of its stops, with no known floors: the text minimum is 4.62:1 light and 5.32:1
 >   dark, icons, edges and the focus ring 3.99 and 3.28.
 > - **Type.** Lexend (`font-display`, 500; the wordmark 600) for the wordmark, the month title, the ticket title,
