@@ -86,4 +86,6 @@ SOCIALEVENTS_URL=http://localhost:3009 npm run e2e -- tests/focus   # one spec
   the saved theme before the first paint. Specs sign in as Alex, who is invited to the Pub Quiz Night.
 - Build the client with `VITE_MAPS_BROWSER_KEY=` empty and start the server with `WEATHER_API_KEY=` empty, so the
   weather and the map use their stand-ins and nothing calls out.
+- Start the server with `TRUST_PROXY=true` too: the session route allows 20 requests a minute per address, and `open()` sends
+  a made-up `X-Forwarded-For` per page, so a long run stays under it.
 - Two workers at most (the config sets it); other work shares the machine.
