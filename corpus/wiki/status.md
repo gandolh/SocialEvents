@@ -1,6 +1,6 @@
 ---
-summary: A dated snapshot of where the project stands, what was checked, and what could come next
-updated: 2026-11-11
+summary: A dated snapshot of where the project stands: v1 built, then Base UI, the server structure and (2026-11-13) the "open invitation" redesign; what was checked and what could come next
+updated: 2026-11-13
 ---
 
 # Status — 2026-11-01
@@ -14,7 +14,13 @@ live in a browser against the running server.
 
 Since v1: audit findings F1/F2 fixed and a **Windows-7 "Aero" theme** (modern
 interpretation — frosted glass + glossy blue + glow) applied across the UI, then its
-content-area contrast fixed (brief 14).
+content-area contrast fixed (brief 14). Briefs 15-17 added the check gate, Base UI with a
+Light / Dark / System switch, and the server's house structure. **2026-11-13 (brief 18):** the UI
+was redesigned as "The open invitation": places as tabs on a glass top bar (no sidebar), a phone bottom
+bar, tonight's event as a ticket over a full-width month, glass only on the bars, Lexend and Figtree,
+a still skeleton for loading. The contrast check has no known floors left, and Playwright 1.63.0
+specs (focus ring, reduced motion, 390 and 360 overflow, the first-screen geometry, states, the theme switch)
+run against the seeded test server. See [design-system.md](design-system.md).
 
 ## Briefs (all done)
 | # | brief | state |
@@ -33,6 +39,10 @@ content-area contrast fixed (brief 14).
 | 12 | responsive layout (audit F1) | done |
 | 13 | Windows-7 Aero theme | done |
 | 14 | Aero content-area contrast (audit F4/F5) | done |
+| 15 | the check gate | done |
+| 16 | Base UI and the theme switch | done |
+| 17 | the server in the house structure | done |
+| 18 | the redesign, "The open invitation" | done (README images not retaken: retakes are blocked) |
 
 ## Verification (2026-06-25)
 - `npm install` clean, **0 vulnerabilities**.
@@ -79,5 +89,7 @@ The seed prints its sign-in addresses and their shared local password.
 
 ## Possible next work (not started)
 - Live Google Maps interactive markers (currently iframe embed + fallback).
-- Automated E2E tests (Playwright) for the key flows.
+- More Playwright flows beyond the redesign's checks (create an event, the admin actions).
+- Retake the README images and `docs/images/shots.md` once retakes are allowed (they still show the old look).
+- The ticket and the directory count invited people as "attending" (the app's own count, a bug for a later brief).
 - See [open-questions.md](open-questions.md) for the cover-image decision.

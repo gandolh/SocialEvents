@@ -1,6 +1,6 @@
 ---
-summary: The locked tech and design choices, including the pinned versions, with the reason for each
-updated: 2026-11-11
+summary: The locked tech and design choices, including the pinned versions, with the reason for each; the visual decisions reopened and changed on 2026-11-13 (brief 18) keep their old lines as history
+updated: 2026-11-13
 ---
 
 # Decisions (locked)
@@ -8,16 +8,30 @@ updated: 2026-11-11
 Settled choices. Don't relitigate without an explicit revisit + a `log.md` note.
 
 ## Stack
-- **Visual theme:** Windows-7 **Aero** (modern interpretation) — frosted glass +
-  glossy blue + glow, over a desktop gradient. Implemented via Tailwind v4
-  `@theme` tokens + `@utility` glass/gloss/glow classes in
-  `client/src/styles/index.css`. Stitch layout/IA preserved; only the skin
-  changed. (Brief 13.)
+- **Visual theme (changed 2026-11-13, brief 18, the owner's approval on the estate redesign board):** "The open
+  invitation". Aero stays, narrowed (next bullet), and the layout is no longer the Stitch layout: no **280 px
+  sidebar** and no Month / Day / List / Map switcher. The places (Calendar, All Events, Map, and Admin for admins)
+  are tabs on a glass top bar; List and Map folded into All Events and Map; **Month | Day** is a segmented pair in
+  the month's head. The routes are unchanged. Tonight's event, or the next one, is a ticket over the month.
+  *History, kept:* "Windows-7 **Aero** (modern interpretation), frosted glass + glossy blue + glow, over a desktop
+  gradient. Implemented via Tailwind v4 `@theme` tokens + `@utility` glass/gloss/glow classes in
+  `client/src/styles/index.css`. Stitch layout/IA preserved; only the skin changed. (Brief 13.)"
+- **Aero stays in both themes, narrowed (2026-11-13, brief 18; ask 2 on the board):** glass only on the bars
+  (top bar, phone bottom bar) and the dialogs' title bars. Islands, dialogs and fields are opaque surfaces with a
+  1 px edge over a flat desktop; the desktop gradient, the stronger glass, the glossy danger and social buttons and
+  the glow are gone. "Two themes, Aero in both" stands. The category colours keep their hues (purple, orange-red,
+  green, slate), only tuned for contrast (not a reopened decision); the Other chip's fill is opaque.
+- **Type (changed 2026-11-13, brief 18):** Lexend for the wordmark, the month title, the ticket title, dialog titles
+  and the list head, Figtree for everything else, both self-hosted (`@fontsource-variable/*` 5.3.0). This also ends
+  an old mismatch: the stylesheet asked for "Geist" while `@fontsource/geist-sans` registers "Geist Sans", so the
+  system face had been rendering. *History:* the Stitch type was Geist via `@fontsource/geist-sans`, 5.2.5.
 - **Two themes, Aero in both (2026-11-11, brief 16).** Light, Dark and System, light on a first visit, the choice
   kept in `localStorage` (the app has no per-user settings). `data-theme` on `<html>` holds `light` or `dark`;
   System is resolved in JS (`lib/theme.ts`, with a `matchMedia` listener) and by the boot script in `index.html`.
   The picker is a `RadioGroup`, not a guarded `ToggleGroup`: nothing is saved to the server (base-ui rule 16, Q57).
-- **Base UI 1.9.0 under `components/ui/`, by the conventions (2026-11-11, brief 16).** The phone menu is a `Drawer`;
+- **Base UI 1.9.0 under `components/ui/`, by the conventions (2026-11-11, brief 16).** ~~The phone menu is a `Drawer`~~ (changed
+  2026-11-13, brief 18: there is no phone menu; a bottom bar holds the places, with Create Event at its right end, and
+  the `Drawer` wrapper now carries the phone event sheet, so its grab bar really swipes it away);
   the All / Hosted-by-me filter a `RadioGroup`; the invite switch `Tabs`; the form dialogs (create, profile) ignore
   an outside press; the detail dialog does not. Deletes ask in place ("Delete? Yes No", `InlineConfirm`), including
   the event delete, which used to delete on one click. `StarRating` stays buttons: each click saves, and the stars
@@ -49,6 +63,7 @@ versions in every `package.json`. When bumping, bump deliberately and update her
 | typescript | 6.0.3 |
 | vitest | 4.1.9 |
 | tsx | 4.22.4 |
+| @playwright/test | 1.63.0 |
 
 ### shared
 | package | version |
@@ -86,7 +101,8 @@ versions in every `package.json`. When bumping, bump deliberately and update her
 | @tanstack/react-query | 5.101.1 |
 | @tanstack/react-router | 1.170.16 |
 | react-icons | 5.6.0 |
-| @fontsource/geist-sans | 5.2.5 |
+| @fontsource-variable/figtree | 5.3.0 |
+| @fontsource-variable/lexend | 5.3.0 |
 | @types/react | 19.2.17 |
 | @types/react-dom | 19.2.3 |
 | zod | 4.6.7 |
