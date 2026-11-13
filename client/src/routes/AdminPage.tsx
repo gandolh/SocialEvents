@@ -8,7 +8,7 @@ import {
   useAssignDepartment,
   useMe,
 } from "../api/hooks.js";
-import { Button, Input, Spinner, EmptyState } from "../components/ui/index.js";
+import { Button, Input, Skeleton, EmptyState } from "../components/ui/index.js";
 import { InlineConfirm } from "../components/ui/InlineConfirm.js";
 import { cn } from "../lib/cn.js";
 
@@ -27,7 +27,7 @@ export function AdminPage() {
   if (me?.role !== "admin") {
     return <EmptyState message="Admins only." />;
   }
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Skeleton className="h-40" />;
 
   const selected = departments.find((d) => d.id === selectedId) ?? departments[0];
   const members = allUsers.filter((u) => u.departmentId === selected?.id);
@@ -36,7 +36,7 @@ export function AdminPage() {
   );
 
   return (
-    <div className="flex h-full gap-6">
+    <div className="flex gap-6 rounded-lg border border-outline-variant bg-surface-bright p-4 shadow-panel md:p-6">
       {/* Departments */}
       <div className="flex w-72 shrink-0 flex-col">
         <h3 className="mb-2 text-xl font-bold">Departments</h3>

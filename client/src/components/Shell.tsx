@@ -1,148 +1,117 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import {
-  IoCalendarOutline,
-  IoListOutline,
-  IoMapOutline,
-  IoShieldCheckmarkOutline,
-  IoAdd,
-  IoMenu,
-} from "react-icons/io5";
+import { IoCalendarOutline, IoListOutline, IoMapOutline, IoShieldCheckmarkOutline, IoAdd } from "react-icons/io5";
 import { useMe } from "../api/hooks.js";
 import { Button } from "./ui/index.js";
-import { NavDrawer } from "./ui/Drawer.js";
 import { NotificationsMenu } from "./NotificationsMenu.js";
 import { AccountMenu } from "./AccountMenu.js";
 import { CreateEventModal } from "./CreateEventModal.js";
 import { ProfileModal } from "./ProfileModal.js";
+import { ViewSwitch } from "./ViewSwitch.js";
 import { cn } from "../lib/cn.js";
 
-const nav = [
+const places = [
   { to: "/calendar", label: "Calendar", icon: IoCalendarOutline },
   { to: "/events", label: "All Events", icon: IoListOutline },
   { to: "/map", label: "Map", icon: IoMapOutline },
   { to: "/admin", label: "Admin", icon: IoShieldCheckmarkOutline, adminOnly: true },
-];
+] as const;
 
-const views = [
-  { to: "/calendar", label: "Month" },
-  { to: "/calendar/day", label: "Day" },
-  { to: "/events", label: "List" },
-  { to: "/map", label: "Map" },
-];
-
+/**
+ * The frame: a glass top bar with the places as tabs, and on a phone a glass bottom bar with the places and
+ * Create Event. Month | Day sits in the month's head on a desktop, and in the top bar on a phone, on Calendar
+ * only. The page scrolls under the bars; nothing floats.
+ */
 export function Shell({ children }: { children: React.ReactNode }) {
   const { data: me } = useMe();
   const [createOpen, setCreateOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
 
-  const sidebarContent = (
-    <>
-      <div className="px-2">
-        <h1 className="text-xl font-bold text-primary">SocialEvents</h1>
-        <p className="text-xs text-on-surface-variant">Internal Coordination</p>
-      </div>
-
-      <div className="mt-6">
-        <Button
-          className="w-full"
-          onClick={() => {
-            setDrawerOpen(false);
-            setCreateOpen(true);
-          }}
-        >
-          <IoAdd size={18} /> Create Event
-        </Button>
-      </div>
-
-      <nav className="mt-6 flex flex-col gap-1">
-        {nav.map((item) => {
-          if (item.adminOnly && me?.role !== "admin") return null;
-          const active = path.startsWith(item.to);
-          return (
-            <Link
-              key={item.to}
-              to={item.to}
-              // Close the mobile drawer on navigation.
-              onClick={() => setDrawerOpen(false)}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                active
-                  ? "border border-glass-edge text-primary aero-gloss-light"
-                  : "text-on-surface-variant hover:bg-glass-hover",
-              )}
-            >
-              <item.icon size={20} />
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
-    </>
-  );
+  const onCalendar = path === "/" || path.startsWith("/calendar");
+  const visible = places.filter((place) => !("adminOnly" in place) || me?.role === "admin");
+  const isActive = (to: string) => (to === "/calendar" ? onCalendar : path.startsWith(to));
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background text-on-surface">
-      {/* Sidebar — fixed on desktop (lg+) */}
-      <aside className="hidden w-[280px] shrink-0 flex-col rounded-none border-y-0 border-l-0 px-4 py-6 aero-glass lg:flex">
-        {sidebarContent}
-        <div className="mt-auto" />
-      </aside>
+    <div className="flex min-h-dvh flex-col bg-background text-on-surface">
+      <header className="sticky top-0 z-sticky flex h-14 shrink-0 items-center gap-2 border-b border-outline px-3 aero-bar max-[379px]:px-2 md:h-topbar md:gap-7 md:px-6">
+        <div className="flex min-w-0 flex-col justify-center">
+          <span className="font-display text-[18px]/6 font-semibold text-primary max-[379px]:text-base md:text-title">
+            SocialEvents
+          </span>
+          <span className="hidden text-label text-on-surface-variant md:block">Internal Coordination</span>
+        </div>
 
-      {/* Main column */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Top bar */}
-        <header className="flex h-16 shrink-0 items-center justify-between gap-2 rounded-none border-x-0 border-t-0 px-3 aero-glass sm:px-6">
-          <div className="flex min-w-0 items-center gap-1">
-            <NavDrawer
-              open={drawerOpen}
-              onOpenChange={setDrawerOpen}
-              title="Menu"
-              trigger={
-                <button
-                  aria-label="Open menu"
-                  className="rounded-lg p-2 text-on-surface-variant hover:bg-surface-container lg:hidden"
-                >
-                  <IoMenu size={22} />
-                </button>
-              }
-            >
-              {sidebarContent}
-            </NavDrawer>
-            <nav className="flex min-w-0 items-center gap-1 overflow-x-auto">
-              {views.map((v) => {
-                const active = v.to === "/calendar" ? path === "/calendar" : path.startsWith(v.to);
-                return (
-                  <Link
-                    key={v.label}
-                    to={v.to}
-                    className={cn(
-                      "shrink-0 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                      active
-                        ? "text-primary underline decoration-2 underline-offset-8"
-                        : "text-on-surface-variant hover:text-on-surface",
-                    )}
-                  >
-                    {v.label}
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
+        <nav aria-label="Places" className="hidden self-stretch md:flex md:gap-1">
+          {visible.map((place) => {
+            const active = isActive(place.to);
+            return (
+              <Link
+                key={place.to}
+                to={place.to}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "mt-[3px] flex items-center gap-2 border-b-[3px] px-2.5 font-medium outline-none focus-visible:aero-focus lg:px-4",
+                  active
+                    ? "border-primary font-semibold text-primary"
+                    : "border-transparent text-on-surface-variant hover:text-on-surface",
+                )}
+              >
+                <place.icon size={20} aria-hidden="true" />
+                {place.label}
+              </Link>
+            );
+          })}
+        </nav>
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <NotificationsMenu />
-            <AccountMenu onOpenProfile={() => setProfileOpen(true)} />
-          </div>
-        </header>
+        {onCalendar && <ViewSwitch day={path.startsWith("/calendar/day")} className="ml-auto md:hidden" />}
 
-        <main className="flex-1 overflow-auto p-4 sm:p-6">
-          <div className="mx-auto min-h-full max-w-[1400px] rounded-2xl bg-glass-panel p-4 shadow-panel ring-1 ring-glass-panel-ring backdrop-blur-md sm:p-6">
-            {children}
-          </div>
-        </main>
+        <div className={cn("flex items-center gap-0.5 md:ml-auto md:gap-3", !onCalendar && "ml-auto")}>
+          <Button
+            size="bar"
+            aria-label="Create Event"
+            className="hidden max-lg:w-11 max-lg:px-0 md:inline-flex"
+            onClick={() => setCreateOpen(true)}
+          >
+            <IoAdd size={18} aria-hidden="true" />
+            <span className="max-lg:hidden">Create Event</span>
+          </Button>
+          <NotificationsMenu />
+          <AccountMenu onOpenProfile={() => setProfileOpen(true)} />
+        </div>
+      </header>
+
+      <main className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col gap-2.5 px-3 pt-3 pb-4 min-[1200px]:px-8 md:gap-3 md:px-4">
+        {children}
+      </main>
+
+      <div className="sticky bottom-0 z-sticky flex h-[calc(64px+env(safe-area-inset-bottom))] border-t border-outline pb-[env(safe-area-inset-bottom)] aero-bar md:hidden">
+        <nav aria-label="Places" className="flex min-w-0 flex-1">
+          {visible.map((place) => {
+            const active = isActive(place.to);
+            return (
+              <Link
+                key={place.to}
+                to={place.to}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5 text-label whitespace-nowrap outline-none focus-visible:aero-focus",
+                  active ? "font-bold text-primary" : "font-medium text-on-surface-variant",
+                )}
+              >
+                <place.icon size={22} aria-hidden="true" />
+                {place.label}
+              </Link>
+            );
+          })}
+        </nav>
+        <Button
+          className="mt-2 mr-3 ml-1 h-12 shrink-0 self-start px-3.5 max-[379px]:px-2.5 max-[379px]:text-label"
+          onClick={() => setCreateOpen(true)}
+        >
+          <IoAdd size={18} aria-hidden="true" className="max-[379px]:hidden" />
+          Create Event
+        </Button>
       </div>
 
       {profileOpen && <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />}

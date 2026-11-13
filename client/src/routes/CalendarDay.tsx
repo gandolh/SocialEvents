@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { useEvents } from "../api/hooks.js";
 import { EventDetailModal } from "../components/EventDetailModal.js";
-import { Spinner, CategoryChip, EmptyState } from "../components/ui/index.js";
+import { CategoryChip, Skeleton, EmptyState } from "../components/ui/index.js";
 import { dayRange } from "../lib/calendar.js";
 import { formatDate } from "../lib/utils.js";
 
@@ -15,7 +15,7 @@ export function CalendarDay() {
   const shift = (d: number) => setRef(new Date(ref.getFullYear(), ref.getMonth(), ref.getDate() + d));
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto w-full max-w-3xl rounded-lg border border-outline-variant bg-surface-bright p-4 shadow-panel md:p-6">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-2xl font-bold">{formatDate(ref.toISOString())}</h2>
         <div className="flex gap-1">
@@ -35,7 +35,7 @@ export function CalendarDay() {
       </div>
 
       {isLoading ? (
-        <Spinner />
+        <Skeleton className="h-40" />
       ) : events.length === 0 ? (
         <EmptyState message="No events scheduled for this day." />
       ) : (

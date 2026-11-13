@@ -1,51 +1,46 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { useState } from "react";
-import { describe, expect, it } from "vitest";
-import { NavDrawer } from "./Drawer.js";
+import { describe, expect, it, vi } from "vitest";
+import { SheetDrawer } from "./Drawer.js";
 
-function Harness() {
-  const [open, setOpen] = useState(false);
+function Harness({ onClose }: { onClose?: () => void }) {
+  const [open, setOpen] = useState(true);
   return (
-    <NavDrawer open={open} onOpenChange={setOpen} title="Menu" trigger={<button>Open the menu</button>}>
-      <a
-        href="#events"
-        onClick={(event) => {
-          event.preventDefault();
-          setOpen(false);
-        }}
-      >
-        All Events
-      </a>
-    </NavDrawer>
+    <SheetDrawer
+      open={open}
+      onClose={() => {
+        onClose?.();
+        setOpen(false);
+      }}
+      title="Pub Quiz Night"
+      footer={<button>Join</button>}
+    >
+      <p>Teams of four.</p>
+    </SheetDrawer>
   );
 }
 
-async function openDrawer() {
-  render(<Harness />);
-  fireEvent.click(screen.getByRole("button", { name: "Open the menu" }));
-  return screen.findByRole("dialog", { name: "Menu" });
-}
-
-describe("NavDrawer", () => {
-  it("opens with a title that names it", async () => {
-    expect(await openDrawer()).toBeTruthy();
+describe("SheetDrawer", () => {
+  it("is named by its title and holds its body and footer", async () => {
+    render(<Harness />);
+    expect(await screen.findByRole("dialog", { name: "Pub Quiz Night" })).toBeTruthy();
+    expect(screen.getByText("Teams of four.")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Join" })).toBeTruthy();
   });
 
   it("closes on Escape", async () => {
-    await openDrawer();
+    const onClose = vi.fn();
+    render(<Harness onClose={onClose} />);
+    await screen.findByRole("dialog");
     fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-  });
-
-  it("closes when a link inside it is pressed", async () => {
-    await openDrawer();
-    fireEvent.click(screen.getByRole("link", { name: "All Events" }));
-    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it("closes from the X", async () => {
-    await openDrawer();
-    fireEvent.click(screen.getByRole("button", { name: "Close menu" }));
+    render(<Harness />);
+    await screen.findByRole("dialog");
+    fireEvent.click(screen.getByRole("button", { name: "Close" }));
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
   });
 });

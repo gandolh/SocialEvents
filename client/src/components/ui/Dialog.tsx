@@ -59,7 +59,7 @@ export function Dialog({ open, onClose, title, children, footer, size = "md", di
             <BaseDialog.Title className="text-lg font-semibold text-on-surface">{title}</BaseDialog.Title>
             <BaseDialog.Close
               aria-label="Close"
-              className="rounded-full p-1 text-on-surface-variant outline-none hover:bg-surface-container focus-visible:aero-glow"
+              className="rounded-full p-1 text-on-surface-variant outline-none hover:bg-surface-container focus-visible:aero-focus"
             >
               <IoClose size={20} />
             </BaseDialog.Close>

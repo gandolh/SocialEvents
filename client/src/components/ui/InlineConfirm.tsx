@@ -72,7 +72,7 @@ export function InlineConfirm({ trigger, question, yesLabel, onConfirm }: Inline
             aria-label={yesLabel}
             disabled={pending}
             onClick={confirm}
-            className="rounded-md px-1.5 py-0.5 font-medium text-error outline-none hover:bg-surface-container focus-visible:aero-glow disabled:opacity-50"
+            className="rounded-md px-1.5 py-0.5 font-medium text-error outline-none hover:bg-surface-container focus-visible:aero-focus disabled:opacity-50"
           >
             Yes
           </button>
@@ -81,7 +81,7 @@ export function InlineConfirm({ trigger, question, yesLabel, onConfirm }: Inline
             type="button"
             disabled={pending}
             onClick={cancel}
-            className="rounded-md px-1.5 py-0.5 text-on-surface-variant outline-none hover:bg-surface-container focus-visible:aero-glow disabled:opacity-50"
+            className="rounded-md px-1.5 py-0.5 text-on-surface-variant outline-none hover:bg-surface-container focus-visible:aero-focus disabled:opacity-50"
           >
             No
           </button>

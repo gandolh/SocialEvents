@@ -3,7 +3,7 @@ import { IoSearch } from "react-icons/io5";
 import { EVENT_CATEGORY_NAMES } from "@socialevents/shared";
 import { useEvents, useMe } from "../api/hooks.js";
 import { EventDetailModal } from "../components/EventDetailModal.js";
-import { Card, CategoryChip, Avatar, Spinner, EmptyState, Select } from "../components/ui/index.js";
+import { Card, CategoryChip, Avatar, Skeleton, EmptyState, Select } from "../components/ui/index.js";
 import { RadioGroup } from "../components/ui/RadioGroup.js";
 import { formatDateTime } from "../lib/utils.js";
 
@@ -33,7 +33,7 @@ export function AllEvents() {
     .sort((a, b) => (sort === "date" ? a.startsAt.localeCompare(b.startsAt) : a.name.localeCompare(b.name)));
 
   return (
-    <div>
+    <div className="rounded-lg border border-outline-variant bg-surface-bright p-4 shadow-panel md:p-6">
       <div className="mb-4">
         <h2 className="text-2xl font-bold">Event Directory</h2>
         <p className="text-sm text-on-surface-variant">Browse, filter, and manage all company activities.</p>
@@ -69,7 +69,7 @@ export function AllEvents() {
       </div>
 
       {isLoading ? (
-        <Spinner />
+        <Skeleton className="h-40" />
       ) : filtered.length === 0 ? (
         <EmptyState message="No events match your filters." />
       ) : (

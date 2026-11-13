@@ -10,7 +10,9 @@ import {
   useDeleteEvent,
 } from "../api/hooks.js";
 import { InlineConfirm } from "./ui/InlineConfirm.js";
-import { Dialog, Button, CategoryChip, StarRating, Spinner } from "./ui/index.js";
+import { SheetDrawer } from "./ui/Drawer.js";
+import { useIsPhone } from "../lib/useIsPhone.js";
+import { Dialog, Button, CategoryChip, StarRating, Skeleton } from "./ui/index.js";
 import { MapView } from "./MapView.js";
 import { formatDateTime } from "../lib/utils.js";
 
@@ -22,6 +24,7 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
   const rsvp = useRsvp();
   const deleteEvent = useDeleteEvent();
   const [showMap, setShowMap] = useState(false);
+  const phone = useIsPhone();
 
   const weather = useWeather(event?.location.lat ?? null, event?.location.lng ?? null);
   const hostRating = useHostRating(event?.hostId ?? null);
@@ -29,12 +32,12 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
   const canManage = !!event && (me?.id === event.hostId || me?.role === "admin");
   const myAttendance = event?.attendees.find((a) => a.userId === me?.id);
 
+  const Frame = phone ? SheetDrawer : Dialog;
   return (
-    <Dialog
+    <Frame
       open
       onClose={onClose}
       title={event?.name ?? "Event"}
-      size="lg"
       footer={
         canManage ? (
           <InlineConfirm
@@ -49,10 +52,7 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
           />
         ) : myAttendance ? (
           <div className="flex gap-2">
-            <Button
-              variant={myAttendance.status === "accepted" ? "social" : "secondary"}
-              onClick={() => rsvp.mutate({ id: eventId, status: "accepted" })}
-            >
+            <Button variant="secondary" onClick={() => rsvp.mutate({ id: eventId, status: "accepted" })}>
               {myAttendance.status === "accepted" ? "Attending ✓" : "Join"}
             </Button>
             <Button variant="ghost" onClick={() => rsvp.mutate({ id: eventId, status: "declined" })}>
@@ -63,7 +63,7 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
       }
     >
       {isLoading || !event ? (
-        <Spinner />
+        <Skeleton className="h-40" />
       ) : (
         <div tabIndex={-1} data-autofocus className="space-y-4 outline-none">
           <div className="flex items-center justify-between">
@@ -150,6 +150,6 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
           </div>
         </div>
       )}
-    </Dialog>
+    </Frame>
   );
 }

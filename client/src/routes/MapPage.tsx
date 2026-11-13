@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEvents } from "../api/hooks.js";
 import { MapView } from "../components/MapView.js";
 import { EventDetailModal } from "../components/EventDetailModal.js";
-import { Spinner, CategoryChip } from "../components/ui/index.js";
+import { CategoryChip, Skeleton } from "../components/ui/index.js";
 
 export function MapPage() {
   const { data: events = [], isLoading } = useEvents();
@@ -16,10 +16,10 @@ export function MapPage() {
     label: e.name,
   }));
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Skeleton className="h-40" />;
 
   return (
-    <div className="flex h-full gap-4">
+    <div className="flex min-h-[28rem] gap-4 rounded-lg border border-outline-variant bg-surface-bright p-4 shadow-panel md:p-6">
       <div className="w-72 shrink-0 space-y-2 overflow-auto">
         <h2 className="text-lg font-bold">Event Map</h2>
         {located.map((e) => (

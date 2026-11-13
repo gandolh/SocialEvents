@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { useEvents } from "../api/hooks.js";
 import { EventDetailModal } from "../components/EventDetailModal.js";
-import { Spinner } from "../components/ui/index.js";
+import { Skeleton } from "../components/ui/index.js";
 import { monthGrid, monthRange, localIsoDate, MONTH_NAMES, WEEKDAYS } from "../lib/calendar.js";
 import { cn } from "../lib/cn.js";
 import { categoryChipClasses } from "../lib/utils.js";
@@ -26,7 +26,7 @@ export function CalendarMonth() {
   const shift = (delta: number) => setRef(new Date(ref.getFullYear(), ref.getMonth() + delta, 1));
 
   return (
-    <div>
+    <div className="rounded-lg border border-outline-variant bg-surface-bright p-4 shadow-panel md:p-6">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-3xl font-bold">
           {MONTH_NAMES[ref.getMonth()]} {ref.getFullYear()}
@@ -50,7 +50,7 @@ export function CalendarMonth() {
       </div>
 
       {isLoading ? (
-        <Spinner />
+        <Skeleton className="h-40" />
       ) : (
         <div className="overflow-hidden rounded-lg border border-outline-variant/60 bg-glass-card shadow-sm">
           <div className="grid grid-cols-7 bg-surface-container-high text-xs font-semibold text-on-surface-variant">

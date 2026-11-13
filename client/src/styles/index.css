@@ -143,6 +143,7 @@
   --radius-xl: 1.25rem;
 
   /* The z scale. A popup opens from inside a dialog, so it sits above one. */
+  --z-index-sticky: 20;
   --z-index-overlay: 40;
   --z-index-dialog: 50;
   --z-index-popup: 60;

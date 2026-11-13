@@ -16,10 +16,10 @@ export function NotificationsMenu() {
       title="Notifications"
       trigger={
         <button
-          className="rounded-full p-2 text-on-surface-variant outline-none hover:bg-surface-container focus-visible:aero-glow"
+          className="grid size-12 place-items-center rounded-full text-on-surface-variant outline-none hover:bg-surface-container-high hover:text-on-surface focus-visible:aero-focus max-[379px]:size-11 md:size-11"
           aria-label="Notifications"
         >
-          <IoNotificationsOutline size={20} />
+          <IoNotificationsOutline size={22} />
         </button>
       }
     >

@@ -18,7 +18,7 @@ export function Tab({ className, ...props }: WithClass<ComponentProps<typeof Bas
       {...props}
       className={cn(
         "cursor-pointer rounded-md px-3 py-1 text-on-surface-variant outline-none select-none",
-        "hover:bg-surface-container focus-visible:aero-glow data-active:bg-primary/10 data-active:text-primary",
+        "hover:bg-surface-container focus-visible:aero-focus data-active:bg-primary/10 data-active:text-primary",
         className,
       )}
     />

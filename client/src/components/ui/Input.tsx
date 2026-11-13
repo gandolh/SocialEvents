@@ -4,7 +4,7 @@ import { cn } from "../../lib/cn.js";
 const base =
   "w-full rounded-lg border border-glass-edge bg-field px-3 py-2 text-sm text-on-surface " +
   "shadow-field placeholder:text-on-surface-variant/60 " +
-  "focus:outline-none focus:border-primary focus:bg-field-focus focus-visible:aero-glow";
+  "focus:outline-none focus:border-primary focus:bg-field-focus focus-visible:aero-focus";
 
 interface FieldProps {
   label?: string;

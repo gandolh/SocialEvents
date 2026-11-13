@@ -11,7 +11,10 @@ export function AccountMenu({ onOpenProfile }: { onOpenProfile: () => void }) {
     <Menu
       className="w-56"
       trigger={
-        <button aria-label="Account" className="rounded-full outline-none focus-visible:aero-glow">
+        <button
+          aria-label="Account"
+          className="size-12 rounded-full outline-none focus-visible:aero-focus max-[379px]:size-11 md:size-11"
+        >
           <Avatar name={me?.name ?? "?"} />
         </button>
       }

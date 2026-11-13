@@ -12,17 +12,16 @@ export function formatDate(iso: string): string {
   return dateFormat.format(new Date(iso));
 }
 
-/** Tailwind classes for a category chip. Solid light tint so chips stay legible
- *  over the translucent Aero surfaces (avoid near-transparent backgrounds). */
+/** Tailwind classes for a category chip: an opaque tint, the category's own text and a 1 px edge in the same colour. */
 export function categoryChipClasses(category: string): string {
   switch (category) {
     case "Game night":
-      return "bg-chip-game-night text-secondary border border-secondary/30";
+      return "border border-cat-game-night bg-chip-game-night text-cat-game-night";
     case "Holiday":
-      return "bg-chip-holiday text-tertiary border border-tertiary/30";
+      return "border border-cat-holiday bg-chip-holiday text-cat-holiday";
     case "Team building":
-      return "bg-chip-team-building text-cat-team-building border border-cat-team-building/30";
+      return "border border-cat-team-building bg-chip-team-building text-cat-team-building";
     default:
-      return "bg-chip-neutral text-on-surface-variant border border-outline/40";
+      return "border border-chip-neutral-edge bg-chip-neutral text-cat-other";
   }
 }

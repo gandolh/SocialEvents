@@ -4,24 +4,26 @@ import { IoStar, IoStarOutline } from "react-icons/io5";
 import { cn } from "../../lib/cn.js";
 import { categoryChipClasses } from "../../lib/utils.js";
 
+/** An island: an opaque raised surface with a 1 px edge, over the flat desktop. */
 export function Card({
   children,
   className,
   ...rest
 }: { children: ReactNode; className?: string } & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("rounded-lg aero-glass", className)} {...rest}>
+    <div className={cn("rounded-lg border border-outline-variant bg-surface-bright shadow-panel", className)} {...rest}>
       {children}
     </div>
   );
 }
 
-export function CategoryChip({ category }: { category: string }) {
+export function CategoryChip({ category, className }: { category: string; className?: string }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+        "inline-flex items-center rounded-sm px-2 py-0.5 text-label font-semibold whitespace-nowrap",
         categoryChipClasses(category),
+        className,
       )}
     >
       {category}
@@ -29,7 +31,8 @@ export function CategoryChip({ category }: { category: string }) {
   );
 }
 
-export function Avatar({ name, size = 32 }: { name: string; size?: number }) {
+/** The person's initials on the gloss. Fills its parent unless a `size` in px is given. */
+export function Avatar({ name, size }: { name: string; size?: number }) {
   const initials = name
     .split(" ")
     .map((p) => p[0])
@@ -38,20 +41,17 @@ export function Avatar({ name, size = 32 }: { name: string; size?: number }) {
     .toUpperCase();
   return (
     <span
-      className="inline-flex items-center justify-center rounded-full bg-primary-container font-semibold text-on-primary"
-      style={{ width: size, height: size, fontSize: size * 0.4 }}
+      className="inline-grid size-full place-items-center rounded-full font-bold text-on-primary aero-gloss"
+      style={size ? { width: size, height: size, fontSize: size < 36 ? 12 : 14 } : { fontSize: 14 }}
     >
       {initials}
     </span>
   );
 }
 
-export function Spinner() {
-  return (
-    <div className="flex items-center justify-center p-8 text-on-surface-variant">
-      <div className="h-6 w-6 animate-spin rounded-full border-2 border-outline-variant border-t-primary" />
-    </div>
-  );
+/** A still block where content is loading: no spinner and no shimmer. */
+export function Skeleton({ className }: { className?: string }) {
+  return <div aria-hidden="true" className={cn("rounded-md bg-surface-container-high", className)} />;
 }
 
 export function StarRating({
@@ -59,7 +59,7 @@ export function StarRating({
   count,
   onRate,
   readOnly,
-  size = 18,
+  size = 22,
   label = "Rating",
 }: {
   value: number;
@@ -73,7 +73,7 @@ export function StarRating({
   const [hover, setHover] = useState(0);
   const display = hover || value;
   return (
-    <span className="inline-flex items-center gap-1">
+    <span className="inline-flex items-center gap-2">
       <span role="group" aria-label={label} className="inline-flex">
         {[1, 2, 3, 4, 5].map((n) => {
           const filled = n <= Math.round(display);
@@ -86,7 +86,11 @@ export function StarRating({
               onMouseEnter={() => !readOnly && setHover(n)}
               onMouseLeave={() => !readOnly && setHover(0)}
               onClick={() => onRate?.(n)}
-              className={cn("text-secondary", !readOnly && "cursor-pointer", readOnly && "cursor-default")}
+              className={cn(
+                "grid size-12 place-items-center rounded-md text-cat-game-night outline-none focus-visible:aero-focus md:size-11",
+                !readOnly && "cursor-pointer",
+                readOnly && "cursor-default",
+              )}
               aria-label={`${n} star${n > 1 ? "s" : ""}`}
             >
               <Icon size={size} />
@@ -95,7 +99,7 @@ export function StarRating({
         })}
       </span>
       {count !== undefined && (
-        <span className="text-xs text-on-surface-variant">
+        <span className="text-small whitespace-nowrap text-on-surface-variant">
           {value.toFixed(1)} ({count})
         </span>
       )}
@@ -103,10 +107,11 @@ export function StarRating({
   );
 }
 
-export function EmptyState({ message }: { message: string }) {
+export function EmptyState({ message, action }: { message: string; action?: ReactNode }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 p-12 text-center text-on-surface-variant">
-      <p className="text-sm">{message}</p>
+    <div className="flex flex-col items-center justify-center gap-3 p-10 text-center text-on-surface-variant">
+      <p className="text-body">{message}</p>
+      {action}
     </div>
   );
 }
