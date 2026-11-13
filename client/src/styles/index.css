@@ -1,33 +1,34 @@
 @import "tailwindcss";
-@import "@fontsource/geist-sans/400.css";
-@import "@fontsource/geist-sans/500.css";
-@import "@fontsource/geist-sans/600.css";
-@import "@fontsource/geist-sans/700.css";
+@import "@fontsource-variable/figtree/wght.css";
+@import "@fontsource-variable/lexend/wght.css";
 
-/* SocialEvents — Windows 7 "Aero" theme (modern interpretation).
-   Frosted glass + glossy gradients + blue glow over a desktop-style background.
-   Token *names* preserved so existing component classes keep resolving; values
-   shifted toward classic Aero blue. Tailwind v4 CSS-first config.
+/* SocialEvents: the Windows 7 "Aero" skin, redrawn as "The open invitation" (brief 18, 2026-11-13).
+   Glossy blue and a blue desktop are kept; glass is only on the bars and the dialogs' title bars. Islands,
+   dialogs and fields are opaque surfaces with a 1 px edge over a flat desktop. Figtree sets the text and
+   Lexend the display lines (the wordmark, the month title, the ticket title, dialog titles). Token *names*
+   are the ones the screens already used; corpus/wiki/design-system.md lists them.
+   Tailwind v4 CSS-first config.
 
    Two themes, one skin: the values below are the light theme, and the
    [data-theme="dark"] block further down re-states the ones that change (a night
-   desktop with smoked glass). `data-theme` on <html> is always "light" or "dark";
+   desktop, deeper islands). `data-theme` on <html> is always "light" or "dark";
    lib/theme.ts resolves the System choice into one of the two. */
 
 /* dark: keys off the attribute the theme switch sets, never prefers-color-scheme. */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  --font-sans: "Geist", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Figtree Variable", "Figtree", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Lexend Variable", "Lexend", "Figtree Variable", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
 
   /* Surfaces — light, cool, slightly translucent-friendly */
   --color-surface: #eef5fc;
   --color-surface-dim: #bcd6f0;
-  --color-surface-bright: #ffffff;
+  --color-surface-bright: #fcfeff;
   --color-surface-container-lowest: #ffffff;
   --color-surface-container-low: #eaf3fb;
   --color-surface-container: #dfeefb;
-  --color-surface-container-high: #d2e6f9;
+  --color-surface-container-high: #e9f1fa;
   --color-surface-container-highest: #c3ddf5;
   --color-surface-variant: #cfe3f5;
   --color-background: #5b8bbf;
@@ -35,17 +36,17 @@
   /* Text */
   --color-on-surface: #0b2942;
   --color-on-surface-variant: #3c5871;
-  --color-on-background: #0b2942;
+  --color-on-background: var(--color-on-surface);
   --color-inverse-surface: #0a2030;
   --color-inverse-on-surface: #eef6ff;
 
   /* Outlines */
-  --color-outline: #6f93b3;
-  --color-outline-variant: #aaccea;
+  --color-outline: #4f7397;
+  --color-outline-variant: #c9dbee;
 
   /* Primary — Aero blue */
-  --color-primary: #1d6fc7;
-  --color-on-primary: #ffffff;
+  --color-primary: #1a66b9;
+  --color-on-primary: #fdfeff;
   --color-primary-container: #2a87e0;
   --color-on-primary-container: #d6ecff;
   --color-inverse-primary: #9fd0ff;
@@ -73,18 +74,18 @@
   --color-success: #006d3b;
 
   /* Category accents, and the solid tint behind each category chip */
-  --color-cat-game-night: #6a36d6;
-  --color-cat-holiday: #cc4a1f;
-  --color-cat-team-building: #1c7a4a;
-  --color-cat-other: #5b7790;
-  --color-chip-game-night: #ece1ff;
-  --color-chip-holiday: #ffe2d6;
-  --color-chip-team-building: #d7f0e2;
-  --color-chip-neutral: rgb(255 255 255 / 0.9);
+  --color-cat-game-night: #5a2cc4;
+  --color-cat-holiday: #9c3410;
+  --color-cat-team-building: #14663e;
+  --color-cat-other: #3c5871;
+  --color-chip-game-night: #ece3ff;
+  --color-chip-holiday: #ffe4d9;
+  --color-chip-team-building: #d9f1e4;
+  --color-chip-neutral: #fcfeff;
 
   /* Aero glow, and the focus ring that sits inside it */
   --color-aero-glow: #7fc3ff;
-  --color-focus-ring: #1d6fc7;
+  --color-focus-ring: #0b2942;
 
   /* The desktop behind everything: two light blooms over a three-stop blue gradient */
   --color-desktop-bloom: rgb(255 255 255 / 0.45);
@@ -94,10 +95,10 @@
   --color-desktop-bottom: #2f5e93;
 
   /* Glass: the frosted panel, the stronger one for dialogs, and what sits on them */
-  --color-glass-from: rgb(255 255 255 / 0.78);
-  --color-glass-to: rgb(255 255 255 / 0.58);
-  --color-glass-edge: rgb(255 255 255 / 0.7);
-  --color-glass-highlight: rgb(255 255 255 / 0.9);
+  --color-glass-from: #eef5fc;
+  --color-glass-to: #dbe8f6;
+  --color-glass-edge: var(--color-outline-variant);
+  --color-glass-highlight: #fdfeff;
   --color-glass-shadow: rgb(13 45 80 / 0.18);
   --color-glass-strong-from: rgb(255 255 255 / 0.92);
   --color-glass-strong-to: rgb(238 246 255 / 0.86);
@@ -108,23 +109,23 @@
   --color-glass-hover: rgb(255 255 255 / 0.4);
   --color-glass-panel: rgb(255 255 255 / 0.55);
   --color-glass-panel-ring: rgb(255 255 255 / 0.6);
-  --color-glass-card: rgb(255 255 255 / 0.85);
+  --color-glass-card: var(--color-surface-bright);
   --color-field: rgb(255 255 255 / 0.7);
   --color-field-focus: rgb(255 255 255 / 0.9);
-  --color-scrim: rgb(10 32 48 / 0.4);
+  --color-scrim: rgb(10 32 48 / 0.55);
   --shadow-field: inset 0 1px 2px rgb(13 45 80 / 0.12);
-  --shadow-panel: 0 8px 30px rgb(13 45 80 / 0.12);
+  --shadow-panel: 0 6px 20px rgb(11 41 66 / 0.22), 0 1px 3px rgb(11 41 66 / 0.2);
 
   /* Glossy buttons: the blue primary, its light twin, the red danger and the purple social */
-  --color-gloss-top: #57a7ef;
-  --color-gloss-mid: #2a87e0;
-  --color-gloss-mid-low: #1d6fc7;
-  --color-gloss-bottom: #1862b4;
+  --color-gloss-top: #2d76c4;
+  --color-gloss-mid: #1a66b9;
+  --color-gloss-mid-low: var(--color-gloss-mid);
+  --color-gloss-bottom: #124f96;
   --color-gloss-light-from: rgb(255 255 255 / 0.95);
   --color-gloss-light-to: rgb(226 240 255 / 0.8);
-  --color-gloss-sheen: rgb(255 255 255 / 0.55);
+  --color-gloss-sheen: rgb(255 255 255 / 0.45);
   --color-gloss-shade: rgb(0 0 0 / 0.15);
-  --color-gloss-drop: rgb(0 0 0 / 0.2);
+  --color-gloss-drop: rgb(11 41 66 / 0.3);
   --color-danger-top: #e25555;
   --color-danger-mid: #c62828;
   --color-danger-bottom: #a81f1f;
@@ -136,15 +137,41 @@
   --color-scrollbar: rgb(29 111 199 / 0.5);
 
   /* Radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.6rem;
-  --radius-lg: 0.9rem;
-  --radius-xl: 1.3rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
 
   /* The z scale. A popup opens from inside a dialog, so it sits above one. */
   --z-index-overlay: 40;
   --z-index-dialog: 50;
   --z-index-popup: 60;
+
+  /* Redesign 2026-11-13 (brief 18) */
+  --color-on-surface-faint: #546d87;
+  --color-gloss-edge: #124f96;
+  --color-focus-halo: #fdfeff;
+  --color-chip-neutral-edge: #4f7397;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1rem;
+  --text-small: 0.8125rem;
+  --text-small--line-height: 1.125rem;
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.25rem;
+  --text-list: 1rem;
+  --text-list--line-height: 1.375rem;
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.75rem;
+  --text-dialog: 1.375rem;
+  --text-dialog--line-height: 1.75rem;
+  --text-month: 1.75rem;
+  --text-month--line-height: 2.25rem;
+  --radius-tile: 0.75rem;
+  --shadow-dialog: 0 24px 60px rgb(8 30 60 / 0.4), 0 1px 3px rgb(8 30 60 / 0.3);
+  --height-topbar: 64px;
+  --height-bottom-bar: 64px;
+  --height-month-cell: 88px;
+  --size-touch: 44px;
 }
 
 @layer base {
@@ -162,23 +189,22 @@
 
     --color-surface: #101c2c;
     --color-surface-dim: #0b1624;
-    --color-surface-bright: #1c2e45;
+    --color-surface-bright: #1f3456;
     --color-surface-container-lowest: #0e1a29;
     --color-surface-container-low: #14233a;
     --color-surface-container: #182a43;
-    --color-surface-container-high: #1e3350;
+    --color-surface-container-high: #162844;
     --color-surface-container-highest: #253d5e;
     --color-surface-variant: #22384f;
     --color-background: #0b1730;
 
     --color-on-surface: #e4eefa;
     --color-on-surface-variant: #a9bed4;
-    --color-on-background: #e4eefa;
     --color-inverse-surface: #e4eefa;
     --color-inverse-on-surface: #0a2030;
 
-    --color-outline: #6f8fb0;
-    --color-outline-variant: #35506e;
+    --color-outline: #5d86b3;
+    --color-outline-variant: #33507a;
 
     --color-primary: #6db3ff;
     --color-on-primary: #04223f;
@@ -204,17 +230,17 @@
 
     --color-success: #6fe0a5;
 
-    --color-cat-game-night: #c2a8ff;
-    --color-cat-holiday: #ff9d78;
-    --color-cat-team-building: #5fd39a;
-    --color-cat-other: #8fa8c0;
-    --color-chip-game-night: #2a2147;
-    --color-chip-holiday: #3d2218;
-    --color-chip-team-building: #16332a;
-    --color-chip-neutral: rgb(255 255 255 / 0.1);
+    --color-cat-game-night: #c9b3ff;
+    --color-cat-holiday: #ffa587;
+    --color-cat-team-building: #6ad9a3;
+    --color-cat-other: #c3d3e3;
+    --color-chip-game-night: #2c2350;
+    --color-chip-holiday: #40241a;
+    --color-chip-team-building: #173729;
+    --color-chip-neutral: #26406a;
 
     --color-aero-glow: #7fc3ff;
-    --color-focus-ring: #8cc4ff;
+    --color-focus-ring: #6db3ff;
 
     --color-desktop-bloom: rgb(90 140 220 / 0.18);
     --color-desktop-glow: rgb(60 120 210 / 0.3);
@@ -222,10 +248,9 @@
     --color-desktop-mid: #0f1f3a;
     --color-desktop-bottom: #081326;
 
-    --color-glass-from: rgb(22 40 68 / 0.82);
-    --color-glass-to: rgb(15 29 52 / 0.7);
-    --color-glass-edge: rgb(130 175 235 / 0.28);
-    --color-glass-highlight: rgb(255 255 255 / 0.08);
+    --color-glass-from: #1b2f4d;
+    --color-glass-to: #162846;
+    --color-glass-highlight: #4d7bb3;
     --color-glass-shadow: rgb(0 0 0 / 0.45);
     --color-glass-strong-from: rgb(24 43 72 / 0.95);
     --color-glass-strong-to: rgb(16 31 55 / 0.92);
@@ -236,17 +261,15 @@
     --color-glass-hover: rgb(255 255 255 / 0.08);
     --color-glass-panel: rgb(16 30 54 / 0.6);
     --color-glass-panel-ring: rgb(130 175 235 / 0.22);
-    --color-glass-card: rgb(18 34 60 / 0.85);
     --color-field: rgb(8 18 34 / 0.6);
     --color-field-focus: rgb(8 18 34 / 0.85);
-    --color-scrim: rgb(0 8 20 / 0.6);
+    --color-scrim: rgb(0 8 20 / 0.72);
     --shadow-field: inset 0 1px 2px rgb(0 0 0 / 0.4);
-    --shadow-panel: 0 8px 30px rgb(0 0 0 / 0.35);
+    --shadow-panel: 0 6px 22px rgb(0 0 0 / 0.5), 0 1px 3px rgb(0 0 0 / 0.5);
 
     --color-gloss-top: #86c1ff;
     --color-gloss-mid: #5aa6f2;
-    --color-gloss-mid-low: #4a98e8;
-    --color-gloss-bottom: #3f8bd9;
+    --color-gloss-bottom: #4a98e8;
     --color-gloss-light-from: rgb(255 255 255 / 0.16);
     --color-gloss-light-to: rgb(255 255 255 / 0.07);
     --color-gloss-sheen: rgb(255 255 255 / 0.4);
@@ -260,6 +283,13 @@
     --color-social-bottom: #b093f5;
 
     --color-scrollbar: rgb(109 179 255 / 0.5);
+
+    /* Redesign 2026-11-13 (brief 18) */
+    --color-on-surface-faint: #8ba0b9;
+    --color-gloss-edge: #86c1ff;
+    --color-focus-halo: #0b1730;
+    --color-chip-neutral-edge: #5d86b3;
+    --shadow-dialog: 0 24px 60px rgb(0 0 0 / 0.65), 0 0 0 1px var(--color-outline);
   }
 
   html,
@@ -273,17 +303,8 @@
     font-family: var(--font-sans);
     color: var(--color-on-surface);
     -webkit-font-smoothing: antialiased;
-    /* Aero desktop-style background: layered blue gradients + soft light blooms. */
-    background:
-      radial-gradient(1200px 600px at 15% -10%, var(--color-desktop-bloom), transparent 60%),
-      radial-gradient(1000px 700px at 110% 10%, var(--color-desktop-glow), transparent 55%),
-      linear-gradient(
-        160deg,
-        var(--color-desktop-top) 0%,
-        var(--color-desktop-mid) 45%,
-        var(--color-desktop-bottom) 100%
-      );
-    background-attachment: fixed;
+    /* The desktop: flat, as the open invitation draws it. */
+    background: var(--color-background);
   }
 
   /* Thin glassy scrollbars to match. */
@@ -322,14 +343,16 @@
   background: linear-gradient(
     to bottom,
     var(--color-gloss-top) 0%,
-    var(--color-gloss-mid) 48%,
-    var(--color-gloss-mid-low) 50%,
+    var(--color-gloss-mid) 50%,
     var(--color-gloss-bottom) 100%
   );
+  border: 1px solid var(--color-gloss-edge);
   box-shadow:
     inset 0 1px 0 var(--color-gloss-sheen),
-    inset 0 -1px 2px var(--color-gloss-shade),
     0 1px 2px var(--color-gloss-drop);
+  &:active {
+    background: linear-gradient(to bottom, var(--color-gloss-bottom), var(--color-gloss-mid));
+  }
 }
 
 /* The red and the purple twin of the gloss: the danger and the social button. */
@@ -371,4 +394,17 @@
   box-shadow:
     0 0 0 2px var(--color-focus-ring),
     0 0 14px var(--color-aero-glow);
+}
+
+/* The glass bars (top bar, phone bottom bar, dialog title bars): a two-stop gradient with a light top edge. */
+@utility aero-bar {
+  background: linear-gradient(to bottom, var(--color-glass-from), var(--color-glass-to));
+  box-shadow: inset 0 1px 0 var(--color-glass-highlight);
+}
+
+/* The two-tone focus ring: the dark (or light) ring, and a halo of the page tone around it. */
+@utility aero-focus {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--color-focus-halo);
 }

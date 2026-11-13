@@ -13,4 +13,9 @@ describe("cn", () => {
   it("knows the app's z-index tokens", () => {
     expect(cn("z-overlay", "z-dialog")).toBe("z-dialog");
   });
+
+  it("keeps a type-scale size beside a colour, and drops an earlier size", () => {
+    expect(cn("text-label", "text-primary")).toBe("text-label text-primary");
+    expect(cn("text-body", "text-small")).toBe("text-small");
+  });
 });

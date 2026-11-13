@@ -1,7 +1,8 @@
 // Contrast of the token pairs in client/src/styles/index.css, in both themes.
-// Reads the light values from the @theme block and the dark ones from the [data-theme="dark"] block.
-// Text needs 4.5:1; the focus ring and a control's edge need 3:1. Translucent layers (the glass) are
-// composited over the desktop's middle colour first, the way the browser stacks them.
+// Reads the light values from the @theme block and the dark ones from the [data-theme="dark"] block,
+// and follows a var(--color-x) alias. Text needs 4.5:1; an icon, a control's edge, a date bar and the
+// focus ring need 3:1. A bar (the glass top bar, the phone bottom bar, a dialog's title bar) and a
+// gloss button are gradients: a pair on one is checked at both of its stops, and the worse one counts.
 // Exits 1 when a pair is under its minimum.
 import { readFileSync } from "node:fs";
 
@@ -24,8 +25,10 @@ function tokens(body) {
 const light = tokens(block("@theme"));
 const dark = { ...light, ...tokens(block(':root[data-theme="dark"]')) };
 
-/** "#rrggbb", "#rgb" or "rgb(r g b / a)" to [r, g, b, a]. */
-function parse(value) {
+/** "#rrggbb", "#rgb" or "rgb(r g b / a)" to [r, g, b, a]. A var(--color-x) alias is looked up in `theme`. */
+function parse(value, theme) {
+  const alias = /^var\(--([a-z0-9-]+)\)$/.exec(value);
+  if (alias) return parse(theme[alias[1]], theme);
   const hex = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(value);
   if (hex) {
     const h = hex[1].length === 3 ? [...hex[1]].map((c) => c + c).join("") : hex[1];
@@ -60,81 +63,80 @@ function ratio(a, b) {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-/**
- * Each pair: a label, the foreground token, the stack of tokens behind it, and the minimum.
- *
- * KNOWN_LIGHT holds the light-theme pairs that were already under the minimum when the dark theme
- * arrived (brief 16 changes no light colour). Each keeps a floor, the ratio measured then, so it
- * cannot get worse, and is listed in the output. Brief 18's redesign is the place to lift them,
- * and each entry goes as it does.
- */
-const KNOWN_LIGHT = {
-  "muted text on the sidebar and top bar": 4.38,
-  "muted text on the content panel": 4.21,
-  "primary text on a card": 4.03,
-  "error text on a card": 4.48,
-  "Team building chip": 4.43,
-  "initials on an avatar": 3.71,
-  "a chosen radio's text": 3.51,
-};
-
+/** Each pair: a label, the foreground token, the background token (a "|" joins a gradient's stops), the minimum. */
 const TEXT = 4.5;
 const EDGE = 3;
+const BAR = "glass-from|glass-to";
+const GLOSS = "gloss-top|gloss-mid|gloss-bottom";
 const PAIRS = [
-  ["text on the page", "on-surface", ["surface"], TEXT],
-  ["muted text on the page", "on-surface-variant", ["surface"], TEXT],
-  ["text on a raised surface", "on-surface", ["surface-container-lowest"], TEXT],
-  ["muted text on a container", "on-surface-variant", ["surface-container"], TEXT],
-  ["text on the sidebar and top bar", "on-surface", ["desktop-mid", "glass-to"], TEXT],
-  ["muted text on the sidebar and top bar", "on-surface-variant", ["desktop-mid", "glass-to"], TEXT],
-  ["text on the content panel", "on-surface", ["desktop-mid", "glass-panel"], TEXT],
-  ["muted text on the content panel", "on-surface-variant", ["desktop-mid", "glass-panel"], TEXT],
-  ["text on a card", "on-surface", ["desktop-mid", "glass-panel", "glass-to"], TEXT],
-  ["muted text on a card", "on-surface-variant", ["desktop-mid", "glass-panel", "glass-to"], TEXT],
-  ["text in a dialog", "on-surface", ["desktop-mid", "glass-strong-to"], TEXT],
-  ["muted text in a dialog", "on-surface-variant", ["desktop-mid", "glass-strong-to"], TEXT],
-  ["text in a field", "on-surface", ["desktop-mid", "glass-strong-to", "field"], TEXT],
-  ["text on the primary button", "on-primary", ["primary"], TEXT],
-  ["text on the social button", "on-secondary", ["social-mid"], TEXT],
-  ["text on the danger button", "on-error", ["danger-mid"], TEXT],
-  ["primary text on a card", "primary", ["desktop-mid", "glass-panel", "glass-to"], TEXT],
-  ["error text on a card", "error", ["desktop-mid", "glass-panel", "glass-to"], TEXT],
-  ["success text on a dialog", "success", ["desktop-mid", "glass-strong-to"], TEXT],
-  ["Game night chip", "secondary", ["chip-game-night"], TEXT],
-  ["Holiday chip", "tertiary", ["chip-holiday"], TEXT],
-  ["Team building chip", "cat-team-building", ["chip-team-building"], TEXT],
-  ["other chip", "on-surface-variant", ["desktop-mid", "glass-panel", "glass-to", "chip-neutral"], TEXT],
-  ["initials on an avatar", "on-primary", ["primary-container"], TEXT],
-  ["focus ring on a dialog", "focus-ring", ["desktop-mid", "glass-strong-to"], EDGE],
-  ["focus ring on a card", "focus-ring", ["desktop-mid", "glass-panel", "glass-to"], EDGE],
-  ["focus ring on the page", "focus-ring", ["surface"], EDGE],
-  ["a chosen radio's text", "primary", ["desktop-mid", "glass-strong-to", "primary-tint"], TEXT],
+  ["text on an island", "on-surface", "surface-bright", TEXT],
+  ["muted text on an island", "on-surface-variant", "surface-bright", TEXT],
+  ["text on the sunk tone (date tile, weekday band, footer)", "on-surface", "surface-container-high", TEXT],
+  ["muted text on the sunk tone", "on-surface-variant", "surface-container-high", TEXT],
+  ["faint text on the sunk tone (other months' dates)", "on-surface-faint", "surface-container-high", TEXT],
+  ["text on a bar", "on-surface", BAR, TEXT],
+  ["muted text on a bar (inactive tab)", "on-surface-variant", BAR, TEXT],
+  ["primary text on an island (links, selected segment)", "primary", "surface-bright", TEXT],
+  ["primary text on a bar (wordmark, current tab)", "primary", BAR, TEXT],
+  ["primary text on the sunk tone", "primary", "surface-container-high", TEXT],
+  ["text on the primary fill (today's disc)", "on-primary", "primary", TEXT],
+  ["text on the gloss (Join, Create, the avatar)", "on-primary", GLOSS, TEXT],
+  ["error text on an island", "error", "surface-bright", TEXT],
+  ["error text on the sunk tone", "error", "surface-container-high", TEXT],
+  ["success text on an island", "success", "surface-bright", TEXT],
+  ["Game night chip text", "cat-game-night", "chip-game-night", TEXT],
+  ["Holiday chip text", "cat-holiday", "chip-holiday", TEXT],
+  ["Team building chip text", "cat-team-building", "chip-team-building", TEXT],
+  ["Other chip text", "cat-other", "chip-neutral", TEXT],
+  ["Game night chip edge on an island", "cat-game-night", "surface-bright", EDGE],
+  ["Holiday chip edge on an island", "cat-holiday", "surface-bright", EDGE],
+  ["Team building chip edge on an island", "cat-team-building", "surface-bright", EDGE],
+  ["Other chip edge on an island", "chip-neutral-edge", "surface-bright", EDGE],
+  ["Game night date bar on an island", "cat-game-night", "surface-bright", EDGE],
+  ["Holiday date bar on an island", "cat-holiday", "surface-bright", EDGE],
+  ["Team building date bar on an island", "cat-team-building", "surface-bright", EDGE],
+  ["Other date bar on an island", "cat-other", "surface-bright", EDGE],
+  ["rating stars on an island", "cat-game-night", "surface-bright", EDGE],
+  ["control edge on an island (buttons, fields, checkboxes)", "outline", "surface-bright", EDGE],
+  ["control edge on the sunk tone (segment track)", "outline", "surface-container-high", EDGE],
+  ["bar edge on a bar", "outline", BAR, EDGE],
+  ["focus ring on the desktop", "focus-ring", "background", EDGE],
+  ["focus ring on an island", "focus-ring", "surface-bright", EDGE],
+  ["focus ring on a bar", "focus-ring", BAR, EDGE],
+  ["focus ring against its halo", "focus-ring", "focus-halo", EDGE],
+  ["an island against the desktop (the 1 px edge carries the rest)", "surface-bright", "background", 1.09],
+  ["the sunk tone against an island (it also carries an edge)", "surface-container-high", "surface-bright", 1.09],
 ];
 
 let failed = 0;
+const worst = { light: { text: 99, ui: 99 }, dark: { text: 99, ui: 99 } };
 for (const [themeName, theme] of [
   ["light", light],
   ["dark", dark],
 ]) {
-  // bg-primary/10, the chosen radio's tint.
-  const withDerived = {
-    ...theme,
-    "color-primary-tint": `rgb(${parse(theme["color-primary"]).slice(0, 3).join(" ")} / 0.1)`,
-  };
-  for (const [label, fg, stack, min] of PAIRS) {
-    const behind = composite(...stack.map((name) => parse(withDerived[`color-${name}`])));
-    const front = parse(withDerived[`color-${fg}`]);
-    const got = ratio(composite(behind, front), behind);
-    const floor = themeName === "light" ? KNOWN_LIGHT[label] : undefined;
-    const ok = got >= (floor ?? min);
+  for (const [label, fg, bg, min] of PAIRS) {
+    const got = Math.min(
+      ...bg.split("|").map((stop) => {
+        const behind = parse(theme[`color-${stop}`], theme);
+        return ratio(composite(behind, parse(theme[`color-${fg}`], theme)), behind);
+      }),
+    );
+    const need = themeName === "dark" && min === 1.09 ? 1.15 : min;
+    const ok = got >= need;
     if (!ok) failed += 1;
-    const tag = !ok ? "FAIL" : floor !== undefined && got < min ? "known" : "ok";
-    console.log(`${tag.padEnd(5)} ${themeName.padEnd(5)} ${label}: ${got.toFixed(2)}:1 (needs ${min})`);
+    if (min === TEXT) worst[themeName].text = Math.min(worst[themeName].text, got);
+    if (min === EDGE) worst[themeName].ui = Math.min(worst[themeName].ui, got);
+    console.log(`${ok ? "ok   " : "FAIL "} ${themeName.padEnd(5)} ${label}: ${got.toFixed(2)}:1 (needs ${need})`);
   }
 }
 
+for (const name of ["light", "dark"]) {
+  console.log(
+    `${name}: text minimum ${worst[name].text.toFixed(2)}:1, icon and edge minimum ${worst[name].ui.toFixed(2)}:1`,
+  );
+}
 if (failed > 0) {
   console.error(`check-contrast: ${failed} pair(s) under their minimum`);
   process.exit(1);
 }
-console.log("check-contrast: no pair is under its minimum, or under its floor where one is listed");
+console.log("check-contrast: every pair is at its own minimum, in both themes");
