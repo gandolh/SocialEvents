@@ -19,6 +19,8 @@ const THEMES: Theme[] = ["light", "dark"];
 interface Screen {
   name: string;
   path: string;
+  /** Shot at 390 only (the comps draw it there). */
+  only390?: boolean;
   /** Holds the session request so the loading screen stays up. */
   stall?: boolean;
   /** Which seed user is signed in (alex when unset; "none" is signed out). */
@@ -59,6 +61,16 @@ const SCREENS: Screen[] = [
   { name: "calendar", path: "/", prepare: heading("November 2026") },
   { name: "event-detail", path: "/", prepare: openTicket },
   { name: "create-event", path: "/", prepare: openCreate },
+  {
+    name: "scrolled",
+    path: "/",
+    prepare: async (p, phone) => {
+      await heading("November 2026")(p);
+      await p.getByRole("heading", { name: "In November" }).waitFor();
+      if (phone) await p.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    },
+    only390: true,
+  },
   { name: "day", path: "/calendar/day", prepare: heading("Nov 12, 2026") },
   {
     name: "events",
@@ -107,6 +119,7 @@ test.describe("screenshots", () => {
   for (const screen of SCREENS) {
     for (const theme of THEMES) {
       for (const [width, height] of WIDTHS) {
+        if (screen.only390 && width !== 390) continue;
         test.describe(`${screen.name} ${theme} ${width}`, () => {
           test.use({
             storageState:

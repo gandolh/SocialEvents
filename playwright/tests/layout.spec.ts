@@ -149,3 +149,19 @@ test.describe("sizes", () => {
     expect((last?.y ?? 0) + (last?.height ?? 0)).toBeLessThanOrEqual(footer?.y ?? 0);
   });
 });
+
+test("a swipe down on the phone sheet's title bar closes it", async ({ page }) => {
+  await page.setViewportSize(SIZES.phone);
+  await open(page, "/");
+  await page.getByRole("button", { name: "Pub Quiz Night" }).first().click();
+  const sheet = page.getByRole("dialog", { name: "Pub Quiz Night" });
+  await expect(sheet).toBeVisible();
+  const bar = await sheet.getByRole("heading", { name: "Pub Quiz Night" }).boundingBox();
+  if (!bar) throw new Error("no title bar");
+  const x = bar.x + 40;
+  await page.mouse.move(x, bar.y + 10);
+  await page.mouse.down();
+  for (let i = 1; i <= 12; i++) await page.mouse.move(x, bar.y + 10 + i * 30);
+  await page.mouse.up();
+  await expect(sheet).toBeHidden();
+});

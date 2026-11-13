@@ -17,7 +17,6 @@ interface FixtureEvent {
   host: (typeof USERS)[number];
   description?: string;
   invite?: (typeof USERS)[number][];
-  coords?: [number, number];
 }
 
 const EVENTS: FixtureEvent[] = [
@@ -58,7 +57,6 @@ const EVENTS: FixtureEvent[] = [
     category: "Holiday",
     place: "Main square",
     host: "dana",
-    coords: [45.76, 21.23],
   },
   {
     name: "Holiday Party",
@@ -66,7 +64,6 @@ const EVENTS: FixtureEvent[] = [
     category: "Holiday",
     place: "The Grand Room",
     host: "max",
-    coords: [45.75, 21.22],
   },
 ];
 
@@ -101,7 +98,7 @@ export default async function globalSetup(config: { projects: { use: { baseURL?:
         startsAt: e.startsAt,
         category: e.category,
         description: e.description ?? "",
-        location: { label: e.place, lat: e.coords?.[0] ?? null, lng: e.coords?.[1] ?? null },
+        location: { label: e.place, lat: null, lng: null },
         attendeeUserIds: (e.invite ?? []).map(idOf),
         attendeeDepartmentIds: [],
       },

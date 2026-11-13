@@ -9,12 +9,14 @@ DB="./data/pwtest.sqlite"
 export DATABASE_PATH="$DB"
 export JWT_SECRET="pwtest-secret-pwtest-secret-1234"
 export PORT
+# No outside calls, and a trusted X-Forwarded-For so `npm run e2e` stays under the session route's 20-a-minute limit.
+export WEATHER_API_KEY= SMTP_HOST= TRUST_PROXY=true
 
 cd "$(dirname "$0")/../.."
 
 echo "[pwtest] building shared + client…"
 npm run build:shared >/dev/null
-npm run build --workspace client >/dev/null
+VITE_MAPS_BROWSER_KEY= npm run build --workspace client >/dev/null
 
 echo "[pwtest] resetting + seeding $DB…"
 rm -f "$DB" "$DB"-shm "$DB"-wal
