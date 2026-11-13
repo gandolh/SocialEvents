@@ -2,10 +2,22 @@ const dtFormat = new Intl.DateTimeFormat("en-US", {
   dateStyle: "medium",
   timeStyle: "short",
 });
+const timeFormat = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" });
+const shortDateFormat = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
 const dateFormat = new Intl.DateTimeFormat("en-US", { dateStyle: "medium" });
 
 export function formatDateTime(iso: string): string {
   return dtFormat.format(new Date(iso));
+}
+
+/** "8:30 PM". */
+export function formatTime(iso: string): string {
+  return timeFormat.format(new Date(iso));
+}
+
+/** "Nov 19". */
+export function formatShortDate(iso: string): string {
+  return shortDateFormat.format(new Date(iso));
 }
 
 export function formatDate(iso: string): string {
