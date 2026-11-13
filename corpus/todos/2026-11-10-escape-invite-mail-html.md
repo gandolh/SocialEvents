@@ -1,7 +1,8 @@
 ---
 title: Invite emails put user text into HTML unescaped
 created: 2026-11-10
-status: open
+status: promoted
+promoted-to: briefs/todo/19-escape-invite-mail-and-bound-the-weather-call.md
 tags: [security, server]
 ---
 
