@@ -15,16 +15,17 @@ export function MapView({ markers, height = "100%" }: { markers: MapMarker[]; he
   if (!MAPS_KEY) {
     return (
       <div
-        className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-outline-variant bg-surface-container-low p-6 text-center text-on-surface-variant"
+        className="flex flex-col items-center justify-center gap-2 rounded-md border border-dashed border-outline bg-surface-container-high p-6 text-center text-on-surface-variant"
         style={{ height }}
       >
         <IoLocationOutline size={28} />
-        <p className="text-sm font-medium">Map preview unavailable</p>
-        <p className="text-xs">Set VITE_MAPS_BROWSER_KEY to enable interactive maps.</p>
-        <ul className="mt-2 space-y-1 text-xs">
+        <p className="text-body font-semibold text-on-surface">Map preview unavailable</p>
+        <p className="text-small">Set VITE_MAPS_BROWSER_KEY to enable interactive maps.</p>
+        <ul className="mt-2 space-y-1 text-small">
           {markers.slice(0, 6).map((m) => (
-            <li key={m.id}>
-              📍 {m.label} ({m.lat.toFixed(3)}, {m.lng.toFixed(3)})
+            <li key={m.id} className="inline-flex items-center gap-1.5">
+              <IoLocationOutline size={14} aria-hidden="true" />
+              {m.label} ({m.lat.toFixed(3)}, {m.lng.toFixed(3)})
             </li>
           ))}
         </ul>
@@ -39,6 +40,6 @@ export function MapView({ markers, height = "100%" }: { markers: MapMarker[]; he
       : `https://www.google.com/maps/embed/v1/view?key=${MAPS_KEY}&center=${center.lat},${center.lng}&zoom=11`;
 
   return (
-    <iframe title="Map" className="rounded-lg border-0" style={{ width: "100%", height }} loading="lazy" src={src} />
+    <iframe title="Map" className="rounded-md border-0" style={{ width: "100%", height }} loading="lazy" src={src} />
   );
 }
