@@ -61,22 +61,22 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
       open={open}
       onClose={onClose}
       title="Create event"
-      size="lg"
+      size="xl"
       dismissOnBackdrop={false}
       footer={
         <>
-          <Button variant="ghost" onClick={onClose}>
+          <Button variant="secondary" className="max-md:h-12 max-md:flex-1" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={() => void submit()} disabled={create.isPending}>
+          <Button className="max-md:h-12 max-md:flex-1" onClick={() => void submit()} disabled={create.isPending}>
             Create
           </Button>
         </>
       }
     >
-      <div className="space-y-4">
+      <div className="flex flex-col gap-4 max-md:gap-3.5 md:gap-3">
         <Input data-autofocus label="Event name" value={name} onChange={(e) => setName(e.target.value)} />
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 max-md:grid-cols-1 max-md:gap-3.5">
           <Input
             label="Date & time"
             type="datetime-local"
@@ -91,59 +91,82 @@ export function CreateEventModal({ open, onClose }: { open: boolean; onClose: ()
             ))}
           </Select>
         </div>
-        <Input
-          label="Location"
-          placeholder="e.g. Main Auditorium"
-          value={locLabel}
-          onChange={(e) => setLocLabel(e.target.value)}
-        />
-        <div className="grid grid-cols-2 gap-4">
-          <Input label="Latitude (optional)" value={lat} onChange={(e) => setLat(e.target.value)} />
-          <Input label="Longitude (optional)" value={lng} onChange={(e) => setLng(e.target.value)} />
+        <div className="grid grid-cols-[minmax(0,2fr)_repeat(2,minmax(0,1fr))] gap-4 max-md:grid-cols-2 max-md:gap-3">
+          <div className="max-md:col-span-full">
+            <Input
+              label="Location"
+              placeholder="e.g. Main Auditorium"
+              value={locLabel}
+              onChange={(e) => setLocLabel(e.target.value)}
+            />
+          </div>
+          <Input label="Latitude (optional)" inputMode="decimal" value={lat} onChange={(e) => setLat(e.target.value)} />
+          <Input
+            label="Longitude (optional)"
+            inputMode="decimal"
+            value={lng}
+            onChange={(e) => setLng(e.target.value)}
+          />
         </div>
-        <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+        <Textarea
+          label="Description"
+          rows={2}
+          className="min-h-14"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
 
         {/* Attendees */}
-        <div>
-          <span className="mb-1 block text-sm font-medium text-on-surface-variant">Invite</span>
+        <div className="flex flex-col gap-1.5">
+          <span className="text-small font-semibold text-on-surface-variant">Invite</span>
           <Tabs value={tab} onValueChange={setTab}>
             <TabsList>
               <Tab value="people">People</Tab>
               <Tab value="departments">Departments</Tab>
             </TabsList>
-            <TabPanel className="max-h-40 overflow-auto rounded-lg border border-outline-variant/60 p-2" value="people">
+            <TabPanel
+              className="mt-1.5 max-h-44 overflow-auto rounded-md border border-outline-variant bg-surface-container-high px-3 py-1"
+              value="people"
+            >
               {users
                 .filter((u) => u.id !== me?.id)
                 .map((u) => (
                   <Checkbox
                     key={u.id}
+                    className="border-outline-variant not-first:border-t"
                     checked={selectedUsers.has(u.id)}
                     onCheckedChange={() => toggle(selectedUsers, u.id, setSelectedUsers)}
                     label={
                       <>
-                        {u.name} <span className="text-xs text-on-surface-variant">{u.email}</span>
+                        <span className="font-semibold">{u.name}</span>{" "}
+                        <span className="text-small [overflow-wrap:anywhere] text-on-surface-variant">{u.email}</span>
                       </>
                     }
                   />
                 ))}
             </TabPanel>
             <TabPanel
-              className="max-h-40 overflow-auto rounded-lg border border-outline-variant/60 p-2"
+              className="mt-1.5 max-h-44 overflow-auto rounded-md border border-outline-variant bg-surface-container-high px-3 py-1"
               value="departments"
             >
               {departments.map((d) => (
                 <Checkbox
                   key={d.id}
+                  className="border-outline-variant not-first:border-t"
                   checked={selectedDepts.has(d.id)}
                   onCheckedChange={() => toggle(selectedDepts, d.id, setSelectedDepts)}
-                  label={d.name}
+                  label={<span className="font-semibold">{d.name}</span>}
                 />
               ))}
             </TabPanel>
           </Tabs>
         </div>
 
-        {err && <p className="text-sm text-error">{err}</p>}
+        {err && (
+          <p role="alert" className="text-body font-semibold text-error">
+            {err}
+          </p>
+        )}
       </div>
     </Dialog>
   );

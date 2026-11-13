@@ -11,16 +11,16 @@ interface CheckboxProps extends Omit<ComponentProps<typeof BaseCheckbox.Root>, "
 /** A tick box with its label. A label around it makes the whole row the click target. */
 export function Checkbox({ label, className, ...props }: CheckboxProps) {
   return (
-    <label className={cn("flex items-center gap-2 px-1 py-1 text-sm", className)}>
+    <label className={cn("flex min-h-10 cursor-pointer items-center gap-3 text-body max-md:min-h-12", className)}>
       <BaseCheckbox.Root
         {...props}
         className={cn(
-          "flex size-3.25 shrink-0 items-center justify-center rounded-sm border border-outline bg-surface-container-lowest text-on-primary outline-none",
+          "flex size-5 shrink-0 items-center justify-center rounded-sm border-[1.5px] border-outline bg-surface-bright text-on-primary outline-none",
           "focus-visible:aero-focus data-checked:border-primary data-checked:bg-primary",
         )}
       >
         <BaseCheckbox.Indicator className="flex items-center justify-center">
-          <IoCheckmark size={10} />
+          <IoCheckmark size={14} />
         </BaseCheckbox.Indicator>
       </BaseCheckbox.Root>
       {label}

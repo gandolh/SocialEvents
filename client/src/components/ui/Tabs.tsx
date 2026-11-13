@@ -9,7 +9,13 @@ export const Tabs = BaseTabs.Root;
 
 /** The row of tabs. Arrow keys choose (activateOnFocus), since nothing is saved by trying one. */
 export function TabsList({ className, ...props }: WithClass<ComponentProps<typeof BaseTabs.List>>) {
-  return <BaseTabs.List activateOnFocus {...props} className={cn("mb-2 flex gap-1 text-sm", className)} />;
+  return (
+    <BaseTabs.List
+      activateOnFocus
+      {...props}
+      className={cn("flex w-fit gap-0.5 rounded-md border border-outline bg-surface-container-high p-[3px]", className)}
+    />
+  );
 }
 
 export function Tab({ className, ...props }: WithClass<ComponentProps<typeof BaseTabs.Tab>>) {
@@ -17,8 +23,8 @@ export function Tab({ className, ...props }: WithClass<ComponentProps<typeof Bas
     <BaseTabs.Tab
       {...props}
       className={cn(
-        "cursor-pointer rounded-md px-3 py-1 text-on-surface-variant outline-none select-none",
-        "hover:bg-surface-container focus-visible:aero-focus data-active:bg-primary/10 data-active:text-primary",
+        "flex h-11 cursor-pointer items-center justify-center rounded-sm border border-transparent px-4 text-body font-semibold text-on-surface-variant outline-none select-none md:h-9",
+        "hover:text-on-surface focus-visible:aero-focus data-active:border-outline data-active:bg-surface-bright data-active:text-primary",
         className,
       )}
     />
