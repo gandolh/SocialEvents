@@ -6,7 +6,6 @@ import {
   useSetHostRating,
   useHostRating,
   useWeather,
-  useRsvp,
   useDeleteEvent,
 } from "../api/hooks.js";
 import { InlineConfirm } from "./ui/InlineConfirm.js";
@@ -14,14 +13,15 @@ import { SheetDrawer } from "./ui/Drawer.js";
 import { useIsPhone } from "../lib/useIsPhone.js";
 import { Dialog, Button, CategoryChip, StarRating, Skeleton } from "./ui/index.js";
 import { MapView } from "./MapView.js";
+import { RsvpButtons } from "./RsvpButtons.js";
 import { formatDateTime } from "../lib/utils.js";
 
+/** The event's detail: a dialog on a desktop, a bottom sheet on a phone. */
 export function EventDetailModal({ eventId, onClose }: { eventId: string; onClose: () => void }) {
-  const { data: event, isLoading } = useEvent(eventId);
+  const { data: event, isLoading, isError, refetch } = useEvent(eventId);
   const { data: me } = useMe();
   const setEventRating = useSetEventRating();
   const setHostRating = useSetHostRating();
-  const rsvp = useRsvp();
   const deleteEvent = useDeleteEvent();
   const [showMap, setShowMap] = useState(false);
   const phone = useIsPhone();
@@ -38,6 +38,7 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
       open
       onClose={onClose}
       title={event?.name ?? "Event"}
+      {...(phone ? {} : { size: "lg" as const })}
       footer={
         canManage ? (
           <InlineConfirm
@@ -45,28 +46,32 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
             yesLabel={`Yes, delete "${event?.name}" and its attendee list`}
             onConfirm={() => deleteEvent.mutateAsync(eventId).then(() => onClose())}
             trigger={(ask) => (
-              <Button variant="danger" onClick={ask}>
+              <Button variant="danger" className="max-md:h-12 max-md:flex-1" onClick={ask}>
                 Delete event
               </Button>
             )}
           />
         ) : myAttendance ? (
-          <div className="flex gap-2">
-            <Button variant="secondary" onClick={() => rsvp.mutate({ id: eventId, status: "accepted" })}>
-              {myAttendance.status === "accepted" ? "Attending ✓" : "Join"}
-            </Button>
-            <Button variant="ghost" onClick={() => rsvp.mutate({ id: eventId, status: "declined" })}>
-              Can't make it
-            </Button>
-          </div>
+          <RsvpButtons eventId={eventId} status={myAttendance.status} className="max-md:flex-1" />
         ) : null
       }
     >
-      {isLoading || !event ? (
-        <Skeleton className="h-40" />
+      {isError ? (
+        <div className="flex flex-col items-center gap-3 py-8 text-center text-body text-on-surface-variant">
+          <p>Couldn't load this event.</p>
+          <Button variant="secondary" onClick={() => void refetch()}>
+            Try again
+          </Button>
+        </div>
+      ) : isLoading || !event ? (
+        <div role="status" aria-label="Loading the event" className="flex flex-col gap-4">
+          <Skeleton className="h-6 w-28" />
+          <Skeleton className="h-24" />
+          <Skeleton className="h-8 w-2/3" />
+        </div>
       ) : (
-        <div tabIndex={-1} data-autofocus className="space-y-4 outline-none">
-          <div className="flex items-center justify-between">
+        <div tabIndex={-1} data-autofocus className="flex flex-col gap-4 text-body outline-none">
+          <div className="flex items-center justify-between gap-3 max-md:flex-wrap">
             <CategoryChip category={event.category} />
             <StarRating
               label="Event rating"
@@ -76,11 +81,11 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
             />
           </div>
 
-          <dl className="grid grid-cols-[110px_1fr] gap-y-3 text-sm">
-            <dt className="text-on-surface-variant">When</dt>
+          <dl className="grid grid-cols-[96px_minmax(0,1fr)] items-baseline gap-x-4 gap-y-2.5 max-md:grid-cols-[80px_minmax(0,1fr)] max-md:gap-x-3 max-md:gap-y-2 max-narrow:grid-cols-[72px_minmax(0,1fr)]">
+            <dt className="font-medium text-on-surface-variant">When</dt>
             <dd>{formatDateTime(event.startsAt)}</dd>
 
-            <dt className="text-on-surface-variant">Weather</dt>
+            <dt className="font-medium text-on-surface-variant">Weather</dt>
             <dd>
               {event.location.lat === null
                 ? "—"
@@ -89,23 +94,28 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
                   : "…"}
             </dd>
 
-            <dt className="text-on-surface-variant">Host</dt>
-            <dd className="flex items-center gap-2">
-              {event.hostName}
-              <StarRating
-                label="Host rating"
-                value={hostRating.data?.aggregate.average ?? 0}
-                count={hostRating.data?.aggregate.count}
-                size={14}
-                onRate={(rating) => setHostRating.mutate({ hostId: event.hostId, rating })}
-              />
+            <dt className="font-medium text-on-surface-variant">Host</dt>
+            <dd className="flex flex-wrap items-center gap-x-3 max-md:contents">
+              <span className="max-md:col-start-2">{event.hostName}</span>
+              <span className="max-md:col-span-full">
+                <StarRating
+                  label="Host rating"
+                  value={hostRating.data?.aggregate.average ?? 0}
+                  count={hostRating.data?.aggregate.count}
+                  onRate={(rating) => setHostRating.mutate({ hostId: event.hostId, rating })}
+                />
+              </span>
             </dd>
 
-            <dt className="text-on-surface-variant">Location</dt>
-            <dd className="flex items-center gap-2">
+            <dt className="font-medium text-on-surface-variant">Location</dt>
+            <dd className="flex flex-wrap items-center gap-x-3">
               {event.location.label}
               {event.location.lat !== null && (
-                <button className="text-primary underline" onClick={() => setShowMap((s) => !s)}>
+                <button
+                  type="button"
+                  className="min-h-11 cursor-pointer rounded-sm font-semibold text-primary underline outline-none focus-visible:aero-focus"
+                  onClick={() => setShowMap((s) => !s)}
+                >
                   {showMap ? "Hide map" : "View map"}
                 </button>
               )}
@@ -113,7 +123,7 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
 
             {event.description && (
               <>
-                <dt className="text-on-surface-variant">Details</dt>
+                <dt className="font-medium text-on-surface-variant">Details</dt>
                 <dd>{event.description}</dd>
               </>
             )}
@@ -133,20 +143,22 @@ export function EventDetailModal({ eventId, onClose }: { eventId: string; onClos
             />
           )}
 
-          <div>
-            <p className="mb-2 text-sm font-medium text-on-surface-variant">Attendees ({event.attendees.length})</p>
-            <div className="flex flex-wrap gap-2">
-              {event.attendees.length === 0 && (
-                <span className="text-sm text-on-surface-variant">No attendees yet.</span>
-              )}
+          <div className="flex flex-col gap-2">
+            <h3 className="text-body font-semibold text-on-surface-variant">Attendees ({event.attendees.length})</h3>
+            <ul className="flex flex-wrap gap-2">
+              {event.attendees.length === 0 && <li className="text-on-surface-variant">No attendees yet.</li>}
               {event.attendees.map((a) => (
-                <span key={a.userId} className="rounded-full bg-surface-container px-2.5 py-1 text-xs" title={a.status}>
+                <li
+                  key={a.userId}
+                  className="inline-flex h-8 items-center rounded-full border border-outline-variant bg-surface-container-high px-3 font-medium"
+                  title={a.status}
+                >
                   {a.name}
                   {a.status === "accepted" && " ✓"}
                   {a.status === "declined" && " ✗"}
-                </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       )}

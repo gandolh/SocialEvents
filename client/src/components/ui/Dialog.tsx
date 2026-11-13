@@ -3,7 +3,8 @@ import { useRef, type ReactNode } from "react";
 import { IoClose } from "react-icons/io5";
 import { cn } from "../../lib/cn.js";
 
-const SIZES = { md: "max-w-md", lg: "max-w-2xl", xl: "max-w-4xl" } as const;
+/** md: 448 px; lg: 640 px (the detail); xl: 680 px (the create form). On a phone every dialog fills the screen. */
+const SIZES = { md: "md:max-w-md", lg: "md:max-w-160", xl: "md:max-w-170" } as const;
 
 const FOCUSABLE =
   "input:not(:disabled), select:not(:disabled), textarea:not(:disabled), button:not(:disabled), a[href]";
@@ -40,7 +41,7 @@ export function Dialog({ open, onClose, title, children, footer, size = "md", di
       }}
     >
       <BaseDialog.Portal>
-        <BaseDialog.Backdrop className="fixed inset-0 z-dialog bg-scrim backdrop-blur-sm data-ending-style:opacity-0 data-starting-style:opacity-0 motion-safe:transition-opacity motion-safe:duration-150" />
+        <BaseDialog.Backdrop className="fixed inset-0 z-dialog bg-scrim backdrop-blur-[8px] data-ending-style:opacity-0 data-starting-style:opacity-0 motion-safe:transition-opacity motion-safe:duration-150" />
         <BaseDialog.Popup
           ref={popupRef}
           initialFocus={() =>
@@ -50,25 +51,38 @@ export function Dialog({ open, onClose, title, children, footer, size = "md", di
             popupRef.current
           }
           className={cn(
-            "fixed top-1/2 left-1/2 z-dialog flex max-h-[90vh] w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col rounded-2xl aero-glass-strong outline-none",
-            "data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0 motion-safe:transition-[opacity,scale] motion-safe:duration-150",
+            "fixed inset-0 z-dialog flex h-dvh w-full flex-col overflow-hidden border-outline bg-surface-bright outline-none",
+            "md:inset-auto md:top-1/2 md:left-1/2 md:h-auto md:max-h-[calc(100dvh-3rem)] md:w-[calc(100%-3rem)] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-lg md:border md:shadow-dialog",
+            "data-ending-style:opacity-0 data-starting-style:opacity-0 motion-safe:transition-[opacity,scale] motion-safe:duration-150 md:data-ending-style:scale-95 md:data-starting-style:scale-95",
             SIZES[size],
           )}
         >
-          <div className="flex items-center justify-between border-b border-glass-divider px-6 py-4">
-            <BaseDialog.Title className="text-lg font-semibold text-on-surface">{title}</BaseDialog.Title>
+          <div
+            className={cn(
+              "flex h-14 shrink-0 items-center gap-3 border-b border-outline pr-1.5 pl-4 aero-bar md:pr-2.5 md:pl-6",
+              size === "xl" ? "md:h-14" : "md:h-16",
+            )}
+          >
+            <BaseDialog.Title className="flex-1 font-display text-dialog font-medium text-on-surface">
+              {title}
+            </BaseDialog.Title>
             <BaseDialog.Close
               aria-label="Close"
-              className="rounded-full p-1 text-on-surface-variant outline-none hover:bg-surface-container focus-visible:aero-focus"
+              className="grid size-12 place-items-center rounded-full text-on-surface-variant outline-none hover:bg-surface-container-high hover:text-on-surface focus-visible:aero-focus md:size-11"
             >
-              <IoClose size={20} />
+              <IoClose size={22} />
             </BaseDialog.Close>
           </div>
-          <div ref={bodyRef} className="flex-1 overflow-auto px-6 py-4">
+          <div
+            ref={bodyRef}
+            className={cn("min-h-0 flex-1 overflow-auto px-4 py-4 md:px-6", size === "xl" ? "md:py-4" : "md:py-5")}
+          >
             {children}
           </div>
           {footer && (
-            <footer className="flex justify-end gap-2 border-t border-glass-divider px-6 py-4">{footer}</footer>
+            <footer className="flex shrink-0 justify-end gap-2 border-t border-outline-variant bg-surface-container-high px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] md:gap-3 md:px-6 md:pb-3">
+              {footer}
+            </footer>
           )}
         </BaseDialog.Popup>
       </BaseDialog.Portal>

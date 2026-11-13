@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
-import { useEvent, useEvents, useMe, useRsvp } from "../api/hooks.js";
+import { useEvent, useEvents, useMe } from "../api/hooks.js";
 import { localIsoDate, WEEKDAYS } from "../lib/calendar.js";
 import { cn } from "../lib/cn.js";
 import { formatShortDate, formatTime } from "../lib/utils.js";
-import { Button, CategoryChip, Skeleton } from "./ui/index.js";
+import { RsvpButtons } from "./RsvpButtons.js";
+import { CategoryChip, Skeleton } from "./ui/index.js";
 
 /** The date tile: the weekday over the day of the month. */
 export function DateTile({ iso, className }: { iso: string; className?: string }) {
@@ -34,7 +35,6 @@ export function NextEventTicket({ onOpen }: { onOpen: (id: string) => void }) {
   const upcoming = useEvents({ from: now });
   const next = upcoming.data?.[0];
   const { data: detail } = useEvent(next?.id ?? null);
-  const rsvp = useRsvp();
 
   if (upcoming.isLoading) return <Skeleton className="h-17 rounded-lg" />;
   if (!next) return null;
@@ -44,7 +44,6 @@ export function NextEventTicket({ onOpen }: { onOpen: (id: string) => void }) {
   const answerable = !!mine && !canManage;
   const today = localIsoDate(next.startsAt) === localIsoDate(now);
   const when = `${today ? "Today" : formatShortDate(next.startsAt)}, ${formatTime(next.startsAt)}`;
-  const answer = (status: "accepted" | "declined") => rsvp.mutate({ id: next.id, status });
 
   return (
     <section
@@ -53,22 +52,22 @@ export function NextEventTicket({ onOpen }: { onOpen: (id: string) => void }) {
     >
       <div className="flex min-w-0 flex-1 items-center gap-4 max-md:gap-3">
         <DateTile iso={next.startsAt} className="h-12 w-13" />
-        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-4.5 gap-y-1.5 text-body text-on-surface-variant max-[379px]:grid-cols-[auto_minmax(0,1fr)] max-md:grid max-md:grid-cols-[minmax(0,auto)_auto] max-md:justify-start max-md:gap-x-3 max-md:gap-y-0">
+        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-4.5 gap-y-1.5 text-body text-on-surface-variant max-md:grid max-md:grid-cols-[minmax(0,auto)_auto] max-md:justify-start max-md:gap-x-3 max-md:gap-y-0 max-narrow:grid-cols-[auto_minmax(0,1fr)]">
           <button
             type="button"
             onClick={() => onOpen(next.id)}
-            className="cursor-pointer rounded-sm text-left font-display text-title font-medium text-on-surface outline-none focus-visible:aero-focus max-[379px]:col-span-2 max-md:col-start-1 max-md:row-start-2 max-md:-my-2 max-md:py-2"
+            className="cursor-pointer rounded-sm text-left font-display text-title font-medium text-on-surface outline-none focus-visible:aero-focus max-md:col-start-1 max-md:row-start-2 max-md:-my-2 max-md:py-2 max-narrow:col-span-2"
           >
             {next.name}
           </button>
-          <span className="text-small font-medium whitespace-nowrap max-[379px]:col-span-2 max-md:col-start-1 max-md:row-start-1">
+          <span className="text-small font-medium whitespace-nowrap max-md:col-start-1 max-md:row-start-1 max-narrow:col-span-2">
             {when}
           </span>
           <CategoryChip
             category={next.category}
-            className="max-[379px]:col-start-1 max-[379px]:row-start-3 max-md:col-start-2 max-md:row-start-2 max-md:justify-self-start"
+            className="max-md:col-start-2 max-md:row-start-2 max-md:justify-self-start max-narrow:col-start-1 max-narrow:row-start-3"
           />
-          <span className="inline-flex items-center gap-1.5 whitespace-nowrap max-[379px]:row-start-3 max-md:col-start-2 max-md:row-start-1 max-md:text-small">
+          <span className="inline-flex items-center gap-1.5 whitespace-nowrap max-md:col-start-2 max-md:row-start-1 max-md:text-small max-narrow:row-start-3">
             <IoLocationOutline size={16} aria-hidden="true" />
             {next.location.label}
           </span>
@@ -78,31 +77,7 @@ export function NextEventTicket({ onOpen }: { onOpen: (id: string) => void }) {
           <span className="whitespace-nowrap max-md:hidden">{next.attendeeCount} attending</span>
         </div>
       </div>
-      {answerable && (
-        <div className="flex shrink-0 gap-3 max-md:gap-2">
-          <Button
-            variant={mine.status === "accepted" ? "secondary" : "primary"}
-            aria-pressed={mine.status === "accepted"}
-            disabled={rsvp.isPending}
-            className={cn("max-md:h-12 max-md:flex-1 max-md:px-2", mine.status === "accepted" && "text-primary")}
-            onClick={() => answer("accepted")}
-          >
-            {mine.status === "accepted" ? "Attending ✓" : "Join"}
-          </Button>
-          <Button
-            variant="secondary"
-            aria-pressed={mine.status === "declined"}
-            disabled={rsvp.isPending}
-            className={cn(
-              "max-md:h-12 max-md:flex-1 max-md:px-2",
-              mine.status === "declined" && "border-primary text-primary",
-            )}
-            onClick={() => answer("declined")}
-          >
-            Can't make it
-          </Button>
-        </div>
-      )}
+      {answerable && <RsvpButtons eventId={next.id} status={mine.status} />}
     </section>
   );
 }
