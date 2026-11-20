@@ -121,3 +121,7 @@ Built from the owner's approval above: new tokens (the board's values in the app
 ## [2026-11-13] done | Brief 19 — escape the mail HTML, bound the weather call
 
 Promoted from two todos of 2026-11-10. User text in the invite and welcome mail is HTML-escaped through one helper, the invite subject is one line, and the weather fetch aborts after 5 s and falls back to the mock. The call stays on plain HTTP because the provider's free plan has no HTTPS; recorded in `wiki/integrations.md`. Not deployed, so no owner step.
+
+## [2026-11-20] maintenance | The redesign's board page copied into the repo
+
+The estate redesign board is a private canvas, so `design/estate-redesign/` now holds a copy of this app's page on it and the build behind it: the directions, the judges' and the controller's rulings, the critique, the token hand-off, the board's notes, the owner's decisions, the proposed screens (as HTML with renders, or as the board's own artboard sources), and today's shots from before the redesign. It is the design record of brief 18, which built it; its README says what each file is. Prettier and the Docker build skip the folder.

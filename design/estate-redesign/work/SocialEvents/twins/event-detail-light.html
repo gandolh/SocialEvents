@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SocialEvents event-detail, proposed (light twin)</title>
+<meta name="description" content="A plain-HTML twin of the board comp, for the local Floor checks.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;family=Lexend:wght@500;600&amp;display=swap">
+<style>
+/* Hallmark · shape: app screen · genre: calendar utility · theme: brand · redesign: full
+ * paper: #5b8bbf Aero desktop blue, islands on #ffffff · accent: #1a66b9 Aero blue, glossy · display: Lexend · body: Figtree
+ * nav: changed (one row of places on the glass bar, Month/Day in the month's head, a phone bottom bar; List and Map fold into the places) · signature: the ticket, tonight's event with Join and Can't make it on the calendar itself · states: empty month, loading, load error, create error
+ * axes: cool blue neutrals/rounded geometric display plus humanist UI/one blue · posture: assured · modes: light+dark · contrast: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: V, the Aero gloss and the blue desktop carry the look, so the islands stay today's raised surfaces */
+/* Hallmark · answered F4 · one filled gloss button per screen region: Create Event in the bar, Join in the ticket and the dialog, Create in the form; Can't make it and Cancel are outlined */
+/* Hallmark · waive 24b · padding 6px 10px and gaps of 6, 10, 14 off the 4px scale · half steps between the tokens, kept so 20px icons centre in 44px controls and chips fit a 176px day column */
+/* Hallmark · waive 72 · button.chip text 6px from the box edge · a chip holds a name and its time in a 152px column, so it pads 6px; nothing is clipped and the name wraps between words */
+/* Hallmark · waive 39b · button.dot 44px tall · the phone's date cell holds the number and its bars and is the grid's only touch target */
+/* Hallmark · waive 73 · div.dlg over the dimmed page text behind it · the page is the modal's backdrop, dimmed and aria-hidden while the dialog is open; the dialog is the only reading surface */
+[data-theme="light"]{color-scheme:light;--color-ground:#5b8bbf;--color-bar-top:#eef5fc;--color-bar-bottom:#dbe8f6;--color-bar-edge:#fdfeff;--color-surface:#fcfeff;--color-sunk:#e9f1fa;--color-ink:#0b2942;--color-muted:#3c5871;--color-faint:#546d87;--color-line:#c9dbee;--color-line-strong:#4f7397;--color-accent:#1a66b9;--color-on-accent:#fdfeff;--color-gloss-top:#2d76c4;--color-gloss-mid:#1a66b9;--color-gloss-bottom:#124f96;--color-gloss-edge:#124f96;--color-gloss-sheen:rgb(255 255 255 / .45);--color-gloss-drop:rgb(11 41 66 / .3);--color-focus:#0b2942;--color-halo:#fdfeff;--color-danger:#c62828;--color-star:#5a2cc4;--color-cat-game-night:#5a2cc4;--color-cat-game-night-tint:#ece3ff;--color-cat-holiday:#9c3410;--color-cat-holiday-tint:#ffe4d9;--color-cat-team-building:#14663e;--color-cat-team-building-tint:#d9f1e4;--color-cat-other:#3c5871;--color-cat-other-tint:#fcfeff;--color-cat-other-edge:#4f7397;--color-scrim:rgb(10 32 48 / .55);--font-ui:Figtree,'Segoe UI',system-ui,-apple-system,sans-serif;--font-display:Lexend,Figtree,'Segoe UI',system-ui,sans-serif;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--radius-chip:6px;--radius-control:10px;--radius-tile:12px;--radius-island:16px;--radius-sheet:20px;--inset:16px;--shadow-island:0 6px 20px rgb(11 41 66 / .22),0 1px 3px rgb(11 41 66 / .2);--shadow-float:0 24px 60px rgb(8 30 60 / .4),0 1px 3px rgb(8 30 60 / .3);}
+[data-theme="dark"]{color-scheme:dark;--color-ground:#0b1730;--color-bar-top:#1b2f4d;--color-bar-bottom:#162846;--color-bar-edge:#4d7bb3;--color-surface:#1f3456;--color-sunk:#162844;--color-ink:#e4eefa;--color-muted:#a9bed4;--color-faint:#8ba0b9;--color-line:#33507a;--color-line-strong:#5d86b3;--color-accent:#6db3ff;--color-on-accent:#04223f;--color-gloss-top:#86c1ff;--color-gloss-mid:#5aa6f2;--color-gloss-bottom:#4a98e8;--color-gloss-edge:#86c1ff;--color-gloss-sheen:rgb(255 255 255 / .4);--color-gloss-drop:rgb(0 0 0 / .4);--color-focus:#6db3ff;--color-halo:#0b1730;--color-danger:#ff8f85;--color-star:#c9b3ff;--color-cat-game-night:#c9b3ff;--color-cat-game-night-tint:#2c2350;--color-cat-holiday:#ffa587;--color-cat-holiday-tint:#40241a;--color-cat-team-building:#6ad9a3;--color-cat-team-building-tint:#173729;--color-cat-other:#c3d3e3;--color-cat-other-tint:#26406a;--color-cat-other-edge:#5d86b3;--color-scrim:rgb(0 8 20 / .72);--font-ui:Figtree,'Segoe UI',system-ui,-apple-system,sans-serif;--font-display:Lexend,Figtree,'Segoe UI',system-ui,sans-serif;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--radius-chip:6px;--radius-control:10px;--radius-tile:12px;--radius-island:16px;--radius-sheet:20px;--inset:16px;--shadow-island:0 6px 22px rgb(0 0 0 / .5),0 1px 3px rgb(0 0 0 / .5);--shadow-float:0 24px 60px rgb(0 0 0 / .65),0 0 0 1px var(--color-line-strong);}
+
+html,body{overflow-x:clip}
+.se{container:page/inline-size;scrollbar-color:var(--color-line-strong) transparent;caret-color:var(--color-accent);background:var(--color-ground);color:var(--color-ink);font-family:var(--font-ui);font-size:14px;line-height:20px;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+.se *,.se *::before,.se *::after{box-sizing:border-box}
+.se :where(h1,h2,h3,p,ol,ul,dl,dd){margin:0;padding:0}
+.se :where(ol,ul){list-style:none}
+.se :where(h1,h2){text-wrap:balance}
+.se :where(button,input,select,textarea){font:inherit;color:inherit}
+.se button{cursor:pointer}
+.se a{text-decoration:none;color:inherit}
+.se ::selection{background:var(--color-accent);color:var(--color-on-accent)}
+.se .ic{flex:none;display:block}
+.se :focus-visible{outline:2px solid var(--color-focus);outline-offset:2px;box-shadow:0 0 0 5px var(--color-halo)}
+.se .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.app{position:relative;transform:translateZ(0);min-height:100dvh;display:flex;flex-direction:column}
+
+/* the glass bars: top bar, phone bottom bar, dialog headers */
+.topbar{position:sticky;top:0;z-index:20;height:64px;display:flex;align-items:center;gap:28px;padding:0 var(--space-6);background:linear-gradient(180deg,var(--color-bar-top),var(--color-bar-bottom));border-bottom:1px solid var(--color-line-strong);box-shadow:inset 0 1px 0 var(--color-bar-edge)}
+.brand{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.wm{font-family:var(--font-display);font-weight:600;font-size:20px;line-height:28px;color:var(--color-accent)}
+.tag2{font-size:12px;line-height:16px;color:var(--color-muted)}
+.tabs{display:flex;align-self:stretch;gap:var(--space-1)}
+.tab{display:flex;align-items:center;gap:var(--space-2);padding:0 var(--space-4);color:var(--color-muted);font-weight:500;border-bottom:3px solid transparent;margin-top:3px}
+.tab:hover{color:var(--color-ink)}
+.tab[aria-current=page]{color:var(--color-accent);font-weight:600;border-bottom-color:var(--color-accent)}
+.right{margin-left:auto;display:flex;align-items:center;gap:var(--space-3)}
+.seg.pb{display:none}
+.topbar.ph{display:none;position:static}
+
+/* controls */
+.gloss{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);border:1px solid var(--color-gloss-edge);border-radius:var(--radius-control);color:var(--color-on-accent);font-weight:600;white-space:nowrap;background:linear-gradient(180deg,var(--color-gloss-top) 0%,var(--color-gloss-mid) 50%,var(--color-gloss-bottom) 100%);box-shadow:inset 0 1px 0 var(--color-gloss-sheen),0 1px 2px var(--color-gloss-drop)}
+.gloss:active{background:linear-gradient(180deg,var(--color-gloss-bottom),var(--color-gloss-mid))}
+.gloss.cb{height:40px;padding:0 var(--space-4)}
+.gloss.btn{height:44px;padding:0 var(--space-5)}
+.sec{background:var(--color-surface);color:var(--color-ink);border:1px solid var(--color-line-strong);font-weight:600;border-radius:var(--radius-control);white-space:nowrap}
+.sec.btn{height:44px;padding:0 var(--space-5)}
+.sec:hover{background:var(--color-sunk)}
+.se [aria-disabled="true"]{background:var(--color-sunk);color:var(--color-muted);border-color:var(--color-line);box-shadow:none;cursor:not-allowed}
+.ib{width:44px;height:44px;border-radius:999px;display:grid;place-items:center;border:1px solid transparent;background:transparent;color:var(--color-muted);padding:0}
+.ib:hover{background:var(--color-sunk);color:var(--color-ink)}
+.av{width:44px;height:44px;border-radius:999px;display:grid;place-items:center;font-weight:700;font-size:14px;color:var(--color-on-accent);border:1px solid var(--color-gloss-edge);background:linear-gradient(180deg,var(--color-gloss-top),var(--color-gloss-bottom));padding:0}
+.seg{display:flex;gap:2px;padding:3px;border:1px solid var(--color-line-strong);border-radius:var(--radius-control);background:var(--color-sunk)}
+.seg a,.seg .tabb{display:flex;align-items:center;justify-content:center;min-width:72px;height:36px;padding:0 var(--space-4);font-weight:600;color:var(--color-muted);border:1px solid transparent;background:transparent;border-radius:7px}
+.seg a[aria-current=page],.seg .tabb[aria-selected=true]{background:var(--color-surface);color:var(--color-accent);border-color:var(--color-line-strong)}
+.seg.sm{align-self:flex-start}
+.seg.sm .tabb{min-width:0}
+.chip{display:inline-flex;border-radius:var(--radius-chip);font-weight:600;text-align:left;border:1px solid}
+.gn{color:var(--color-cat-game-night);background:var(--color-cat-game-night-tint);border-color:var(--color-cat-game-night)}
+.hol{color:var(--color-cat-holiday);background:var(--color-cat-holiday-tint);border-color:var(--color-cat-holiday)}
+.chip.tb{color:var(--color-cat-team-building);background:var(--color-cat-team-building-tint);border-color:var(--color-cat-team-building)}
+.chip.ot{color:var(--color-cat-other);background:var(--color-cat-other-tint);border-color:var(--color-cat-other-edge)}
+.tag{padding:2px var(--space-2);font-size:12px;line-height:16px;align-items:center;white-space:nowrap}
+
+/* the page */
+.wrap{width:100%;max-width:1280px;margin:0 auto;padding:var(--space-4) var(--space-4) var(--space-4);display:flex;flex-direction:column;gap:var(--space-3);flex:1}
+.island{position:relative;background:var(--color-surface);border-radius:var(--radius-island);border:1px solid var(--color-line);box-shadow:var(--shadow-island)}
+.mo{overflow:visible}
+
+/* the ticket */
+.tk{display:flex;align-items:center;gap:var(--space-5);padding:10px var(--space-5) 10px var(--space-3);min-height:68px}
+.tkh{display:flex;align-items:center;gap:var(--space-4);min-width:0;flex:1}
+.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;width:52px;height:48px;border-radius:var(--radius-tile);background:var(--color-sunk);border:1px solid var(--color-line);flex:none}
+.tw{font-size:12px;line-height:14px;color:var(--color-muted);font-weight:600}
+.td{font-family:var(--font-display);font-weight:500;font-size:20px;line-height:22px}
+.tbody{display:flex;align-items:center;gap:6px 18px;min-width:0;flex:1;flex-wrap:wrap}
+.when{font-size:13px;line-height:18px;color:var(--color-muted);font-weight:500;order:2;white-space:nowrap}
+.ttl{all:unset;cursor:pointer;font-family:var(--font-display);font-weight:500;font-size:20px;line-height:28px;color:var(--color-ink);border-radius:6px;order:1;white-space:nowrap}
+.ttl:focus-visible{outline:2px solid var(--color-focus);outline-offset:2px;box-shadow:0 0 0 5px var(--color-halo)}
+.tbody>.chip{order:3}.tbody>.pl{order:4;color:var(--color-muted)}.tbody>.big{order:5;color:var(--color-muted);white-space:nowrap}
+.pl{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.tbody b{color:var(--color-ink);font-weight:600}
+.acts{display:flex;gap:var(--space-3);flex:none}
+
+/* the month */
+.mhd{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-2) var(--space-5);min-height:60px}
+.mt{font-family:var(--font-display);font-weight:500;font-size:28px;line-height:36px;white-space:nowrap}
+.key{display:flex;gap:var(--space-2);margin-right:auto;margin-left:var(--space-2)}
+.nv{display:flex;gap:var(--space-2)}
+.nb{width:40px;height:40px;border-radius:var(--radius-control);border:1px solid var(--color-line-strong);background:var(--color-surface);display:grid;place-items:center;padding:0;color:var(--color-ink)}
+.nb:hover{background:var(--color-sunk)}
+@container page (max-width:1099px){.key{order:9;flex-basis:100%;margin:0 0 var(--space-1)}.mhd{flex-wrap:wrap}.mt{margin-right:auto}}
+@container page (max-width:899px){.gloss.cb{width:44px;padding:0;gap:0}.cb .lbl{display:none}.tab{padding:0 10px}.topbar{gap:var(--space-4)}}
+.wd{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));background:var(--color-sunk);border-top:1px solid var(--color-line);border-bottom:1px solid var(--color-line);height:32px;align-items:center}
+.wd div{padding:0 10px;font-size:13px;line-height:18px;font-weight:600;color:var(--color-muted)}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.cell{min-height:88px;padding:6px;border-right:1px solid var(--color-line);border-bottom:1px solid var(--color-line);display:flex;flex-direction:column;gap:var(--space-1);min-width:0}
+.cell:nth-child(7n){border-right:0}
+.cell:nth-last-child(-n+7){border-bottom:0}
+.cell:nth-last-child(7){border-bottom-left-radius:var(--radius-island)}
+.cell:last-child{border-bottom-right-radius:var(--radius-island)}
+.cell.out{background:var(--color-sunk)}
+.cell.out .num{color:var(--color-faint)}
+.cellh{display:flex}
+.num{font-size:13px;line-height:20px;font-weight:500;padding:0 var(--space-1)}
+.today{display:inline-grid;place-items:center;width:26px;height:26px;margin:-3px 0 -3px 0;border-radius:999px;background:var(--color-accent);color:var(--color-on-accent);font-weight:700;font-size:13px}
+.chip.wide{flex-direction:column;width:100%;padding:3px 6px;gap:0}
+.cn{font-size:13px;line-height:18px;font-weight:600}
+.ct{font-size:12px;line-height:16px;font-weight:500}
+.dot,.kbars,.lst{display:none}
+
+/* callouts (1280 artboard only) */
+.co{position:absolute;z-index:50;width:22px;height:22px;border-radius:999px;background:var(--color-ink);color:var(--color-surface);font-size:12px;line-height:22px;font-weight:700;text-align:center;display:none}
+@container page (min-width:1200px){.co{display:block}.wrap{padding-inline:var(--space-8)}}
+
+/* phone */
+.bb,.grab{display:none}
+@container page (max-width:759px){
+ .topbar{height:56px;padding:0 var(--space-3);gap:var(--space-2)}
+ .topbar .tabs,.topbar .tag2,.topbar .cb,.topbar:not(.ph) .pb{display:none}
+ .topbar.ph .pb{display:flex;margin-left:auto}.topbar.ph .right{margin-left:0;gap:var(--space-1)}
+ .topbar:not(.ph){display:none}
+ .topbar.ph{display:flex;position:sticky}
+ .wm{font-size:18px;line-height:24px}
+ .pb a{min-width:56px;padding:0 10px}
+ .seg a,.seg .tabb{height:46px}
+ .wrap{padding:var(--space-3) var(--space-3) var(--space-4);gap:10px}
+ .tk{flex-direction:column;align-items:stretch;gap:10px;padding:10px var(--space-3) var(--space-3)}.tile{height:48px}
+ .tkh{gap:var(--space-3)}
+ .tbody{display:grid;grid-template-columns:minmax(0,auto) auto;justify-content:start;align-items:center;gap:0 var(--space-3)}
+ .tbody .big{display:none}
+ .when{order:0;grid-row:1;grid-column:1}.tbody>.pl{order:0;grid-row:1;grid-column:2;font-size:13px;line-height:18px}
+ .ttl{order:0;grid-row:2;grid-column:1;font-size:20px;line-height:26px;white-space:normal;padding:9px 0;margin:-9px 0}.tbody>.chip{order:0;grid-row:2;grid-column:2;justify-self:start}
+ .acts{gap:var(--space-2)}.acts .btn{flex:1;height:48px;padding:0 var(--space-2)}
+ .mhd{padding:var(--space-1) var(--space-3) var(--space-1) var(--space-4);gap:var(--space-2);min-height:56px}.mt{font-size:22px;line-height:28px;margin-right:auto}
+ .key,.seg.ms{display:none}
+ .nb{width:48px;height:48px}
+ .ib,.av{width:48px;height:48px}.topbar.ph .right{gap:0}
+ .wd{height:28px}.wd div{padding:0;text-align:center;font-size:12px;line-height:16px}
+ .cell{min-height:44px;padding:0;gap:0}.cell>.cellh,.chip.wide{display:none}
+ .cell.out .num,.cell:not(:has(.dot)) .num{display:flex;align-items:center;justify-content:center;width:100%;height:44px;padding:0}
+ .cell:not(.out):not(:has(.dot)) .num{color:var(--color-ink)}
+ .cell:not(:has(.dot)) .today{align-self:center;margin:auto}
+ .dot{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;height:44px;border:0;background:transparent;padding:var(--space-1) 0 0}
+ .dot .num{padding:0}
+ .bars{display:flex;gap:2px}
+ .b{display:block;width:16px;height:4px;border-radius:2px;border:0}
+ .b.gn{background:var(--color-cat-game-night)}.b.hol{background:var(--color-cat-holiday)}.b.tb{background:var(--color-cat-team-building)}.b.ot{background:var(--color-cat-other)}
+ .kbars{display:flex;flex-wrap:wrap;gap:var(--space-1) var(--space-3);padding:6px var(--space-3) var(--space-2);border-top:1px solid var(--color-line);font-size:12px;line-height:16px;color:var(--color-muted);justify-content:center}
+ .kbars li{display:inline-flex;align-items:center;gap:6px}
+ .cell:nth-last-child(7){border-bottom-left-radius:0}.cell:last-child{border-bottom-right-radius:0}
+ .cell:nth-last-child(-n+7){border-bottom:1px solid var(--color-line)}
+ .grid{border-bottom:0}
+ .lst{display:block}
+ .lh{padding:6px var(--space-4) 2px;font-family:var(--font-display);font-weight:500;font-size:17px;line-height:24px}
+ .lst ul{padding:0 var(--space-2) 6px}
+ .lst li+li{border-top:1px solid var(--color-line)}
+ .row{all:unset;box-sizing:border-box;display:flex;gap:var(--space-3);align-items:center;width:100%;min-height:56px;padding:6px var(--space-2);cursor:pointer;border-radius:10px;font-variant-numeric:tabular-nums}
+ .row:focus-visible{outline:2px solid var(--color-focus);box-shadow:0 0 0 5px var(--color-halo)}
+ .row .tile{width:48px;height:44px;border-radius:10px}.row .td{font-size:18px;line-height:20px}
+ .rt{display:flex;flex-direction:column;flex:1;min-width:0}
+ .rn{font-size:16px;line-height:22px;font-weight:600}
+ .rm{display:flex;flex-wrap:wrap;gap:0 10px;font-size:13px;line-height:18px;color:var(--color-muted)}
+ .bb{display:flex;position:sticky;bottom:0;z-index:14;height:calc(64px + var(--inset));padding-bottom:var(--inset);background:linear-gradient(180deg,var(--color-bar-top),var(--color-bar-bottom));border-top:1px solid var(--color-line-strong);box-shadow:inset 0 1px 0 var(--color-bar-edge)}
+ .bn{display:flex;flex:1;min-width:0}
+ .bn a{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--color-muted);font-size:12px;line-height:16px;font-weight:500;white-space:nowrap}
+ .bn a[aria-current=page]{color:var(--color-accent);font-weight:700}
+ .bc{flex:none;align-self:flex-start;height:48px;margin:var(--space-2) var(--space-3) 0 var(--space-1);padding:0 14px;border-radius:12px;font-size:14px}
+ .co{display:none}
+}
+@container page (max-width:379px){.bc{padding:0 10px;font-size:13px}.bc .ic{display:none}
+ .topbar{padding:0 var(--space-2)}.wm{font-size:16px}.pb a{min-width:48px;padding:0 var(--space-2)}.ib,.av{width:44px;height:44px}
+ .kv{grid-template-columns:72px minmax(0,1fr)}
+ .kbars{flex-wrap:nowrap;gap:0 10px;padding:6px var(--space-2) var(--space-2);justify-content:center}.kbars li{gap:var(--space-1)}.kbars .b{width:12px}
+ .row{display:grid;grid-template-columns:48px minmax(0,1fr) auto;column-gap:var(--space-3);row-gap:0;padding:var(--space-1) var(--space-2);min-height:56px;align-items:center}
+ .row .tile{grid-row:1/3;grid-column:1}.rt{display:contents}.rn{grid-row:1;grid-column:2;align-self:end}.row>.chip{grid-row:1;grid-column:3;align-self:end}.rm{grid-row:2;grid-column:2/-1;align-self:start}
+ .tbody{grid-template-columns:auto minmax(0,1fr)}.when{grid-column:1/-1}.ttl{grid-column:1/-1;grid-row:2}.tbody>.chip{grid-row:3;grid-column:1}.tbody>.pl{grid-row:3;grid-column:2}}
+
+/* dialogs and sheets */
+.stage{position:relative;overflow:hidden;height:max(800px,100dvh)}
+.stage>.app{height:100%;min-height:0;overflow:hidden;background:var(--color-ground)}
+.scrim{position:absolute;inset:0;z-index:30;background:var(--color-scrim);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.dw{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:var(--space-6)}
+.dw.sh,.dw.full{display:none}
+.dw{pointer-events:none}.dw .dlg{pointer-events:auto}
+.dlg{position:relative;width:640px;max-width:100%;max-height:100%;display:flex;flex-direction:column;background:var(--color-surface);border:1px solid var(--color-line-strong);border-radius:var(--radius-island);box-shadow:var(--shadow-float);overflow:hidden}
+.dlg.wide{width:680px}
+.dw:has(.dlg.wide){padding:var(--space-3)}
+.dlg.wide .dh{height:56px}.dlg.wide .db{padding:var(--space-4) var(--space-6);gap:var(--space-3)}.dlg.wide .ta{min-height:56px}
+.dh{display:flex;align-items:center;gap:var(--space-3);padding:0 10px 0 var(--space-6);height:64px;flex:none;background:linear-gradient(180deg,var(--color-bar-top),var(--color-bar-bottom));border-bottom:1px solid var(--color-line-strong);box-shadow:inset 0 1px 0 var(--color-bar-edge)}
+.dt{font-family:var(--font-display);font-weight:500;font-size:22px;line-height:28px;flex:1}
+.db{padding:var(--space-5) var(--space-6);overflow:auto;display:flex;flex-direction:column;gap:var(--space-4);min-height:0}
+.df{display:flex;justify-content:flex-end;gap:var(--space-3);padding:var(--space-3) var(--space-6);background:var(--color-sunk);border-top:1px solid var(--color-line);flex:none}
+.top2{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3)}
+.rate{display:inline-flex;align-items:center;gap:var(--space-2);color:var(--color-muted)}
+.stars{display:inline-flex;color:var(--color-star)}
+.star{width:44px;height:44px;display:grid;place-items:center;border:0;background:transparent;color:inherit;padding:0;border-radius:10px}
+.rv{font-size:13px;line-height:18px;color:var(--color-muted)}
+.kv{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px var(--space-4);align-items:baseline}
+.kv dt{color:var(--color-muted);font-weight:500}
+.kv dd{color:var(--color-ink)}
+.hostr{display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap}
+.att{display:flex;flex-direction:column;gap:var(--space-2)}
+.ah{font-size:14px;line-height:20px;font-weight:600;color:var(--color-muted)}
+.who{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.who li{display:inline-flex;align-items:center;height:32px;padding:0 var(--space-3);border-radius:999px;background:var(--color-sunk);border:1px solid var(--color-line);font-weight:500}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fl{font-size:13px;line-height:18px;font-weight:600;color:var(--color-muted)}
+.inp{width:100%;height:44px;padding:0 var(--space-3);border:1px solid var(--color-line-strong);border-radius:var(--radius-control);background:var(--color-surface);color:var(--color-ink);min-width:0}
+.inp::placeholder{color:var(--color-muted);opacity:1}
+.inp.ring{outline:2px solid var(--color-focus);outline-offset:2px;box-shadow:0 0 0 5px var(--color-halo)}
+.inp[aria-invalid="true"]{border-color:var(--color-danger)}
+.ta{height:auto;min-height:84px;padding:10px var(--space-3);resize:vertical;display:block}
+.selw{position:relative;display:block}
+.selw select,.selw input{padding-right:44px}
+.selw select{appearance:none;-webkit-appearance:none}
+.selw .ri{position:absolute;right:12px;top:12px;color:var(--color-muted);pointer-events:none}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4)}
+.g3{display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr));gap:var(--space-4)}
+.invl{display:flex;flex-direction:column;border:1px solid var(--color-line);border-radius:var(--radius-control);background:var(--color-sunk);padding:var(--space-1) var(--space-3);margin-top:2px}
+.cr{display:flex;align-items:center;gap:var(--space-3);min-height:40px;border-top:1px solid var(--color-line)}
+.cr:first-child{border-top:0}
+.ck{appearance:none;-webkit-appearance:none;width:20px;height:20px;margin:0;flex:none;border:1.5px solid var(--color-line-strong);border-radius:6px;background:var(--color-surface)}
+.cn2{font-weight:600}
+.em{font-size:13px;line-height:18px;color:var(--color-muted);overflow-wrap:anywhere}
+.err{display:flex;gap:6px;align-items:flex-start;color:var(--color-danger);font-size:14px;line-height:20px;font-weight:600}
+@container page (max-width:759px){
+ .stage{height:max(844px,100dvh)}
+ .dw{padding:0;align-items:flex-end}
+ .dw:not(.sh):not(.full){display:none}.dw.sh,.dw.full{display:flex}
+ .dlg,.dlg.wide{width:100%;border-radius:var(--radius-sheet) var(--radius-sheet) 0 0;border-bottom:0}
+ .dw.sh .dlg{padding-top:0}
+ .grab{display:block;position:absolute;top:6px;left:50%;width:40px;height:4px;transform:translateX(-50%);border-radius:2px;background:var(--color-line-strong);z-index:2}
+ .dh{height:56px;padding:0 6px 0 var(--space-4)}
+ .db{padding:var(--space-4) var(--space-4) var(--space-3);gap:14px}
+ .df{padding:var(--space-3) var(--space-4) calc(var(--space-3) + var(--inset));gap:var(--space-2)}
+ .df .btn{flex:1;height:48px;padding:0 var(--space-2)}
+ .kv{grid-template-columns:80px minmax(0,1fr);gap:var(--space-2) var(--space-3)}
+ .top2{flex-wrap:wrap}.top2 .rate{flex-basis:100%}.star{width:48px;height:48px}
+ .hostr{display:contents}.hn{grid-column:2}.hostr .rate{grid-column:1/-1}.rate{flex-wrap:nowrap}.rv{white-space:nowrap}
+ .dw.full{padding:0;align-items:stretch}
+ .dw.full .dlg{height:100%;max-height:none;border-radius:0;border:0}
+ .g3{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .g3>.fld:first-child{grid-column:1/-1}
+ .g2{grid-template-columns:minmax(0,1fr);gap:14px}
+ .g3{gap:var(--space-3)}
+ .inp{height:48px;font-size:16px}
+ .selw .ri{top:14px}
+ .cr{min-height:48px}
+}
+.sc-frame{position:relative;height:844px;overflow:hidden;display:flex;flex-direction:column}
+.sc-frame .scroll{flex:1;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+.sc-frame .bb{position:absolute;left:0;right:0;bottom:0}
+.sc-frame .wrap{flex:none;padding-bottom:calc(var(--space-4) + 64px + var(--inset) + var(--space-4))}
+body{margin:0}
+</style>
+</head>
+<body>
+<div data-theme="light" class="se">
+<div class="stage"><div class="app" aria-hidden="true"><header class="topbar">
+<div class="brand"><span class="wm">SocialEvents</span><span class="tag2">Internal Coordination</span></div>
+<nav class="tabs" aria-label="Places">
+<a class="tab" href="#" aria-current="page"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2.5"></rect><path d="M8 2.5v4M16 2.5v4M3 10h18"></path></svg>Calendar</a>
+<a class="tab" href="#"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"></path></svg>All Events</a>
+<a class="tab" href="#"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"></path><path d="M9 4v13.5M15 6.5V20"></path></svg>Map</a>
+</nav>
+<nav class="seg pb" aria-label="Calendar view"><a href="#" aria-current="page">Month</a><a href="#">Day</a></nav>
+<div class="right">
+<button class="gloss cb" type="button" aria-label="Create Event"><svg class="ic " viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg><span class="lbl">Create Event</span></button>
+<button class="ib" type="button" aria-label="Notifications"><svg class="ic " viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 21h4"></path></svg></button>
+<button class="av" type="button" aria-label="Account">AE</button>
+</div>
+</header><header class="topbar ph"><div class="brand"><span class="wm">SocialEvents</span></div>
+<nav class="seg pb" aria-label="Calendar view"><a href="#" aria-current="page">Month</a><a href="#">Day</a></nav>
+<div class="right"><button class="ib" type="button" aria-label="Notifications"><svg class="ic " viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 21h4"></path></svg></button><button class="av" type="button" aria-label="Account">AE</button></div></header><main class="wrap"><section class="island tk" aria-label="Today">
+<div class="tkh"><div class="tile"><span class="tw">Thu</span><span class="td">12</span></div>
+<div class="tbody"><button class="ttl" type="button">Pub Quiz Night</button><span class="when">Today, 8:30 PM</span><span class="chip tag gn">Game night</span><span class="pl"><svg class="ic " viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>The Corner Tap</span><span class="big">Host <b>Ada Admin</b></span><span class="big">4 attending</span></div></div>
+<div class="acts"><button class="gloss btn" type="button">Join</button><button class="sec btn" type="button">Can't make it</button></div>
+</section><section class="island mo" aria-label="November 2026">
+<div class="mhd"><h1 class="mt">November 2026</h1><ul class="key" aria-label="Categories"><li><span class="chip tag gn">Game night</span></li><li><span class="chip tag hol">Holiday</span></li><li><span class="chip tag tb">Team building</span></li><li><span class="chip tag ot">Other</span></li></ul>
+<div class="nv"><button class="nb" type="button" aria-label="Previous month"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.5 6-6 6 6 6"></path></svg></button><button class="nb" type="button" aria-label="Next month"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.5 6 6 6-6 6"></path></svg></button></div>
+<nav class="seg ms" aria-label="Calendar view"><a href="#" aria-current="page">Month</a><a href="#">Day</a></nav></div>
+<div class="wd"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>
+<div class="grid">
+<div class="cell"><span class="num">1</span></div>
+<div class="cell"><span class="num">2</span></div>
+<div class="cell"><span class="num">3</span></div>
+<div class="cell"><span class="num">4</span></div>
+<div class="cell"><div class="cellh"><span class="num">5</span></div>
+<button class="chip wide tb" type="button"><span class="cn">Autumn Lunch</span><span class="ct">1:30 PM</span></button>
+<button class="dot" type="button" aria-label="Thursday 5 November, Autumn Lunch"><span class="num">5</span><span class="bars"><i class="b tb"></i></span></button></div>
+<div class="cell"><span class="num">6</span></div>
+<div class="cell"><span class="num">7</span></div>
+<div class="cell"><span class="num">8</span></div>
+<div class="cell"><span class="num">9</span></div>
+<div class="cell"><span class="num">10</span></div>
+<div class="cell"><span class="num">11</span></div>
+<div class="cell is-today"><div class="cellh"><span class="today">12</span></div>
+<button class="chip wide gn" type="button"><span class="cn">Pub Quiz Night</span><span class="ct">8:30 PM</span></button>
+<button class="dot" type="button" aria-label="Thursday 12 November, Pub Quiz Night"><span class="today">12</span><span class="bars"><i class="b gn"></i></span></button></div>
+<div class="cell"><span class="num">13</span></div>
+<div class="cell"><span class="num">14</span></div>
+<div class="cell"><span class="num">15</span></div>
+<div class="cell"><span class="num">16</span></div>
+<div class="cell"><div class="cellh"><span class="num">17</span></div>
+<button class="chip wide ot" type="button"><span class="cn">Book Swap</span><span class="ct">2:15 PM</span></button>
+<button class="dot" type="button" aria-label="Tuesday 17 November, Book Swap"><span class="num">17</span><span class="bars"><i class="b ot"></i></span></button></div>
+<div class="cell"><span class="num">18</span></div>
+<div class="cell"><div class="cellh"><span class="num">19</span></div>
+<button class="chip wide gn" type="button"><span class="cn">Board Game Afternoon</span><span class="ct">3:00 PM</span></button>
+<button class="dot" type="button" aria-label="Thursday 19 November, Board Game Afternoon"><span class="num">19</span><span class="bars"><i class="b gn"></i></span></button></div>
+<div class="cell"><span class="num">20</span></div>
+<div class="cell"><span class="num">21</span></div>
+<div class="cell"><span class="num">22</span></div>
+<div class="cell"><span class="num">23</span></div>
+<div class="cell"><div class="cellh"><span class="num">24</span></div>
+<button class="chip wide tb" type="button"><span class="cn">Planning Offsite</span><span class="ct">11:00 AM</span></button>
+<button class="dot" type="button" aria-label="Tuesday 24 November, Planning Offsite"><span class="num">24</span><span class="bars"><i class="b tb"></i></span></button></div>
+<div class="cell"><span class="num">25</span></div>
+<div class="cell"><div class="cellh"><span class="num">26</span></div>
+<button class="chip wide hol" type="button"><span class="cn">Winter Lights Walk</span><span class="ct">7:00 PM</span></button>
+<button class="dot" type="button" aria-label="Thursday 26 November, Winter Lights Walk"><span class="num">26</span><span class="bars"><i class="b hol"></i></span></button></div>
+<div class="cell"><span class="num">27</span></div>
+<div class="cell"><span class="num">28</span></div>
+<div class="cell"><span class="num">29</span></div>
+<div class="cell"><div class="cellh"><span class="num">30</span></div>
+<button class="chip wide hol" type="button"><span class="cn">Holiday Party</span><span class="ct">9:00 PM</span></button>
+<button class="dot" type="button" aria-label="Monday 30 November, Holiday Party"><span class="num">30</span><span class="bars"><i class="b hol"></i></span></button></div>
+<div class="cell out"><span class="num">1</span></div>
+<div class="cell out"><span class="num">2</span></div>
+<div class="cell out"><span class="num">3</span></div>
+<div class="cell out"><span class="num">4</span></div>
+<div class="cell out"><span class="num">5</span></div>
+<div class="cell out"><span class="num">6</span></div>
+<div class="cell out"><span class="num">7</span></div>
+<div class="cell out"><span class="num">8</span></div>
+<div class="cell out"><span class="num">9</span></div>
+<div class="cell out"><span class="num">10</span></div>
+<div class="cell out"><span class="num">11</span></div>
+<div class="cell out"><span class="num">12</span></div>
+</div>
+<ul class="kbars" aria-label="Categories"><li><i class="b gn"></i>Game night</li><li><i class="b hol"></i>Holiday</li><li><i class="b tb"></i>Team building</li><li><i class="b ot"></i>Other</li></ul>
+</section><section class="island lst" aria-label="In November"><h2 class="lh">In November</h2><ul>
+<li><button class="row" type="button"><span class="tile"><span class="tw">Thu</span><span class="td">5</span></span><span class="rt"><span class="rn">Autumn Lunch</span><span class="rm">1:30 PM<span class="pl"><svg class="ic " viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>Roof terrace</span></span></span><span class="chip tag tb">Team building</span></button></li>
+<li><button class="row" type="button"><span class="tile"><span class="tw">Thu</span><span class="td">12</span></span><span class="rt"><span class="rn">Pub Quiz Night</span><span class="rm">8:30 PM<span class="pl"><svg class="ic " viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>The Corner Tap</span></span></span><span class="chip tag gn">Game night</span></button></li>
+<li><button class="row" type="button"><span class="tile"><span class="tw">Tue</span><span class="td">17</span></span><span class="rt"><span class="rn">Book Swap</span><span class="rm">2:15 PM<span class="pl"><svg class="ic " viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>Kitchen</span></span></span><span class="chip tag ot">Other</span></button></li>
+<li><button class="row" type="button"><span class="tile"><span class="tw">Thu</span><span class="td">19</span></span><span class="rt"><span class="rn">Board Game Afternoon</span><span class="rm">3:00 PM<span class="pl"><svg class="ic " viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>Meeting room 3</span></span></span><span class="chip tag gn">Game night</span></button></li>
+<li><button class="row" type="button"><span class="tile"><span class="tw">Tue</span><span class="td">24</span></span><span class="rt"><span class="rn">Planning Offsite</span><span class="rm">11:00 AM<span class="pl"><svg class="ic " viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>Lakeside hall</span></span></span><span class="chip tag tb">Team building</span></button></li>
+<li><button class="row" type="button"><span class="tile"><span class="tw">Thu</span><span class="td">26</span></span><span class="rt"><span class="rn">Winter Lights Walk</span><span class="rm">7:00 PM<span class="pl"><svg class="ic " viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>Main square</span></span></span><span class="chip tag hol">Holiday</span></button></li>
+<li><button class="row" type="button"><span class="tile"><span class="tw">Mon</span><span class="td">30</span></span><span class="rt"><span class="rn">Holiday Party</span><span class="rm">9:00 PM<span class="pl"><svg class="ic " viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>The Grand Room</span></span></span><span class="chip tag hol">Holiday</span></button></li>
+</ul></section></main></div><div class="scrim"></div><div class="dw"><div class="dlg" role="dialog" aria-modal="true" aria-label="Pub Quiz Night">
+<div class="dh"><h2 class="dt">Pub Quiz Night</h2><button class="ib" type="button" aria-label="Close"><svg class="ic " viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button></div>
+<div class="db"><div class="top2"><span class="chip tag gn">Game night</span><span class="rate"><span class="stars" role="group" aria-label="Event rating, 0.0 of 5, no ratings"><button class="star" type="button" aria-label="Rate 1 of 5"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 2 of 5"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 3 of 5"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 4 of 5"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 5 of 5"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button></span><span class="rv">0.0 (0)</span></span></div>
+<dl class="kv">
+<dt>When</dt><dd>Nov 12, 2026, 8:30 PM</dd>
+<dt>Weather</dt><dd>‒</dd>
+<dt>Host</dt><dd class="hostr"><span class="hn">Ada Admin</span><span class="rate"><span class="stars" role="group" aria-label="Host rating, 4.0 of 5, 1 rating"><button class="star" type="button" aria-label="Rate 1 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 2 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 3 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 4 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 5 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button></span><span class="rv">4.0 (1)</span></span></dd>
+<dt>Location</dt><dd>The Corner Tap</dd>
+<dt>Details</dt><dd>Teams of four, one answer sheet per table.</dd>
+</dl>
+<div class="att"><h3 class="ah">Attendees (4)</h3><ul class="who"><li>Alex Engineer</li><li>Dana Designer</li><li>Max Marketer</li><li>Sam Guest</li></ul></div></div><div class="df"><button class="gloss btn" type="button">Join</button><button class="sec btn" type="button">Can't make it</button></div></div></div><div class="dw sh"><div class="dlg" role="dialog" aria-modal="true" aria-label="Pub Quiz Night"><span class="grab" aria-hidden="true"></span>
+<div class="dh"><h2 class="dt">Pub Quiz Night</h2><button class="ib" type="button" aria-label="Close"><svg class="ic " viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button></div>
+<div class="db"><div class="top2"><span class="chip tag gn">Game night</span><span class="rate"><span class="stars" role="group" aria-label="Event rating, 0.0 of 5, no ratings"><button class="star" type="button" aria-label="Rate 1 of 5"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 2 of 5"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 3 of 5"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 4 of 5"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 5 of 5"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button></span><span class="rv">0.0 (0)</span></span></div>
+<dl class="kv">
+<dt>When</dt><dd>Nov 12, 2026, 8:30 PM</dd>
+<dt>Weather</dt><dd>‒</dd>
+<dt>Host</dt><dd class="hostr"><span class="hn">Ada Admin</span><span class="rate"><span class="stars" role="group" aria-label="Host rating, 4.0 of 5, 1 rating"><button class="star" type="button" aria-label="Rate 1 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 2 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 3 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 4 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 5 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button></span><span class="rv">4.0 (1)</span></span></dd>
+<dt>Location</dt><dd>The Corner Tap</dd>
+<dt>Details</dt><dd>Teams of four, one answer sheet per table.</dd>
+</dl>
+<div class="att"><h3 class="ah">Attendees (4)</h3><ul class="who"><li>Alex Engineer</li><li>Dana Designer</li><li>Max Marketer</li><li>Sam Guest</li></ul></div></div><div class="df"><button class="gloss btn" type="button">Join</button><button class="sec btn" type="button">Can't make it</button></div></div></div><span class="co" style="left:288px;top:206px" aria-hidden="true">1</span><span class="co" style="left:288px;top:569px" aria-hidden="true">2</span></div>
+</div>
+</body>
+</html>

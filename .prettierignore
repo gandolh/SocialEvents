@@ -14,3 +14,6 @@ corpus/sources/
 docs/images/
 playwright/screenshots/
 playwright/.output/
+
+# The estate redesign board's copy, kept as exported.
+design/

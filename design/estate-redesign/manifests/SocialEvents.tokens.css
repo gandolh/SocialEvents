@@ -1,0 +1,123 @@
+/*
+ * SocialEvents, direction B "The open invitation": the token set in the app's own
+ * names. Replaces the colour, type, radius and shadow groups of the @theme block in
+ * client/src/styles/index.css and its [data-theme="dark"] block; the z scale, the
+ * desktop-* and glass-* groups the design no longer draws are listed in the map.
+ * The Aero skin is kept: blue desktop, glass bars, glossy primary, light top edge.
+ * Text on glass sits on opaque stops; islands and dialogs are opaque surfaces.
+ * index.css today asks for "Geist" while fontsource registers "Geist Sans": the
+ * face is replaced here, and the @fontsource Geist imports go with it.
+ */
+@theme {
+  /* Faces: Lexend for the wordmark, the month title, the ticket title and dialog titles; Figtree for the rest */
+  --font-sans: "Figtree", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Lexend", "Figtree", "Segoe UI", ui-sans-serif, system-ui, sans-serif; /* NEW */
+
+  /* Colour, light */
+  --color-background: #5b8bbf; /* the desktop behind the islands (flat, as Shell paints it) */
+  --color-glass-from: #eef5fc; /* glass bars, top stop; opaque in the board so contrast is exact */
+  --color-glass-to: #dbe8f6; /* glass bars, bottom stop */
+  --color-glass-highlight: #fdfeff; /* the bar's 1 px top edge */
+  --color-surface-bright: #fcfeff; /* islands, dialogs, fields (glass-card aliases it) */
+  --color-surface-container-high: #e9f1fa; /* weekday band, other months, date tile, segment track */
+  --color-on-surface: #0b2942; /* titles and primary text (on-background aliases it) */
+  --color-on-surface-variant: #3c5871; /* times, places, captions, inactive tabs */
+  --color-on-surface-faint: #546d87; /* NEW: other months' dates */
+  --color-outline-variant: #c9dbee; /* hairlines, island edges */
+  --color-outline: #4f7397; /* edges that must be seen: buttons, fields, checkboxes */
+  --color-primary: #1a66b9; /* wordmark, current tab, today, links */
+  --color-on-primary: #fdfeff; /* text on the accent and on the gloss */
+  --color-gloss-top: #2d76c4; /* glossy primary, top stop */
+  --color-gloss-mid: #1a66b9; /* glossy primary, middle stop (gloss-mid-low aliases it) */
+  --color-gloss-bottom: #124f96; /* glossy primary, bottom stop */
+  --color-gloss-edge: #124f96; /* NEW: the glossy button's 1 px edge */
+  --color-gloss-sheen: rgb(255 255 255 / .45); /* the gloss's top highlight */
+  --color-gloss-drop: rgb(11 41 66 / .3); /* the gloss's drop shadow */
+  --color-focus-ring: #0b2942; /* focus ring, first tone */
+  --color-focus-halo: #fdfeff; /* NEW: focus ring, second tone */
+  --color-error: #c62828; /* form error text, always with words */
+  --color-cat-game-night: #5a2cc4; /* Game night text, edge, date bar; the rating stars use it too */
+  --color-chip-game-night: #ece3ff; /* chip fill */
+  --color-cat-holiday: #9c3410; /* Holiday text, edge, date bar */
+  --color-chip-holiday: #ffe4d9; /* chip fill */
+  --color-cat-team-building: #14663e; /* Team building text, edge, date bar */
+  --color-chip-team-building: #d9f1e4; /* chip fill */
+  --color-cat-other: #3c5871; /* Other text, date bar */
+  --color-chip-neutral: #fcfeff; /* chip fill, now opaque */
+  --color-chip-neutral-edge: #4f7397; /* NEW: Other chip edge */
+  --color-scrim: rgb(10 32 48 / .55); /* behind a dialog or a sheet */
+  --color-on-background: var(--color-on-surface);
+  --color-glass-card: var(--color-surface-bright);
+  --color-gloss-mid-low: var(--color-gloss-mid);
+  --color-glass-edge: var(--color-outline-variant);
+
+  /* Type: seven steps, size / line height / weight in Tailwind's pattern */
+  --text-label: 0.75rem; /* 12 / 16: tagline, key chips, chip times, bar labels */
+  --text-label--line-height: 1rem;
+  --text-small: 0.8125rem; /* 13 / 18, 600: event names in the grid, field labels, weekday heads */
+  --text-small--line-height: 1.125rem;
+  --text-body: 0.875rem; /* 14 / 20: controls, details, list meta */
+  --text-body--line-height: 1.25rem;
+  --text-list: 1rem; /* 16 / 22, 600: phone list names, phone form fields */
+  --text-list--line-height: 1.375rem;
+  --text-title: 1.25rem; /* 20 / 28, Lexend 500: ticket title, In November, the wordmark on the phone is 18 / 24 */
+  --text-title--line-height: 1.75rem;
+  --text-dialog: 1.375rem; /* 22 / 28, Lexend 500: dialog titles, the phone's month title */
+  --text-dialog--line-height: 1.75rem;
+  --text-month: 1.75rem; /* 28 / 36, Lexend 500: November 2026 */
+  --text-month--line-height: 2.25rem;
+
+  /* Radius */
+  --radius-sm: 0.375rem; /* 6: chips */
+  --radius-md: 0.625rem; /* 10: buttons, fields, segments */
+  --radius-tile: 0.75rem; /* 12: the date tile; NEW */
+  --radius-lg: 1rem; /* 16: islands, dialogs */
+  --radius-xl: 1.25rem; /* 20: the phone sheet */
+
+  /* Elevation: an island has a 1 px edge and a soft shadow; dark deepens it */
+  --shadow-panel: 0 6px 20px rgb(11 41 66 / 0.22), 0 1px 3px rgb(11 41 66 / 0.2);
+  --shadow-dialog: 0 24px 60px rgb(8 30 60 / 0.4), 0 1px 3px rgb(8 30 60 / 0.3); /* NEW */
+
+  /* Sizes */
+  --height-topbar: 64px; /* 56 on a phone */
+  --height-bottom-bar: 64px; /* NEW: plus the gesture inset */
+  --height-month-cell: 88px; /* 44 on a phone */
+  --size-touch: 44px;
+}
+
+:root[data-theme="dark"] {
+  --color-background: #0b1730; /* the desktop behind the islands (flat, as Shell paints it) */
+  --color-glass-from: #1b2f4d; /* glass bars, top stop; opaque in the board so contrast is exact */
+  --color-glass-to: #162846; /* glass bars, bottom stop */
+  --color-glass-highlight: #4d7bb3; /* the bar's 1 px top edge */
+  --color-surface-bright: #1f3456; /* islands, dialogs, fields (glass-card aliases it) */
+  --color-surface-container-high: #162844; /* weekday band, other months, date tile, segment track */
+  --color-on-surface: #e4eefa; /* titles and primary text (on-background aliases it) */
+  --color-on-surface-variant: #a9bed4; /* times, places, captions, inactive tabs */
+  --color-on-surface-faint: #8ba0b9; /* NEW: other months' dates */
+  --color-outline-variant: #33507a; /* hairlines, island edges */
+  --color-outline: #5d86b3; /* edges that must be seen: buttons, fields, checkboxes */
+  --color-primary: #6db3ff; /* wordmark, current tab, today, links */
+  --color-on-primary: #04223f; /* text on the accent and on the gloss */
+  --color-gloss-top: #86c1ff; /* glossy primary, top stop */
+  --color-gloss-mid: #5aa6f2; /* glossy primary, middle stop (gloss-mid-low aliases it) */
+  --color-gloss-bottom: #4a98e8; /* glossy primary, bottom stop */
+  --color-gloss-edge: #86c1ff; /* NEW: the glossy button's 1 px edge */
+  --color-gloss-sheen: rgb(255 255 255 / .4); /* the gloss's top highlight */
+  --color-gloss-drop: rgb(0 0 0 / .4); /* the gloss's drop shadow */
+  --color-focus-ring: #6db3ff; /* focus ring, first tone */
+  --color-focus-halo: #0b1730; /* NEW: focus ring, second tone */
+  --color-error: #ff8f85; /* form error text, always with words */
+  --color-cat-game-night: #c9b3ff; /* Game night text, edge, date bar; the rating stars use it too */
+  --color-chip-game-night: #2c2350; /* chip fill */
+  --color-cat-holiday: #ffa587; /* Holiday text, edge, date bar */
+  --color-chip-holiday: #40241a; /* chip fill */
+  --color-cat-team-building: #6ad9a3; /* Team building text, edge, date bar */
+  --color-chip-team-building: #173729; /* chip fill */
+  --color-cat-other: #c3d3e3; /* Other text, date bar */
+  --color-chip-neutral: #26406a; /* chip fill, now opaque */
+  --color-chip-neutral-edge: #5d86b3; /* NEW: Other chip edge */
+  --color-scrim: rgb(0 8 20 / .72); /* behind a dialog or a sheet */
+  --shadow-panel: 0 6px 22px rgb(0 0 0 / 0.5), 0 1px 3px rgb(0 0 0 / 0.5);
+  --shadow-dialog: 0 24px 60px rgb(0 0 0 / 0.65), 0 0 0 1px var(--color-outline);
+}

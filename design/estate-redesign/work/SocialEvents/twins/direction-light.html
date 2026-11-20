@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>SocialEvents direction (twin)</title>
+<meta name="description" content="A plain-HTML twin of the direction sheet.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;family=Lexend:wght@500;600&amp;display=swap">
+<style>
+/* Hallmark · shape: app screen · genre: calendar utility · theme: brand · redesign: full
+ * paper: #5b8bbf Aero desktop blue, islands on #ffffff · accent: #1a66b9 Aero blue, glossy · display: Lexend · body: Figtree
+ * nav: changed (one row of places on the glass bar, Month/Day in the month's head, a phone bottom bar; List and Map fold into the places) · signature: the ticket, tonight's event with Join and Can't make it on the calendar itself · states: empty month, loading, load error, create error
+ * axes: cool blue neutrals/rounded geometric display plus humanist UI/one blue · posture: assured · modes: light+dark · contrast: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: V, the Aero gloss and the blue desktop carry the look, so the islands stay today's raised surfaces */
+/* Hallmark · answered F4 · one filled gloss button per screen region: Create Event in the bar, Join in the ticket and the dialog, Create in the form; Can't make it and Cancel are outlined */
+/* Hallmark · waive 24b · padding 6px 10px and gaps of 6, 10, 14 off the 4px scale · half steps between the tokens, kept so 20px icons centre in 44px controls and chips fit a 176px day column */
+/* Hallmark · waive 72 · button.chip text 6px from the box edge · a chip holds a name and its time in a 152px column, so it pads 6px; nothing is clipped and the name wraps between words */
+/* Hallmark · waive 39b · button.dot 44px tall · the phone's date cell holds the number and its bars and is the grid's only touch target */
+[data-theme="light"]{color-scheme:light;--color-ground:#5b8bbf;--color-bar-top:#eef5fc;--color-bar-bottom:#dbe8f6;--color-bar-edge:#fdfeff;--color-surface:#fcfeff;--color-sunk:#e9f1fa;--color-ink:#0b2942;--color-muted:#3c5871;--color-faint:#546d87;--color-line:#c9dbee;--color-line-strong:#4f7397;--color-accent:#1a66b9;--color-on-accent:#fdfeff;--color-gloss-top:#2d76c4;--color-gloss-mid:#1a66b9;--color-gloss-bottom:#124f96;--color-gloss-edge:#124f96;--color-gloss-sheen:rgb(255 255 255 / .45);--color-gloss-drop:rgb(11 41 66 / .3);--color-focus:#0b2942;--color-halo:#fdfeff;--color-danger:#c62828;--color-star:#5a2cc4;--color-cat-game-night:#5a2cc4;--color-cat-game-night-tint:#ece3ff;--color-cat-holiday:#9c3410;--color-cat-holiday-tint:#ffe4d9;--color-cat-team-building:#14663e;--color-cat-team-building-tint:#d9f1e4;--color-cat-other:#3c5871;--color-cat-other-tint:#fcfeff;--color-cat-other-edge:#4f7397;--color-scrim:rgb(10 32 48 / .55);--font-ui:Figtree,'Segoe UI',system-ui,-apple-system,sans-serif;--font-display:Lexend,Figtree,'Segoe UI',system-ui,sans-serif;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--radius-chip:6px;--radius-control:10px;--radius-tile:12px;--radius-island:16px;--radius-sheet:20px;--inset:16px;--shadow-island:0 6px 20px rgb(11 41 66 / .22),0 1px 3px rgb(11 41 66 / .2);--shadow-float:0 24px 60px rgb(8 30 60 / .4),0 1px 3px rgb(8 30 60 / .3);}
+[data-theme="dark"]{color-scheme:dark;--color-ground:#0b1730;--color-bar-top:#1b2f4d;--color-bar-bottom:#162846;--color-bar-edge:#4d7bb3;--color-surface:#1f3456;--color-sunk:#162844;--color-ink:#e4eefa;--color-muted:#a9bed4;--color-faint:#8ba0b9;--color-line:#33507a;--color-line-strong:#5d86b3;--color-accent:#6db3ff;--color-on-accent:#04223f;--color-gloss-top:#86c1ff;--color-gloss-mid:#5aa6f2;--color-gloss-bottom:#4a98e8;--color-gloss-edge:#86c1ff;--color-gloss-sheen:rgb(255 255 255 / .4);--color-gloss-drop:rgb(0 0 0 / .4);--color-focus:#6db3ff;--color-halo:#0b1730;--color-danger:#ff8f85;--color-star:#c9b3ff;--color-cat-game-night:#c9b3ff;--color-cat-game-night-tint:#2c2350;--color-cat-holiday:#ffa587;--color-cat-holiday-tint:#40241a;--color-cat-team-building:#6ad9a3;--color-cat-team-building-tint:#173729;--color-cat-other:#c3d3e3;--color-cat-other-tint:#26406a;--color-cat-other-edge:#5d86b3;--color-scrim:rgb(0 8 20 / .72);--font-ui:Figtree,'Segoe UI',system-ui,-apple-system,sans-serif;--font-display:Lexend,Figtree,'Segoe UI',system-ui,sans-serif;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--radius-chip:6px;--radius-control:10px;--radius-tile:12px;--radius-island:16px;--radius-sheet:20px;--inset:16px;--shadow-island:0 6px 22px rgb(0 0 0 / .5),0 1px 3px rgb(0 0 0 / .5);--shadow-float:0 24px 60px rgb(0 0 0 / .65),0 0 0 1px var(--color-line-strong);}
+
+html,body{overflow-x:clip}
+.se{container:page/inline-size;scrollbar-color:var(--color-line-strong) transparent;caret-color:var(--color-accent);background:var(--color-ground);color:var(--color-ink);font-family:var(--font-ui);font-size:14px;line-height:20px;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+.se *,.se *::before,.se *::after{box-sizing:border-box}
+.se :where(h1,h2,h3,p,ol,ul,dl,dd){margin:0;padding:0}
+.se :where(ol,ul){list-style:none}
+.se :where(h1,h2){text-wrap:balance}
+.se :where(button,input,select,textarea){font:inherit;color:inherit}
+.se button{cursor:pointer}
+.se a{text-decoration:none;color:inherit}
+.se ::selection{background:var(--color-accent);color:var(--color-on-accent)}
+.se .ic{flex:none;display:block}
+.se :focus-visible{outline:2px solid var(--color-focus);outline-offset:2px;box-shadow:0 0 0 5px var(--color-halo)}
+.se .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.app{position:relative;transform:translateZ(0);min-height:100dvh;display:flex;flex-direction:column}
+
+/* the glass bars: top bar, phone bottom bar, dialog headers */
+.topbar{position:sticky;top:0;z-index:20;height:64px;display:flex;align-items:center;gap:28px;padding:0 var(--space-6);background:linear-gradient(180deg,var(--color-bar-top),var(--color-bar-bottom));border-bottom:1px solid var(--color-line-strong);box-shadow:inset 0 1px 0 var(--color-bar-edge)}
+.brand{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.wm{font-family:var(--font-display);font-weight:600;font-size:20px;line-height:28px;color:var(--color-accent)}
+.tag2{font-size:12px;line-height:16px;color:var(--color-muted)}
+.tabs{display:flex;align-self:stretch;gap:var(--space-1)}
+.tab{display:flex;align-items:center;gap:var(--space-2);padding:0 var(--space-4);color:var(--color-muted);font-weight:500;border-bottom:3px solid transparent;margin-top:3px}
+.tab:hover{color:var(--color-ink)}
+.tab[aria-current=page]{color:var(--color-accent);font-weight:600;border-bottom-color:var(--color-accent)}
+.right{margin-left:auto;display:flex;align-items:center;gap:var(--space-3)}
+.seg.pb{display:none}
+.topbar.ph{display:none;position:static}
+
+/* controls */
+.gloss{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);border:1px solid var(--color-gloss-edge);border-radius:var(--radius-control);color:var(--color-on-accent);font-weight:600;white-space:nowrap;background:linear-gradient(180deg,var(--color-gloss-top) 0%,var(--color-gloss-mid) 50%,var(--color-gloss-bottom) 100%);box-shadow:inset 0 1px 0 var(--color-gloss-sheen),0 1px 2px var(--color-gloss-drop)}
+.gloss:active{background:linear-gradient(180deg,var(--color-gloss-bottom),var(--color-gloss-mid))}
+.gloss.cb{height:40px;padding:0 var(--space-4)}
+.gloss.btn{height:44px;padding:0 var(--space-5)}
+.sec{background:var(--color-surface);color:var(--color-ink);border:1px solid var(--color-line-strong);font-weight:600;border-radius:var(--radius-control);white-space:nowrap}
+.sec.btn{height:44px;padding:0 var(--space-5)}
+.sec:hover{background:var(--color-sunk)}
+.se [aria-disabled="true"]{background:var(--color-sunk);color:var(--color-muted);border-color:var(--color-line);box-shadow:none;cursor:not-allowed}
+.ib{width:44px;height:44px;border-radius:999px;display:grid;place-items:center;border:1px solid transparent;background:transparent;color:var(--color-muted);padding:0}
+.ib:hover{background:var(--color-sunk);color:var(--color-ink)}
+.av{width:44px;height:44px;border-radius:999px;display:grid;place-items:center;font-weight:700;font-size:14px;color:var(--color-on-accent);border:1px solid var(--color-gloss-edge);background:linear-gradient(180deg,var(--color-gloss-top),var(--color-gloss-bottom));padding:0}
+.seg{display:flex;gap:2px;padding:3px;border:1px solid var(--color-line-strong);border-radius:var(--radius-control);background:var(--color-sunk)}
+.seg a,.seg .tabb{display:flex;align-items:center;justify-content:center;min-width:72px;height:36px;padding:0 var(--space-4);font-weight:600;color:var(--color-muted);border:1px solid transparent;background:transparent;border-radius:7px}
+.seg a[aria-current=page],.seg .tabb[aria-selected=true]{background:var(--color-surface);color:var(--color-accent);border-color:var(--color-line-strong)}
+.seg.sm{align-self:flex-start}
+.seg.sm .tabb{min-width:0}
+.chip{display:inline-flex;border-radius:var(--radius-chip);font-weight:600;text-align:left;border:1px solid}
+.gn{color:var(--color-cat-game-night);background:var(--color-cat-game-night-tint);border-color:var(--color-cat-game-night)}
+.hol{color:var(--color-cat-holiday);background:var(--color-cat-holiday-tint);border-color:var(--color-cat-holiday)}
+.chip.tb{color:var(--color-cat-team-building);background:var(--color-cat-team-building-tint);border-color:var(--color-cat-team-building)}
+.chip.ot{color:var(--color-cat-other);background:var(--color-cat-other-tint);border-color:var(--color-cat-other-edge)}
+.tag{padding:2px var(--space-2);font-size:12px;line-height:16px;align-items:center;white-space:nowrap}
+
+/* the page */
+.wrap{width:100%;max-width:1280px;margin:0 auto;padding:var(--space-4) var(--space-4) var(--space-4);display:flex;flex-direction:column;gap:var(--space-3);flex:1}
+.island{position:relative;background:var(--color-surface);border-radius:var(--radius-island);border:1px solid var(--color-line);box-shadow:var(--shadow-island)}
+.mo{overflow:visible}
+
+/* the ticket */
+.tk{display:flex;align-items:center;gap:var(--space-5);padding:10px var(--space-5) 10px var(--space-3);min-height:68px}
+.tkh{display:flex;align-items:center;gap:var(--space-4);min-width:0;flex:1}
+.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;width:52px;height:48px;border-radius:var(--radius-tile);background:var(--color-sunk);border:1px solid var(--color-line);flex:none}
+.tw{font-size:12px;line-height:14px;color:var(--color-muted);font-weight:600}
+.td{font-family:var(--font-display);font-weight:500;font-size:20px;line-height:22px}
+.tbody{display:flex;align-items:center;gap:6px 18px;min-width:0;flex:1;flex-wrap:wrap}
+.when{font-size:13px;line-height:18px;color:var(--color-muted);font-weight:500;order:2;white-space:nowrap}
+.ttl{all:unset;cursor:pointer;font-family:var(--font-display);font-weight:500;font-size:20px;line-height:28px;color:var(--color-ink);border-radius:6px;order:1;white-space:nowrap}
+.ttl:focus-visible{outline:2px solid var(--color-focus);outline-offset:2px;box-shadow:0 0 0 5px var(--color-halo)}
+.tbody>.chip{order:3}.tbody>.pl{order:4;color:var(--color-muted)}.tbody>.big{order:5;color:var(--color-muted);white-space:nowrap}
+.pl{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.tbody b{color:var(--color-ink);font-weight:600}
+.acts{display:flex;gap:var(--space-3);flex:none}
+
+/* the month */
+.mhd{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-2) var(--space-5);min-height:60px}
+.mt{font-family:var(--font-display);font-weight:500;font-size:28px;line-height:36px;white-space:nowrap}
+.key{display:flex;gap:var(--space-2);margin-right:auto;margin-left:var(--space-2)}
+.nv{display:flex;gap:var(--space-2)}
+.nb{width:40px;height:40px;border-radius:var(--radius-control);border:1px solid var(--color-line-strong);background:var(--color-surface);display:grid;place-items:center;padding:0;color:var(--color-ink)}
+.nb:hover{background:var(--color-sunk)}
+@container page (max-width:1099px){.key{order:9;flex-basis:100%;margin:0 0 var(--space-1)}.mhd{flex-wrap:wrap}.mt{margin-right:auto}}
+@container page (max-width:899px){.gloss.cb{width:44px;padding:0;gap:0}.cb .lbl{display:none}.tab{padding:0 10px}.topbar{gap:var(--space-4)}}
+.wd{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));background:var(--color-sunk);border-top:1px solid var(--color-line);border-bottom:1px solid var(--color-line);height:32px;align-items:center}
+.wd div{padding:0 10px;font-size:13px;line-height:18px;font-weight:600;color:var(--color-muted)}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.cell{min-height:88px;padding:6px;border-right:1px solid var(--color-line);border-bottom:1px solid var(--color-line);display:flex;flex-direction:column;gap:var(--space-1);min-width:0}
+.cell:nth-child(7n){border-right:0}
+.cell:nth-last-child(-n+7){border-bottom:0}
+.cell:nth-last-child(7){border-bottom-left-radius:var(--radius-island)}
+.cell:last-child{border-bottom-right-radius:var(--radius-island)}
+.cell.out{background:var(--color-sunk)}
+.cell.out .num{color:var(--color-faint)}
+.cellh{display:flex}
+.num{font-size:13px;line-height:20px;font-weight:500;padding:0 var(--space-1)}
+.today{display:inline-grid;place-items:center;width:26px;height:26px;margin:-3px 0 -3px 0;border-radius:999px;background:var(--color-accent);color:var(--color-on-accent);font-weight:700;font-size:13px}
+.chip.wide{flex-direction:column;width:100%;padding:3px 6px;gap:0}
+.cn{font-size:13px;line-height:18px;font-weight:600}
+.ct{font-size:12px;line-height:16px;font-weight:500}
+.dot,.kbars,.lst{display:none}
+
+/* callouts (1280 artboard only) */
+.co{position:absolute;z-index:50;width:22px;height:22px;border-radius:999px;background:var(--color-ink);color:var(--color-surface);font-size:12px;line-height:22px;font-weight:700;text-align:center;display:none}
+@container page (min-width:1200px){.co{display:block}.wrap{padding-inline:var(--space-8)}}
+
+/* phone */
+.bb,.grab{display:none}
+@container page (max-width:759px){
+ .topbar{height:56px;padding:0 var(--space-3);gap:var(--space-2)}
+ .topbar .tabs,.topbar .tag2,.topbar .cb,.topbar:not(.ph) .pb{display:none}
+ .topbar.ph .pb{display:flex;margin-left:auto}.topbar.ph .right{margin-left:0;gap:var(--space-1)}
+ .topbar:not(.ph){display:none}
+ .topbar.ph{display:flex;position:sticky}
+ .wm{font-size:18px;line-height:24px}
+ .pb a{min-width:56px;padding:0 10px}
+ .seg a,.seg .tabb{height:46px}
+ .wrap{padding:var(--space-3) var(--space-3) var(--space-4);gap:10px}
+ .tk{flex-direction:column;align-items:stretch;gap:10px;padding:10px var(--space-3) var(--space-3)}.tile{height:48px}
+ .tkh{gap:var(--space-3)}
+ .tbody{display:grid;grid-template-columns:minmax(0,auto) auto;justify-content:start;align-items:center;gap:0 var(--space-3)}
+ .tbody .big{display:none}
+ .when{order:0;grid-row:1;grid-column:1}.tbody>.pl{order:0;grid-row:1;grid-column:2;font-size:13px;line-height:18px}
+ .ttl{order:0;grid-row:2;grid-column:1;font-size:20px;line-height:26px;white-space:normal;padding:9px 0;margin:-9px 0}.tbody>.chip{order:0;grid-row:2;grid-column:2;justify-self:start}
+ .acts{gap:var(--space-2)}.acts .btn{flex:1;height:48px;padding:0 var(--space-2)}
+ .mhd{padding:var(--space-1) var(--space-3) var(--space-1) var(--space-4);gap:var(--space-2);min-height:56px}.mt{font-size:22px;line-height:28px;margin-right:auto}
+ .key,.seg.ms{display:none}
+ .nb{width:48px;height:48px}
+ .ib,.av{width:48px;height:48px}.topbar.ph .right{gap:0}
+ .wd{height:28px}.wd div{padding:0;text-align:center;font-size:12px;line-height:16px}
+ .cell{min-height:44px;padding:0;gap:0}.cell>.cellh,.chip.wide{display:none}
+ .cell.out .num,.cell:not(:has(.dot)) .num{display:flex;align-items:center;justify-content:center;width:100%;height:44px;padding:0}
+ .cell:not(.out):not(:has(.dot)) .num{color:var(--color-ink)}
+ .cell:not(:has(.dot)) .today{align-self:center;margin:auto}
+ .dot{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;height:44px;border:0;background:transparent;padding:var(--space-1) 0 0}
+ .dot .num{padding:0}
+ .bars{display:flex;gap:2px}
+ .b{display:block;width:16px;height:4px;border-radius:2px;border:0}
+ .b.gn{background:var(--color-cat-game-night)}.b.hol{background:var(--color-cat-holiday)}.b.tb{background:var(--color-cat-team-building)}.b.ot{background:var(--color-cat-other)}
+ .kbars{display:flex;flex-wrap:wrap;gap:var(--space-1) var(--space-3);padding:6px var(--space-3) var(--space-2);border-top:1px solid var(--color-line);font-size:12px;line-height:16px;color:var(--color-muted);justify-content:center}
+ .kbars li{display:inline-flex;align-items:center;gap:6px}
+ .cell:nth-last-child(7){border-bottom-left-radius:0}.cell:last-child{border-bottom-right-radius:0}
+ .cell:nth-last-child(-n+7){border-bottom:1px solid var(--color-line)}
+ .grid{border-bottom:0}
+ .lst{display:block}
+ .lh{padding:6px var(--space-4) 2px;font-family:var(--font-display);font-weight:500;font-size:17px;line-height:24px}
+ .lst ul{padding:0 var(--space-2) 6px}
+ .lst li+li{border-top:1px solid var(--color-line)}
+ .row{all:unset;box-sizing:border-box;display:flex;gap:var(--space-3);align-items:center;width:100%;min-height:56px;padding:6px var(--space-2);cursor:pointer;border-radius:10px;font-variant-numeric:tabular-nums}
+ .row:focus-visible{outline:2px solid var(--color-focus);box-shadow:0 0 0 5px var(--color-halo)}
+ .row .tile{width:48px;height:44px;border-radius:10px}.row .td{font-size:18px;line-height:20px}
+ .rt{display:flex;flex-direction:column;flex:1;min-width:0}
+ .rn{font-size:16px;line-height:22px;font-weight:600}
+ .rm{display:flex;flex-wrap:wrap;gap:0 10px;font-size:13px;line-height:18px;color:var(--color-muted)}
+ .bb{display:flex;position:sticky;bottom:0;z-index:14;height:calc(64px + var(--inset));padding-bottom:var(--inset);background:linear-gradient(180deg,var(--color-bar-top),var(--color-bar-bottom));border-top:1px solid var(--color-line-strong);box-shadow:inset 0 1px 0 var(--color-bar-edge)}
+ .bn{display:flex;flex:1;min-width:0}
+ .bn a{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--color-muted);font-size:12px;line-height:16px;font-weight:500;white-space:nowrap}
+ .bn a[aria-current=page]{color:var(--color-accent);font-weight:700}
+ .bc{flex:none;align-self:flex-start;height:48px;margin:var(--space-2) var(--space-3) 0 var(--space-1);padding:0 14px;border-radius:12px;font-size:14px}
+ .co{display:none}
+}
+@container page (max-width:379px){.bc{padding:0 10px;font-size:13px}.bc .ic{display:none}
+ .topbar{padding:0 var(--space-2)}.wm{font-size:16px}.pb a{min-width:48px;padding:0 var(--space-2)}.ib,.av{width:44px;height:44px}
+ .kv{grid-template-columns:72px minmax(0,1fr)}
+ .kbars{flex-wrap:nowrap;gap:0 10px;padding:6px var(--space-2) var(--space-2);justify-content:center}.kbars li{gap:var(--space-1)}.kbars .b{width:12px}
+ .row{display:grid;grid-template-columns:48px minmax(0,1fr) auto;column-gap:var(--space-3);row-gap:0;padding:var(--space-1) var(--space-2);min-height:56px;align-items:center}
+ .row .tile{grid-row:1/3;grid-column:1}.rt{display:contents}.rn{grid-row:1;grid-column:2;align-self:end}.row>.chip{grid-row:1;grid-column:3;align-self:end}.rm{grid-row:2;grid-column:2/-1;align-self:start}
+ .tbody{grid-template-columns:auto minmax(0,1fr)}.when{grid-column:1/-1}.ttl{grid-column:1/-1;grid-row:2}.tbody>.chip{grid-row:3;grid-column:1}.tbody>.pl{grid-row:3;grid-column:2}}
+
+/* dialogs and sheets */
+.stage{position:relative;overflow:hidden;height:max(800px,100dvh)}
+.stage>.app{height:100%;min-height:0;overflow:hidden;background:var(--color-ground)}
+.scrim{position:absolute;inset:0;z-index:30;background:var(--color-scrim);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.dw{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:var(--space-6)}
+.dw.sh,.dw.full{display:none}
+.dw{pointer-events:none}.dw .dlg{pointer-events:auto}
+.dlg{position:relative;width:640px;max-width:100%;max-height:100%;display:flex;flex-direction:column;background:var(--color-surface);border:1px solid var(--color-line-strong);border-radius:var(--radius-island);box-shadow:var(--shadow-float);overflow:hidden}
+.dlg.wide{width:680px}
+.dw:has(.dlg.wide){padding:var(--space-3)}
+.dlg.wide .dh{height:56px}.dlg.wide .db{padding:var(--space-4) var(--space-6);gap:var(--space-3)}.dlg.wide .ta{min-height:56px}
+.dh{display:flex;align-items:center;gap:var(--space-3);padding:0 10px 0 var(--space-6);height:64px;flex:none;background:linear-gradient(180deg,var(--color-bar-top),var(--color-bar-bottom));border-bottom:1px solid var(--color-line-strong);box-shadow:inset 0 1px 0 var(--color-bar-edge)}
+.dt{font-family:var(--font-display);font-weight:500;font-size:22px;line-height:28px;flex:1}
+.db{padding:var(--space-5) var(--space-6);overflow:auto;display:flex;flex-direction:column;gap:var(--space-4);min-height:0}
+.df{display:flex;justify-content:flex-end;gap:var(--space-3);padding:var(--space-3) var(--space-6);background:var(--color-sunk);border-top:1px solid var(--color-line);flex:none}
+.top2{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3)}
+.rate{display:inline-flex;align-items:center;gap:var(--space-2);color:var(--color-muted)}
+.stars{display:inline-flex;color:var(--color-star)}
+.star{width:44px;height:44px;display:grid;place-items:center;border:0;background:transparent;color:inherit;padding:0;border-radius:10px}
+.rv{font-size:13px;line-height:18px;color:var(--color-muted)}
+.kv{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px var(--space-4);align-items:baseline}
+.kv dt{color:var(--color-muted);font-weight:500}
+.kv dd{color:var(--color-ink)}
+.hostr{display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap}
+.att{display:flex;flex-direction:column;gap:var(--space-2)}
+.ah{font-size:14px;line-height:20px;font-weight:600;color:var(--color-muted)}
+.who{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.who li{display:inline-flex;align-items:center;height:32px;padding:0 var(--space-3);border-radius:999px;background:var(--color-sunk);border:1px solid var(--color-line);font-weight:500}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fl{font-size:13px;line-height:18px;font-weight:600;color:var(--color-muted)}
+.inp{width:100%;height:44px;padding:0 var(--space-3);border:1px solid var(--color-line-strong);border-radius:var(--radius-control);background:var(--color-surface);color:var(--color-ink);min-width:0}
+.inp::placeholder{color:var(--color-muted);opacity:1}
+.inp.ring{outline:2px solid var(--color-focus);outline-offset:2px;box-shadow:0 0 0 5px var(--color-halo)}
+.inp[aria-invalid="true"]{border-color:var(--color-danger)}
+.ta{height:auto;min-height:84px;padding:10px var(--space-3);resize:vertical;display:block}
+.selw{position:relative;display:block}
+.selw select,.selw input{padding-right:44px}
+.selw select{appearance:none;-webkit-appearance:none}
+.selw .ri{position:absolute;right:12px;top:12px;color:var(--color-muted);pointer-events:none}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4)}
+.g3{display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr));gap:var(--space-4)}
+.invl{display:flex;flex-direction:column;border:1px solid var(--color-line);border-radius:var(--radius-control);background:var(--color-sunk);padding:var(--space-1) var(--space-3);margin-top:2px}
+.cr{display:flex;align-items:center;gap:var(--space-3);min-height:40px;border-top:1px solid var(--color-line)}
+.cr:first-child{border-top:0}
+.ck{appearance:none;-webkit-appearance:none;width:20px;height:20px;margin:0;flex:none;border:1.5px solid var(--color-line-strong);border-radius:6px;background:var(--color-surface)}
+.cn2{font-weight:600}
+.em{font-size:13px;line-height:18px;color:var(--color-muted);overflow-wrap:anywhere}
+.err{display:flex;gap:6px;align-items:flex-start;color:var(--color-danger);font-size:14px;line-height:20px;font-weight:600}
+@container page (max-width:759px){
+ .stage{height:max(844px,100dvh)}
+ .dw{padding:0;align-items:flex-end}
+ .dw:not(.sh):not(.full){display:none}.dw.sh,.dw.full{display:flex}
+ .dlg,.dlg.wide{width:100%;border-radius:var(--radius-sheet) var(--radius-sheet) 0 0;border-bottom:0}
+ .dw.sh .dlg{padding-top:0}
+ .grab{display:block;position:absolute;top:6px;left:50%;width:40px;height:4px;transform:translateX(-50%);border-radius:2px;background:var(--color-line-strong);z-index:2}
+ .dh{height:56px;padding:0 6px 0 var(--space-4)}
+ .db{padding:var(--space-4) var(--space-4) var(--space-3);gap:14px}
+ .df{padding:var(--space-3) var(--space-4) calc(var(--space-3) + var(--inset));gap:var(--space-2)}
+ .df .btn{flex:1;height:48px;padding:0 var(--space-2)}
+ .kv{grid-template-columns:80px minmax(0,1fr);gap:var(--space-2) var(--space-3)}
+ .top2{flex-wrap:wrap}.top2 .rate{flex-basis:100%}.star{width:48px;height:48px}
+ .hostr{display:contents}.hn{grid-column:2}.hostr .rate{grid-column:1/-1}.rate{flex-wrap:nowrap}.rv{white-space:nowrap}
+ .dw.full{padding:0;align-items:stretch}
+ .dw.full .dlg{height:100%;max-height:none;border-radius:0;border:0}
+ .g3{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .g3>.fld:first-child{grid-column:1/-1}
+ .g2{grid-template-columns:minmax(0,1fr);gap:14px}
+ .g3{gap:var(--space-3)}
+ .inp{height:48px;font-size:16px}
+ .selw .ri{top:14px}
+ .cr{min-height:48px}
+}
+.sc-frame{position:relative;height:844px;overflow:hidden;display:flex;flex-direction:column}
+.sc-frame .scroll{flex:1;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+.sc-frame .bb{position:absolute;left:0;right:0;bottom:0}
+.sc-frame .wrap{flex:none;padding-bottom:calc(var(--space-4) + 64px + var(--inset) + var(--space-4))}
+
+.dr{width:1440px;padding:48px 56px 64px;display:flex;flex-direction:column;gap:40px;background:var(--color-surface);color:var(--color-ink)}
+.dr h2.dsec{font-family:var(--font-display);font-size:24px;line-height:32px;font-weight:500;margin-bottom:4px}
+.dr .lead{font-size:18px;line-height:26px;max-width:72ch}
+.dr .cap{font-size:13px;line-height:18px;color:var(--color-muted)}
+.dr .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.dr .three{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.dr .panel{background:var(--color-surface);color:var(--color-ink);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px;border:1px solid var(--color-line-strong)}
+.dr .panel.gr{background:var(--color-ground)}
+.dr .pt{font-size:19px;line-height:26px;font-weight:700}
+.dr .sws{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.dr .sw{display:flex;flex-direction:column;gap:4px;min-width:0}
+.dr .sw .chp{height:40px;border-radius:10px;border:1px solid var(--color-line-strong)}
+.dr .sw b{font-size:12px;line-height:16px;font-weight:600;overflow-wrap:anywhere}
+.dr .sw span.hx{font-size:12px;line-height:16px;color:var(--color-muted)}
+.dr .use{font-size:11px;line-height:14px;color:var(--color-muted)}
+.dr .wm2{font-family:var(--font-display);font-weight:600;font-size:56px;line-height:64px;color:var(--color-accent)}
+.dr .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dr .scale{display:grid;grid-template-columns:110px 1fr;gap:8px 16px;align-items:baseline}
+.dr .scale code{font-family:var(--font-ui);font-size:12px;color:var(--color-muted)}
+.dr .bar2{display:block;height:16px;background:var(--color-accent);border-radius:4px}
+.dr .elev{height:84px;border-radius:16px;background:var(--color-surface);border:1px solid var(--color-line);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--color-muted);text-align:center;padding:0 12px}
+.dr table{border-collapse:collapse;width:100%;font-size:13px;line-height:18px}
+.dr th,.dr td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--color-line)}
+.dr td.n{text-align:right}
+.dr th{font-weight:600;color:var(--color-muted)}
+.dr .ok{font-weight:600}
+.dr .st{display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--color-surface);border:1px solid var(--color-line-strong);min-height:150px}
+.dr .st h3{font-size:16px;line-height:22px;font-weight:600}
+.dr .st p{font-size:14px;line-height:20px;color:var(--color-muted)}
+.dr .sk{display:block;border-radius:6px;background:var(--color-sunk);border:1px solid var(--color-line)}
+.dr .skg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;width:100%}
+.dr .menu{background:var(--color-surface);border:1px solid var(--color-line-strong);border-radius:12px;box-shadow:var(--shadow-float);padding:6px;width:240px;display:flex;flex-direction:column}
+.dr .mi{height:44px;border:0;background:transparent;text-align:left;border-radius:8px;padding:0 12px;font-size:14px;display:flex;align-items:center;font-weight:500}
+.dr .mi.hov{background:var(--color-sunk)}
+.dr .mi.dg{color:var(--color-danger);font-weight:600;border-top:1px solid var(--color-line);border-radius:0 0 8px 8px;margin-top:4px}
+.dr .toast{display:flex;align-items:center;gap:12px;min-height:48px;padding:6px 8px 6px 16px;border-radius:12px;background:var(--color-ink);color:var(--color-surface);max-width:460px;box-shadow:var(--shadow-float);font-weight:500}
+.dr .toast button{height:36px;border:0;background:transparent;font-weight:700;color:inherit;text-decoration:underline;padding:0 12px}
+.dr .mbar{display:flex;align-items:stretch;height:56px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,var(--color-bar-top),var(--color-bar-bottom));border:1px solid var(--color-line-strong);box-shadow:inset 0 1px 0 var(--color-bar-edge);padding:0 8px;gap:4px}
+.dr .mbar .tab{margin-top:3px}
+.dr .hov{filter:brightness(1.08)}
+.dr .ring{outline:2px solid var(--color-focus);outline-offset:2px;box-shadow:0 0 0 5px var(--color-halo)}
+.dr .mrow{width:100%;max-width:372px;margin:0}
+.dr .islb{background:var(--color-surface);border:1px solid var(--color-line);border-radius:16px;box-shadow:var(--shadow-island);padding:6px 8px}
+.dr .rowk{all:unset;box-sizing:border-box;display:flex;gap:12px;align-items:center;width:100%;min-height:60px;padding:6px 8px;border-radius:10px;font-variant-numeric:tabular-nums}
+.dr .rowk .tile{width:48px;height:44px}.dr .rowk .td{font-size:18px;line-height:20px}
+.dr .rowk .rt{display:flex;flex-direction:column;flex:1;min-width:0}.dr .rowk .rn{font-size:16px;line-height:22px;font-weight:600}.dr .rowk .rm{display:flex;gap:10px;font-size:13px;line-height:18px;color:var(--color-muted)}
+.dr .gnd{background:var(--color-ground);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px}
+body{margin:0}
+</style>
+</head>
+<body>
+<div data-theme="light" class="se" style="width: 1440px">
+<div class="dr">
+<div style="display:flex;flex-direction:column;gap:8px"><span class="cap" style="font-weight:600">SocialEvents · redesign direction</span><div class="wm2">The open invitation</div>
+<p class="lead">Tonight's event sits on top of the calendar as a raised ticket with its two answers, over a full-width month on the Aero blue desktop, with glass kept for the bars.</p></div>
+<section><h2 class="dsec">Palette</h2><p class="cap" style="margin-bottom:12px">By role, light and dark side by side. Every value is used in the screens. Aero's blue and category hues are today's, tuned for contrast.</p><div class="two"><div data-theme="light" class="panel "><div class="pt">Light</div><div class="sws"><div class="sw"><span class="chp" style="background:#5b8bbf"></span><b>--color-ground</b><span class="hx">#5b8bbf</span><span class="use">the desktop behind the islands</span></div><div class="sw"><span class="chp" style="background:#eef5fc"></span><b>--color-bar-top</b><span class="hx">#eef5fc</span><span class="use">the glass bars, top stop</span></div><div class="sw"><span class="chp" style="background:#dbe8f6"></span><b>--color-bar-bottom</b><span class="hx">#dbe8f6</span><span class="use">the glass bars, bottom stop</span></div><div class="sw"><span class="chp" style="background:#fdfeff"></span><b>--color-bar-edge</b><span class="hx">#fdfeff</span><span class="use">the bar's light top edge</span></div><div class="sw"><span class="chp" style="background:#fcfeff"></span><b>--color-surface</b><span class="hx">#fcfeff</span><span class="use">islands: ticket, month, list, dialogs</span></div><div class="sw"><span class="chp" style="background:#e9f1fa"></span><b>--color-sunk</b><span class="hx">#e9f1fa</span><span class="use">weekday band, other months, date tile, fields' track</span></div><div class="sw"><span class="chp" style="background:#0b2942"></span><b>--color-ink</b><span class="hx">#0b2942</span><span class="use">titles and primary text</span></div><div class="sw"><span class="chp" style="background:#3c5871"></span><b>--color-muted</b><span class="hx">#3c5871</span><span class="use">times, places, captions, inactive tabs</span></div><div class="sw"><span class="chp" style="background:#546d87"></span><b>--color-faint</b><span class="hx">#546d87</span><span class="use">other months' dates</span></div><div class="sw"><span class="chp" style="background:#c9dbee"></span><b>--color-line</b><span class="hx">#c9dbee</span><span class="use">hairlines, island edges</span></div><div class="sw"><span class="chp" style="background:#4f7397"></span><b>--color-line-strong</b><span class="hx">#4f7397</span><span class="use">edges that must be seen: buttons, fields, checkboxes</span></div><div class="sw"><span class="chp" style="background:#1a66b9"></span><b>--color-accent</b><span class="hx">#1a66b9</span><span class="use">wordmark, current tab, today, links</span></div><div class="sw"><span class="chp" style="background:#fdfeff"></span><b>--color-on-accent</b><span class="hx">#fdfeff</span><span class="use">text on the accent and on the gloss</span></div><div class="sw"><span class="chp" style="background:#2d76c4"></span><b>--color-gloss-top</b><span class="hx">#2d76c4</span><span class="use">glossy primary, top stop</span></div><div class="sw"><span class="chp" style="background:#1a66b9"></span><b>--color-gloss-mid</b><span class="hx">#1a66b9</span><span class="use">glossy primary, middle stop</span></div><div class="sw"><span class="chp" style="background:#124f96"></span><b>--color-gloss-bottom</b><span class="hx">#124f96</span><span class="use">glossy primary, bottom stop</span></div><div class="sw"><span class="chp" style="background:#124f96"></span><b>--color-gloss-edge</b><span class="hx">#124f96</span><span class="use">the glossy button's 1 px edge</span></div><div class="sw"><span class="chp" style="background:rgb(255 255 255 / .45)"></span><b>--color-gloss-sheen</b><span class="hx">rgb 255 255 255 / .45</span><span class="use">the gloss's top highlight</span></div><div class="sw"><span class="chp" style="background:rgb(11 41 66 / .3)"></span><b>--color-gloss-drop</b><span class="hx">rgb 11 41 66 / .3</span><span class="use">the gloss's drop shadow</span></div><div class="sw"><span class="chp" style="background:#0b2942"></span><b>--color-focus</b><span class="hx">#0b2942</span><span class="use">focus ring</span></div><div class="sw"><span class="chp" style="background:#fdfeff"></span><b>--color-halo</b><span class="hx">#fdfeff</span><span class="use">the second tone of the focus ring</span></div><div class="sw"><span class="chp" style="background:#c62828"></span><b>--color-danger</b><span class="hx">#c62828</span><span class="use">form error text, always with words</span></div><div class="sw"><span class="chp" style="background:#5a2cc4"></span><b>--color-star</b><span class="hx">#5a2cc4</span><span class="use">rating stars (the Stitch purple)</span></div><div class="sw"><span class="chp" style="background:#5a2cc4"></span><b>--color-cat-game-night</b><span class="hx">#5a2cc4</span><span class="use">Game night: text, edge, date bar</span></div><div class="sw"><span class="chp" style="background:#ece3ff"></span><b>--color-cat-game-night-tint</b><span class="hx">#ece3ff</span><span class="use">Game night chip fill</span></div><div class="sw"><span class="chp" style="background:#9c3410"></span><b>--color-cat-holiday</b><span class="hx">#9c3410</span><span class="use">Holiday: text, edge, date bar</span></div><div class="sw"><span class="chp" style="background:#ffe4d9"></span><b>--color-cat-holiday-tint</b><span class="hx">#ffe4d9</span><span class="use">Holiday chip fill</span></div><div class="sw"><span class="chp" style="background:#14663e"></span><b>--color-cat-team-building</b><span class="hx">#14663e</span><span class="use">Team building: text, edge, date bar</span></div><div class="sw"><span class="chp" style="background:#d9f1e4"></span><b>--color-cat-team-building-tint</b><span class="hx">#d9f1e4</span><span class="use">Team building chip fill</span></div><div class="sw"><span class="chp" style="background:#3c5871"></span><b>--color-cat-other</b><span class="hx">#3c5871</span><span class="use">Other: text, date bar</span></div><div class="sw"><span class="chp" style="background:#fcfeff"></span><b>--color-cat-other-tint</b><span class="hx">#fcfeff</span><span class="use">Other chip fill</span></div><div class="sw"><span class="chp" style="background:#4f7397"></span><b>--color-cat-other-edge</b><span class="hx">#4f7397</span><span class="use">Other chip edge</span></div><div class="sw"><span class="chp" style="background:rgb(10 32 48 / .55)"></span><b>--color-scrim</b><span class="hx">rgb 10 32 48 / .55</span><span class="use">behind a dialog or a sheet</span></div></div></div><div data-theme="dark" class="panel "><div class="pt">Dark</div><div class="sws"><div class="sw"><span class="chp" style="background:#0b1730"></span><b>--color-ground</b><span class="hx">#0b1730</span><span class="use">the desktop behind the islands</span></div><div class="sw"><span class="chp" style="background:#1b2f4d"></span><b>--color-bar-top</b><span class="hx">#1b2f4d</span><span class="use">the glass bars, top stop</span></div><div class="sw"><span class="chp" style="background:#162846"></span><b>--color-bar-bottom</b><span class="hx">#162846</span><span class="use">the glass bars, bottom stop</span></div><div class="sw"><span class="chp" style="background:#4d7bb3"></span><b>--color-bar-edge</b><span class="hx">#4d7bb3</span><span class="use">the bar's light top edge</span></div><div class="sw"><span class="chp" style="background:#1f3456"></span><b>--color-surface</b><span class="hx">#1f3456</span><span class="use">islands: ticket, month, list, dialogs</span></div><div class="sw"><span class="chp" style="background:#162844"></span><b>--color-sunk</b><span class="hx">#162844</span><span class="use">weekday band, other months, date tile, fields' track</span></div><div class="sw"><span class="chp" style="background:#e4eefa"></span><b>--color-ink</b><span class="hx">#e4eefa</span><span class="use">titles and primary text</span></div><div class="sw"><span class="chp" style="background:#a9bed4"></span><b>--color-muted</b><span class="hx">#a9bed4</span><span class="use">times, places, captions, inactive tabs</span></div><div class="sw"><span class="chp" style="background:#8ba0b9"></span><b>--color-faint</b><span class="hx">#8ba0b9</span><span class="use">other months' dates</span></div><div class="sw"><span class="chp" style="background:#33507a"></span><b>--color-line</b><span class="hx">#33507a</span><span class="use">hairlines, island edges</span></div><div class="sw"><span class="chp" style="background:#5d86b3"></span><b>--color-line-strong</b><span class="hx">#5d86b3</span><span class="use">edges that must be seen: buttons, fields, checkboxes</span></div><div class="sw"><span class="chp" style="background:#6db3ff"></span><b>--color-accent</b><span class="hx">#6db3ff</span><span class="use">wordmark, current tab, today, links</span></div><div class="sw"><span class="chp" style="background:#04223f"></span><b>--color-on-accent</b><span class="hx">#04223f</span><span class="use">text on the accent and on the gloss</span></div><div class="sw"><span class="chp" style="background:#86c1ff"></span><b>--color-gloss-top</b><span class="hx">#86c1ff</span><span class="use">glossy primary, top stop</span></div><div class="sw"><span class="chp" style="background:#5aa6f2"></span><b>--color-gloss-mid</b><span class="hx">#5aa6f2</span><span class="use">glossy primary, middle stop</span></div><div class="sw"><span class="chp" style="background:#4a98e8"></span><b>--color-gloss-bottom</b><span class="hx">#4a98e8</span><span class="use">glossy primary, bottom stop</span></div><div class="sw"><span class="chp" style="background:#86c1ff"></span><b>--color-gloss-edge</b><span class="hx">#86c1ff</span><span class="use">the glossy button's 1 px edge</span></div><div class="sw"><span class="chp" style="background:rgb(255 255 255 / .4)"></span><b>--color-gloss-sheen</b><span class="hx">rgb 255 255 255 / .4</span><span class="use">the gloss's top highlight</span></div><div class="sw"><span class="chp" style="background:rgb(0 0 0 / .4)"></span><b>--color-gloss-drop</b><span class="hx">rgb 0 0 0 / .4</span><span class="use">the gloss's drop shadow</span></div><div class="sw"><span class="chp" style="background:#6db3ff"></span><b>--color-focus</b><span class="hx">#6db3ff</span><span class="use">focus ring</span></div><div class="sw"><span class="chp" style="background:#0b1730"></span><b>--color-halo</b><span class="hx">#0b1730</span><span class="use">the second tone of the focus ring</span></div><div class="sw"><span class="chp" style="background:#ff8f85"></span><b>--color-danger</b><span class="hx">#ff8f85</span><span class="use">form error text, always with words</span></div><div class="sw"><span class="chp" style="background:#c9b3ff"></span><b>--color-star</b><span class="hx">#c9b3ff</span><span class="use">rating stars (the Stitch purple)</span></div><div class="sw"><span class="chp" style="background:#c9b3ff"></span><b>--color-cat-game-night</b><span class="hx">#c9b3ff</span><span class="use">Game night: text, edge, date bar</span></div><div class="sw"><span class="chp" style="background:#2c2350"></span><b>--color-cat-game-night-tint</b><span class="hx">#2c2350</span><span class="use">Game night chip fill</span></div><div class="sw"><span class="chp" style="background:#ffa587"></span><b>--color-cat-holiday</b><span class="hx">#ffa587</span><span class="use">Holiday: text, edge, date bar</span></div><div class="sw"><span class="chp" style="background:#40241a"></span><b>--color-cat-holiday-tint</b><span class="hx">#40241a</span><span class="use">Holiday chip fill</span></div><div class="sw"><span class="chp" style="background:#6ad9a3"></span><b>--color-cat-team-building</b><span class="hx">#6ad9a3</span><span class="use">Team building: text, edge, date bar</span></div><div class="sw"><span class="chp" style="background:#173729"></span><b>--color-cat-team-building-tint</b><span class="hx">#173729</span><span class="use">Team building chip fill</span></div><div class="sw"><span class="chp" style="background:#c3d3e3"></span><b>--color-cat-other</b><span class="hx">#c3d3e3</span><span class="use">Other: text, date bar</span></div><div class="sw"><span class="chp" style="background:#26406a"></span><b>--color-cat-other-tint</b><span class="hx">#26406a</span><span class="use">Other chip fill</span></div><div class="sw"><span class="chp" style="background:#5d86b3"></span><b>--color-cat-other-edge</b><span class="hx">#5d86b3</span><span class="use">Other chip edge</span></div><div class="sw"><span class="chp" style="background:rgb(0 8 20 / .72)"></span><b>--color-scrim</b><span class="hx">rgb 0 8 20 / .72</span><span class="use">behind a dialog or a sheet</span></div></div></div></div></section>
+<section><h2 class="dsec">Type</h2><div class="two" style="margin-top:12px">
+<div data-theme="light" class="panel "><div class="pt">Lexend for the wordmark, the month title, the ticket title and dialog titles; Figtree for everything else, tabular figures</div>
+<div class="scale"><code>12 / 16</code><span style="font-size:12px;line-height:16px">Tagline, weekday names on the phone, chip times, key chips, bar labels</span>
+<code>13 / 18</code><span style="font-size:13px;line-height:18px;font-weight:600">Event names in the grid, field labels, weekday heads</span>
+<code>14 / 20</code><span style="font-size:14px;line-height:20px">Controls, the ticket's details, list meta</span>
+<code>16 / 22</code><span style="font-size:16px;line-height:22px;font-weight:600">Phone list names, form fields on a phone</span>
+<code>20 / 28</code><span style="font-size:20px;line-height:28px;font-family:var(--font-display);font-weight:500">Pub Quiz Night, In November, SocialEvents</span>
+<code>22 / 28</code><span style="font-size:22px;line-height:28px;font-family:var(--font-display);font-weight:500">Dialog titles; the phone's month title</span>
+<code>28 / 36</code><span style="font-size:28px;line-height:36px;font-family:var(--font-display);font-weight:500">November 2026</span></div></div>
+<div data-theme="dark" class="panel "><div class="pt">Weights in use</div>
+<div class="scale"><code>Figtree 400</code><span style="font-size:16px;line-height:22px">Details, meta, placeholders</span>
+<code>Figtree 500</code><span style="font-size:16px;line-height:22px;font-weight:500">Tabs, times, the ticket's lines</span>
+<code>Figtree 600</code><span style="font-size:16px;line-height:22px;font-weight:600">Buttons, chips, labels, the current tab</span>
+<code>Figtree 700</code><span style="font-size:16px;line-height:22px;font-weight:700">Today's date, the current bottom tab, AE</span>
+<code>Lexend 500</code><span style="font-size:16px;line-height:22px;font-family:var(--font-display);font-weight:500">November 2026 &nbsp; 12 &nbsp; Create event</span>
+<code>Lexend 600</code><span style="font-size:16px;line-height:22px;font-family:var(--font-display);font-weight:600">SocialEvents</span></div>
+<div class="cap">Today's stylesheet asks for "Geist", but fontsource registers "Geist Sans", so the system face rendered. Lexend and Figtree are both on Google Fonts and load from one link.</div></div></div></section>
+<section><h2 class="dsec">Spacing, radii, elevation</h2><div class="three" style="margin-top:12px">
+<div data-theme="light" class="panel "><div class="pt">Spacing, in px</div><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="cap" style="width:28px">4</span><span class="bar2" style="width:12px"></span></div><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="cap" style="width:28px">8</span><span class="bar2" style="width:24px"></span></div><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="cap" style="width:28px">12</span><span class="bar2" style="width:36px"></span></div><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="cap" style="width:28px">16</span><span class="bar2" style="width:48px"></span></div><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="cap" style="width:28px">20</span><span class="bar2" style="width:60px"></span></div><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="cap" style="width:28px">24</span><span class="bar2" style="width:72px"></span></div><div class="row" style="gap:12px;flex-wrap:nowrap"><span class="cap" style="width:28px">32</span><span class="bar2" style="width:96px"></span></div></div>
+<div data-theme="light" class="panel "><div class="pt">Radii</div><div class="row" style="gap:16px;align-items:flex-end"><div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:56px;height:56px;background:var(--color-surface);border:1px solid var(--color-line-strong);border-radius:6px"></span><span class="cap">6 chip</span></div><div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:56px;height:56px;background:var(--color-surface);border:1px solid var(--color-line-strong);border-radius:10px"></span><span class="cap">10 control</span></div><div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:56px;height:56px;background:var(--color-surface);border:1px solid var(--color-line-strong);border-radius:12px"></span><span class="cap">12 tile</span></div><div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:56px;height:56px;background:var(--color-surface);border:1px solid var(--color-line-strong);border-radius:16px"></span><span class="cap">16 island</span></div><div style="display:flex;flex-direction:column;gap:6px;align-items:center"><span style="width:56px;height:56px;background:var(--color-surface);border:1px solid var(--color-line-strong);border-radius:20px"></span><span class="cap">20 sheet</span></div></div><div class="cap">Hairlines 1 px. Gloss and bars carry a 1 px edge.</div></div>
+<div data-theme="light" class="panel  gr"><div class="pt" style="color:var(--color-on-accent)">Elevation, on the desktop</div><div class="elev" style="box-shadow:var(--shadow-island)">Island, light: a hairline and a soft shadow</div><div data-theme="dark" class=" gnd"><div class="elev" style="box-shadow:var(--shadow-island)">Island, dark: lighter surface, hairline, a deeper shadow</div></div><div class="elev" style="box-shadow:var(--shadow-float);border-color:var(--color-line-strong)">Dialog and sheet</div></div></div></section>
+<section><h2 class="dsec">Components</h2><div class="two" style="margin-top:12px"><div data-theme="light" class="panel ">
+<div class="pt">Light</div>
+<div class="row"><button class="gloss cb" type="button"><svg class="ic " viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Create Event</button><button class="gloss cb hov" type="button">Hover</button><button class="gloss cb ring" type="button">Focus</button><button class="gloss cb" type="button" aria-disabled="true">Disabled</button></div>
+<div class="row"><button class="sec btn" type="button">Can't make it</button><button class="sec btn" type="button" style="background:var(--color-sunk)">Hover</button><button class="sec btn ring" type="button">Focus</button><button class="gloss btn" type="button">Join</button>
+<nav class="seg ms" aria-label="View"><a href="#" aria-current="page">Month</a><a href="#">Day</a></nav>
+<span class="row" style="gap:8px"><button class="nb" type="button" aria-label="Previous month"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.5 6-6 6 6 6"></path></svg></button><button class="nb" type="button" aria-label="Next month"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.5 6 6 6-6 6"></path></svg></button></span></div>
+<div class="mbar" aria-label="Places, as on the bar"><a class="tab" href="#" aria-current="page"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2.5"></rect><path d="M8 2.5v4M16 2.5v4M3 10h18"></path></svg>Calendar</a><a class="tab" href="#"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"></path></svg>All Events</a><a class="tab" href="#"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"></path><path d="M9 4v13.5M15 6.5V20"></path></svg>Map</a></div>
+<div class="row"><span class="chip tag gn">Game night</span><span class="chip tag hol">Holiday</span><span class="chip tag tb">Team building</span><span class="chip tag ot">Other</span><span class="row" style="gap:4px"><i class="b gn" style="display:block;width:16px;height:4px;border-radius:2px;background:var(--color-cat-game-night)"></i><i class="b hol" style="display:block;width:16px;height:4px;border-radius:2px;background:var(--color-cat-holiday)"></i><i class="b tb" style="display:block;width:16px;height:4px;border-radius:2px;background:var(--color-cat-team-building)"></i><i class="b ot" style="display:block;width:16px;height:4px;border-radius:2px;background:var(--color-cat-other)"></i></span></div>
+<div class="row" style="align-items:flex-start;gap:20px">
+<div class="fld" style="width:250px"><label class="fl" for="dr-t-theme-light">Event name</label><input id="dr-t-theme-light" class="inp" value="Pub Quiz Night"></div>
+<div class="fld" style="width:300px"><label class="fl" for="dr-e-theme-light">Location</label><input id="dr-e-theme-light" class="inp" aria-invalid="true" aria-describedby="dr-m-theme-light"><p class="err" id="dr-m-theme-light"><svg class="ic " viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5v5M12 16v.5"></path></svg>Name, date and location are required.</p></div></div>
+<div class="row" style="align-items:flex-start;gap:20px">
+<div class="islb" style="width:372px"><div class="rowk"><span class="tile"><span class="tw">Thu</span><span class="td">12</span></span><span class="rt"><span class="rn">Pub Quiz Night</span><span class="rm">8:30 PM<span class="pl"><svg class="ic " viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>The Corner Tap</span></span></span><span class="chip tag gn">Game night</span></div></div>
+<div class="menu" role="menu" aria-label="Account"><button class="mi" role="menuitem" type="button">Profile &amp; settings</button><button class="mi hov" role="menuitem" type="button">Profile &amp; settings</button><button class="mi dg" role="menuitem" type="button">Sign out</button></div></div>
+<div class="toast" role="status"><span>Name, date and location are required.</span><button type="button">Close</button></div>
+<div class="row"><span class="stars" role="group" aria-label="Rated 4.0 of 5"><button class="star" type="button" aria-label="Rate 1 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 2 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 3 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 4 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 5 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button></span><span class="cap">4.0 (1)</span></div>
+</div><div data-theme="dark" class="panel ">
+<div class="pt">Dark</div>
+<div class="row"><button class="gloss cb" type="button"><svg class="ic " viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Create Event</button><button class="gloss cb hov" type="button">Hover</button><button class="gloss cb ring" type="button">Focus</button><button class="gloss cb" type="button" aria-disabled="true">Disabled</button></div>
+<div class="row"><button class="sec btn" type="button">Can't make it</button><button class="sec btn" type="button" style="background:var(--color-sunk)">Hover</button><button class="sec btn ring" type="button">Focus</button><button class="gloss btn" type="button">Join</button>
+<nav class="seg ms" aria-label="View"><a href="#" aria-current="page">Month</a><a href="#">Day</a></nav>
+<span class="row" style="gap:8px"><button class="nb" type="button" aria-label="Previous month"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.5 6-6 6 6 6"></path></svg></button><button class="nb" type="button" aria-label="Next month"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.5 6 6 6-6 6"></path></svg></button></span></div>
+<div class="mbar" aria-label="Places, as on the bar"><a class="tab" href="#" aria-current="page"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="2.5"></rect><path d="M8 2.5v4M16 2.5v4M3 10h18"></path></svg>Calendar</a><a class="tab" href="#"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"></path></svg>All Events</a><a class="tab" href="#"><svg class="ic " viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"></path><path d="M9 4v13.5M15 6.5V20"></path></svg>Map</a></div>
+<div class="row"><span class="chip tag gn">Game night</span><span class="chip tag hol">Holiday</span><span class="chip tag tb">Team building</span><span class="chip tag ot">Other</span><span class="row" style="gap:4px"><i class="b gn" style="display:block;width:16px;height:4px;border-radius:2px;background:var(--color-cat-game-night)"></i><i class="b hol" style="display:block;width:16px;height:4px;border-radius:2px;background:var(--color-cat-holiday)"></i><i class="b tb" style="display:block;width:16px;height:4px;border-radius:2px;background:var(--color-cat-team-building)"></i><i class="b ot" style="display:block;width:16px;height:4px;border-radius:2px;background:var(--color-cat-other)"></i></span></div>
+<div class="row" style="align-items:flex-start;gap:20px">
+<div class="fld" style="width:250px"><label class="fl" for="dr-t-theme-dark">Event name</label><input id="dr-t-theme-dark" class="inp" value="Pub Quiz Night"></div>
+<div class="fld" style="width:300px"><label class="fl" for="dr-e-theme-dark">Location</label><input id="dr-e-theme-dark" class="inp" aria-invalid="true" aria-describedby="dr-m-theme-dark"><p class="err" id="dr-m-theme-dark"><svg class="ic " viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5v5M12 16v.5"></path></svg>Name, date and location are required.</p></div></div>
+<div class="row" style="align-items:flex-start;gap:20px">
+<div class="islb" style="width:372px"><div class="rowk"><span class="tile"><span class="tw">Thu</span><span class="td">12</span></span><span class="rt"><span class="rn">Pub Quiz Night</span><span class="rm">8:30 PM<span class="pl"><svg class="ic " viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>The Corner Tap</span></span></span><span class="chip tag gn">Game night</span></div></div>
+<div class="menu" role="menu" aria-label="Account"><button class="mi" role="menuitem" type="button">Profile &amp; settings</button><button class="mi hov" role="menuitem" type="button">Profile &amp; settings</button><button class="mi dg" role="menuitem" type="button">Sign out</button></div></div>
+<div class="toast" role="status"><span>Name, date and location are required.</span><button type="button">Close</button></div>
+<div class="row"><span class="stars" role="group" aria-label="Rated 4.0 of 5"><button class="star" type="button" aria-label="Rate 1 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 2 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 3 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 4 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button><button class="star" type="button" aria-label="Rate 5 of 5"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6 6.9 19.3l1-5.7-4.1-4 5.7-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></button></span><span class="cap">4.0 (1)</span></div>
+</div></div></section>
+<section><h2 class="dsec">States</h2><div class="two" style="margin-top:12px"><div data-theme="light" class="panel "><div class="pt">States, light. Proposed except the create form's own error. The app shows a spinner while it loads; the skeletons are static, no shimmer.</div>
+<div class="cap" style="font-weight:600">Calendar</div>
+<div class="three"><div class="st" aria-busy="true"><h3>Loading the month</h3><div class="skg"><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span></div></div>
+<div class="st"><h3>No events in November.</h3><p></p><button class="gloss cb" type="button"><svg class="ic " viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Create Event</button></div>
+<div class="st"><h3>Couldn't load events.</h3><p></p><button class="sec btn" type="button"><svg class="ic " viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 11A7.5 7.5 0 0 0 6 7.2L4.5 9M4.5 5v4h4M4.5 13A7.5 7.5 0 0 0 18 16.8l1.5-1.8M19.5 19v-4h-4"></path></svg>Try again</button></div></div>
+<div class="cap" style="font-weight:600">Event detail</div>
+<div class="three">
+<div class="st" aria-busy="true"><h3>Loading the event</h3><span class="sk" style="width:70%;height:22px"></span><span class="sk" style="width:50%;height:16px"></span><span class="sk" style="width:60%;height:16px"></span></div>
+<div class="st"><h3>Couldn't load this event.</h3><p></p><button class="sec btn" type="button">Close</button></div>
+<div class="st"><h3>Waiting on a reply</h3><p>Join and Can't make it stay disabled while the request runs.</p><span class="row"><button class="gloss btn" type="button" aria-disabled="true">Join</button><button class="sec btn" type="button" aria-disabled="true">Can't make it</button></span></div></div>
+<div class="cap" style="font-weight:600">Create event</div>
+<div class="three">
+<div class="st"><h3>Missing field</h3><p></p><p class="err"><svg class="ic " viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5v5M12 16v.5"></path></svg>Name, date and location are required.</p></div>
+<div class="st"><h3>Saving</h3><p>Create is disabled while the request runs.</p><button class="gloss btn" type="button" aria-disabled="true">Create</button></div>
+<div class="st"><h3>Save failed</h3><p></p><p class="err"><svg class="ic " viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5v5M12 16v.5"></path></svg>Could not create event.</p></div></div></div><div data-theme="dark" class="panel "><div class="pt">States, dark. Proposed except the create form's own error. The app shows a spinner while it loads; the skeletons are static, no shimmer.</div>
+<div class="cap" style="font-weight:600">Calendar</div>
+<div class="three"><div class="st" aria-busy="true"><h3>Loading the month</h3><div class="skg"><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span><span class="sk" style="height:22px"></span></div></div>
+<div class="st"><h3>No events in November.</h3><p></p><button class="gloss cb" type="button"><svg class="ic " viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Create Event</button></div>
+<div class="st"><h3>Couldn't load events.</h3><p></p><button class="sec btn" type="button"><svg class="ic " viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 11A7.5 7.5 0 0 0 6 7.2L4.5 9M4.5 5v4h4M4.5 13A7.5 7.5 0 0 0 18 16.8l1.5-1.8M19.5 19v-4h-4"></path></svg>Try again</button></div></div>
+<div class="cap" style="font-weight:600">Event detail</div>
+<div class="three">
+<div class="st" aria-busy="true"><h3>Loading the event</h3><span class="sk" style="width:70%;height:22px"></span><span class="sk" style="width:50%;height:16px"></span><span class="sk" style="width:60%;height:16px"></span></div>
+<div class="st"><h3>Couldn't load this event.</h3><p></p><button class="sec btn" type="button">Close</button></div>
+<div class="st"><h3>Waiting on a reply</h3><p>Join and Can't make it stay disabled while the request runs.</p><span class="row"><button class="gloss btn" type="button" aria-disabled="true">Join</button><button class="sec btn" type="button" aria-disabled="true">Can't make it</button></span></div></div>
+<div class="cap" style="font-weight:600">Create event</div>
+<div class="three">
+<div class="st"><h3>Missing field</h3><p></p><p class="err"><svg class="ic " viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5v5M12 16v.5"></path></svg>Name, date and location are required.</p></div>
+<div class="st"><h3>Saving</h3><p>Create is disabled while the request runs.</p><button class="gloss btn" type="button" aria-disabled="true">Create</button></div>
+<div class="st"><h3>Save failed</h3><p></p><p class="err"><svg class="ic " viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5v5M12 16v.5"></path></svg>Could not create event.</p></div></div></div></div></section>
+<section><h2 class="dsec">Contrast</h2><p class="cap" style="margin-bottom:12px">WCAG 2. Text needs 4.5, icons, edges and the focus ring 3. An island needs 1.09 against the desktop in light and 1.15 in dark, or a visible edge. A bar pair is checked at both stops of its gradient.</p><table><thead><tr><th>Pair</th><th>Need</th><th class="n">Light</th><th class="n">Dark</th><th>Result</th></tr></thead><tbody><tr><td>ink on surface</td><td>4.5</td><td class="n">14.72</td><td class="n">10.64</td><td class="ok">pass</td></tr><tr><td>ink on sunk (date tile, weekday band)</td><td>4.5</td><td class="n">13.07</td><td class="n">12.6</td><td class="ok">pass</td></tr><tr><td>ink on bar-bottom (tabs, brand text)</td><td>4.5</td><td class="n">11.97</td><td class="n">12.56</td><td class="ok">pass</td></tr><tr><td>muted on surface (times, places)</td><td>4.5</td><td class="n">7.34</td><td class="n">6.53</td><td class="ok">pass</td></tr><tr><td>muted on sunk (weekday heads, Day segment)</td><td>4.5</td><td class="n">6.52</td><td class="n">7.74</td><td class="ok">pass</td></tr><tr><td>muted on bar-bottom (inactive tab)</td><td>4.5</td><td class="n">5.97</td><td class="n">7.72</td><td class="ok">pass</td></tr><tr><td>faint on sunk (other months' dates)</td><td>4.5</td><td class="n">4.71</td><td class="n">5.51</td><td class="ok">pass</td></tr><tr><td>accent on surface (links, selected segment pill text)</td><td>4.5</td><td class="n">5.7</td><td class="n">5.67</td><td class="ok">pass</td></tr><tr><td>accent on bar-bottom (wordmark, current tab)</td><td>4.5</td><td class="n">4.63</td><td class="n">6.69</td><td class="ok">pass</td></tr><tr><td>accent on bar-top</td><td>4.5</td><td class="n">5.24</td><td class="n">6.12</td><td class="ok">pass</td></tr><tr><td>on-accent on accent (today's date disc)</td><td>4.5</td><td class="n">5.71</td><td class="n">7.31</td><td class="ok">pass</td></tr><tr><td>on-accent on gloss-top (Join, Create Event: lightest stop in light)</td><td>4.5</td><td class="n">4.62</td><td class="n">8.49</td><td class="ok">pass</td></tr><tr><td>on-accent on gloss-bottom (darkest stop in dark)</td><td>4.5</td><td class="n">8.05</td><td class="n">5.32</td><td class="ok">pass</td></tr><tr><td>on-accent on gloss-mid</td><td>4.5</td><td class="n">5.71</td><td class="n">6.26</td><td class="ok">pass</td></tr><tr><td>danger on surface (form error)</td><td>4.5</td><td class="n">5.56</td><td class="n">5.65</td><td class="ok">pass</td></tr><tr><td>Game night text on tint</td><td>4.5</td><td class="n">6.56</td><td class="n">7.77</td><td class="ok">pass</td></tr><tr><td>Holiday text on tint</td><td>4.5</td><td class="n">5.96</td><td class="n">7.4</td><td class="ok">pass</td></tr><tr><td>Team building text on tint</td><td>4.5</td><td class="n">5.88</td><td class="n">7.47</td><td class="ok">pass</td></tr><tr><td>Other text on tint</td><td>4.5</td><td class="n">7.34</td><td class="n">6.79</td><td class="ok">pass</td></tr><tr><td>Game night chip edge on surface</td><td>3</td><td class="n">8.01</td><td class="n">6.76</td><td class="ok">pass</td></tr><tr><td>Holiday chip edge on surface</td><td>3</td><td class="n">7.13</td><td class="n">6.52</td><td class="ok">pass</td></tr><tr><td>Team building chip edge on surface</td><td>3</td><td class="n">6.92</td><td class="n">7.17</td><td class="ok">pass</td></tr><tr><td>Other chip edge on surface</td><td>3</td><td class="n">4.91</td><td class="n">3.28</td><td class="ok">pass</td></tr><tr><td>Game night date bar on surface</td><td>3</td><td class="n">8.01</td><td class="n">6.76</td><td class="ok">pass</td></tr><tr><td>Holiday date bar on surface</td><td>3</td><td class="n">7.13</td><td class="n">6.52</td><td class="ok">pass</td></tr><tr><td>Team building date bar on surface</td><td>3</td><td class="n">6.92</td><td class="n">7.17</td><td class="ok">pass</td></tr><tr><td>Other date bar on surface</td><td>3</td><td class="n">7.34</td><td class="n">8.16</td><td class="ok">pass</td></tr><tr><td>star on surface</td><td>3</td><td class="n">8.01</td><td class="n">6.76</td><td class="ok">pass</td></tr><tr><td>line-strong on surface (buttons, fields, checkboxes)</td><td>3</td><td class="n">4.91</td><td class="n">3.28</td><td class="ok">pass</td></tr><tr><td>line-strong on bar-bottom (bar's lower edge)</td><td>3</td><td class="n">3.99</td><td class="n">3.88</td><td class="ok">pass</td></tr><tr><td>line-strong on sunk (Day segment edge)</td><td>3</td><td class="n">4.35</td><td class="n">3.89</td><td class="ok">pass</td></tr><tr><td>focus ring on ground</td><td>3</td><td class="n">4.18</td><td class="n">8.09</td><td class="ok">pass</td></tr><tr><td>focus ring on surface</td><td>3</td><td class="n">14.72</td><td class="n">5.67</td><td class="ok">pass</td></tr><tr><td>focus ring on bar-bottom</td><td>3</td><td class="n">11.97</td><td class="n">6.69</td><td class="ok">pass</td></tr><tr><td>focus ring on halo (the two tones)</td><td>3</td><td class="n">14.75</td><td class="n">8.09</td><td class="ok">pass</td></tr><tr><td>surface on ground (islands against the desktop; need 1.09, dark 1.15)</td><td>1.09 / 1.15</td><td class="n">3.52</td><td class="n">1.43</td><td class="ok">pass</td></tr><tr><td>sunk on surface (the tile and the weekday band; they also carry a line edge)</td><td>1.09</td><td class="n">1.13</td><td class="n">1.18</td><td class="ok">pass</td></tr></tbody></table></section>
+</div>
+</div>
+</body>
+</html>
