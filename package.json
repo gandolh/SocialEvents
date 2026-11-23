@@ -21,11 +21,11 @@
     "house-style:sync": "node vendor/house-style/bin/sync.mjs",
     "e2e": "playwright test -c playwright/playwright.config.ts",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format:check": "prettier --check . --cache --cache-location node_modules/.cache/prettier-check/.prettier-cache",
     "pretest": "npm run build:shared",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run check:conventions && npm test",
+    "check": "node scripts/check.mjs typecheck lint format:check check:conventions test",
     "check:fast": "npm run typecheck && node scripts/check-fast.mjs",
-    "check:conventions": "knip && node scripts/check-contrast.mjs && depcruise client/src server/src shared/src && node vendor/house-style/bin/check-base-ui.mjs && node vendor/house-style/bin/check-structure.mjs"
+    "check:conventions": "knip && node scripts/check-contrast.mjs && depcruise client/src server/src shared/src --cache node_modules/.cache/dependency-cruiser && node vendor/house-style/bin/check-base-ui.mjs && node vendor/house-style/bin/check-structure.mjs"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
