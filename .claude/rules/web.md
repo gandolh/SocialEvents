@@ -6,6 +6,9 @@ paths:
 # The web client (`client/src`)
 
 - Read [corpus/wiki/design-system.md](../../corpus/wiki/design-system.md) before you add or change a screen.
+- Browsers: Chrome on Android decides what to build; Safari on iPhone,
+  Firefox and desktop Safari must keep working. Before you use a platform
+  feature newer than Baseline Widely available, read the `web-platform` skill.
 - Components come through `client/src/components/ui/`. A new control goes there, not inline in a route.
 - The Aero skin, as "The open invitation", is the look of both themes ([corpus/wiki/decisions.md](../../corpus/wiki/decisions.md)):
   glass only on the bars and the dialogs' title bars (`aero-bar`), opaque islands, dialogs and fields, one `aero-gloss`
